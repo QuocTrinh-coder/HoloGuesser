@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png">
+    <title>HoloGuesser</title>
+    <style>
+        .correct {
+            background-color: #79d8a8;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        .close-answer {
+            background-color: #f4572c;
+        }
+        .up-arrow::after {
+            content: ' ↑';
+        }
+        .down-arrow::after {
+            content: ' ↓';
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .fade-in {
+            animation: fadeIn 1s forwards;
+        }
+        table {
+            border-collapse: collapse; /* Ensures no space between cells */
+        }
+        #aboutMeBtn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .about-me-image {
+            width: 50px;
+            height: 50px;
+            transition: transform 0.3s;
+        }
+        
+        #aboutMeBtn:hover .about-me-image {
+            transform: scale(1.1);
+        }
+        .pageInfo{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class = "main">
+        <a href="home.html" class= "title">
+            <h1>HoloGuesser</h1>   
+        </a>
+
+        <div class="rule-container">
+            <div id="rule">
+                <div class="rule-title">
+                    <h3>Guess The <span class="black-text">Hololive</span> Members</h3>
+                </div>
+                <a href="classic.html" class="rule-book">
+                    <div class="color-box">
+                        <div class="image-container">
+                            <img src="classic_mode.png" width="50px" height="50px">
+                        </div>
+                        <div class="description-of-game-mode">
+                            <div class="game-mode-title">
+                                <span>Classic</span>
+                            </div>
+                            <div class="game-mode-description">
+                                <span>guess the Hololive member</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="music.html" class="rule-book">
+                    <div class="color-box">
+                        <div class="image-container">
+                            <img src="music_icon.png" width="50px" height="50px">
+                        </div>
+                        <div class="description-of-game-mode">
+                            <div class="game-mode-title">
+                                <span>Singer</span>
+                            </div>
+                            <div class="game-mode-description">
+                                <span>guess the Hololive singer</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="fanbase.html" class="rule-book">
+                    <div class="color-box">
+                        <div class="image-container">
+                            <img src="fanbase_mode.png" width="50px" height="50px">
+                        </div>
+                        <div class="description-of-game-mode">
+                            <div class="game-mode-title">
+                                <span>Fanbase</span>
+                            </div>
+                            <div class="game-mode-description">
+                                <span>guess the fanbase's member</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <a href="stream.html" class="rule-book">
+                    <div class="color-box">
+                        <div class="image-container">
+                            <img src="stream_mode.png" width="50px" height="50px">
+                        </div>
+                        <div class="description-of-game-mode">
+                            <div class="game-mode-title">
+                                <span>Stream</span>
+                            </div>
+                            <div class="game-mode-description">
+                                <span>guess the member's stream</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class = "pageInfo">
+            <button id="aboutMeBtn">
+                <img src="https://cdn.pixabay.com/photo/2012/04/23/15/41/question-38595_1280.png" alt="About Me" class="about-me-image">
+            </button>
+        </div>
+
+        <div id="aboutMeModal" class="modal">
+            <div class="modal-container">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>About Me</h2>
+                    <p>This is the About Me information. You can add a lot of text here...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <p>More content...</p>
+                    <!-- Add more content as needed -->
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <script>
+        // Get the modal
+                var modal = document.getElementById("aboutMeModal");
+
+                // Get the button that opens the modal
+                var btn = document.getElementById("aboutMeBtn");
+                
+                // Get the <span> element that closes the modal
+                var span = document.getElementsByClassName("close")[0];
+                
+                // When the user clicks the button, open the modal
+                btn.onclick = function() {
+                    modal.classList.add('show');
+                }
+                
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    modal.classList.remove('show');
+                }
+                
+                // When the user clicks anywhere outside of the modal, close it
+                window.onclick = function(event) {
+                    if (event.target === modal) {
+                        modal.classList.remove('show');
+                    }
+                }
+    </script>
+    </body>
+    </html>

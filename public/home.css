@@ -1,0 +1,551 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+html, body {
+    height: 100%;
+    margin: 0;
+    background-image: url('https://wallpapercave.com/wp/wp11073401.jpg');
+    background-size: cover; /* Ensures the background image covers the entire viewport */
+    background-repeat: no-repeat; /* Prevents the background image from repeating */
+    background-attachment: fixed; /* Keeps the background image fixed in place */
+    background-position: center; /* Centers the background image */
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.side {
+    flex: 0 0 10%; /* 10% width */
+    background-color: #f0f0f0; /* Optional: background color for side regions */
+}
+
+.main {
+    flex: 0 0 80%; /* 80% width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    text-decoration: none; /* Remove underline from the link */
+    font-size: 40px;  /* Adjust the font size as needed */
+    color: #5edbed;  /* Change text color to white (#ffffff) */
+    font-family: 'Audiowide', cursive; /* Use Audiowide font */
+}
+
+.title h1 {
+    margin: 0; /* Remove default margins */
+    cursor: pointer; /* Show a pointer cursor on hover */
+}
+
+.title:hover {
+    transform: translateY(-10px) translateZ(10px); /* Move the element up by 10px and forward by 10px */
+}
+
+/* animation */ 
+@keyframes confettiAnimation {
+    0% {
+        transform: translateY(-100vh) rotate(0deg); /* Start from top, off-screen */
+        opacity: 1; /* Fully visible at the start */
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg); /* End at bottom */
+        opacity: 0; /* Fade out by the end */
+    }
+}
+
+.confetti {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    opacity: 0; /* Start hidden */
+    animation: confettiAnimation 3s linear forwards;
+}
+
+.confetti:nth-child(1) { background-image: url('botan.png'); }
+.confetti:nth-child(2) { background-image: url('fubuki.png'); }
+.confetti:nth-child(3) { background-image: url('hakos.png'); }
+.confetti:nth-child(4) { background-image: url('suisei.png'); }
+.confetti:nth-child(5) { background-image: url('watame.png'); }
+
+
+
+
+/* Container styles */
+.input-button-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+/* Button styles */
+/* .custom-button {
+    background-color: transparent !important;
+    color: transparent !important;
+    border: none !important;
+    padding: 0;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Hololive_triangles_logo.svg/1626px-Hololive_triangles_logo.svg.png');
+    background-size: 30% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 200px;
+    height: 70px;
+    cursor: pointer;
+} */
+.custom-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    margin-top:5px
+}
+
+.custom-button {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-top: 30px;
+}
+
+.custom-button-layer {
+    position: relative;
+    width: 0;
+    height: 0;
+    border-top: 25px solid transparent;
+    border-bottom: 25px solid transparent;
+    border-left: 50px solid;
+    cursor: pointer;
+    margin-top: -43px;
+}
+
+.custom-button-layer.layer1 {
+    border-left-color: #5edbed;
+    z-index: 4;
+}
+
+.custom-button-layer.layer2 {
+    border-left-color: white;
+    z-index: 3;
+}
+
+.custom-button-layer.layer3 {
+    border-left-color: #3f8ece;
+    z-index: 2;
+}
+
+.custom-button-layer.layer4 {
+    border-left-color: #2f7ebe;
+    z-index: 1;
+}
+
+.custom-button-layer::before {
+    content: "";
+    position: absolute;
+    top: -25px;
+    left: -25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: inherit;
+    z-index: -1;
+}
+
+.custom-button-layer::after {
+    content: "";
+    position: absolute;
+    top: -25px;
+    left: -25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: inherit;
+    z-index: -2;
+}
+
+.custom-button:active .custom-button-layer {
+    transform: translateY(5px);
+}
+/* Dropdown and input styles */
+.guessbox {
+    position: relative;
+    width: 600px;
+}
+.IZ-select__input-wrap {
+    display: flex;
+    align-items: center;
+    background-color: #5edbed;
+    padding: 10px;
+    border-radius: 100px;
+    width: 100%;
+}
+.IZ-select__input {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 100px;
+    font-size: 14px;
+    background-color: white;
+    color: black;
+}
+.IZ-select__menu-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 500px;
+    overflow-y: auto;
+    border: none;
+    background: #5edbed;
+    z-index: 10;
+    display: none;
+    padding: 10px 20px;
+}
+.IZ-select__item {
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+}
+.IZ-select__item:hover {
+    background-color: #4f9eed;
+}
+.select-content {
+    display: flex;
+    align-items: center;
+}
+.select-content img {
+    margin-right: 10px;
+}
+.st-bq.st-d5 path {
+    fill: #4f9eed;
+}
+.custom-selected-member {
+    margin-top: 20px;
+    color: black;
+    font-size: 20px;
+}
+.table-container {
+    margin-top: 20px;
+    color: black;
+    font-size: 14px;
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    border-spacing: 10px; /* Adjust this value to set the desired gap between columns */
+    
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+th {
+    background-color: #f2f2f2;
+}
+.name-column {
+    width: 200px;
+}
+
+.table-container{
+    width: 1200px;
+}
+
+.guess-attribute {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 10px; /* Adjust this value to set the desired gap between columns */
+}
+
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center; /* Horizontal centering */
+    vertical-align: middle; /* Vertical centering */
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.guessed-pic{
+    background-color: #f2f2f2;
+}
+
+th {
+    width: 200px; /* Set a fixed width for the cells */
+    height: 50px; /* Set the same value for the height */
+    text-align: center; /* Center align text horizontally */
+    vertical-align: middle; /* Center align text vertically */
+    border: 1px solid #000; /* Optional: Add border to see the cells clearly */
+    padding: 8px; /* Optional: Add padding inside cells */
+}
+
+td {
+    width: 200px; /* Set a fixed width for the cells */
+    height: 50px; /* Set the same value for the height */
+    text-align: center; /* Center align text horizontally */
+    vertical-align: middle; /* Center align text vertically */
+    border: 1px solid #000; /* Optional: Add border to see the cells clearly */
+    font-size: 18px;
+    padding: 8px; /* Optional: Add padding inside cells */
+    font-weight: bold
+}
+
+#table-container {
+    display: none; /* Initially hide the table container */
+    column-gap: 10px;
+}
+
+
+#rule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 600px;
+    border-radius: 50px;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    gap: 1.5em;
+}
+
+/* .rule-title{
+    background-color: #ffb14d;
+    width: 550px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 500px;
+} */
+
+a.rule-book {
+    display: block; /* Make the anchor tag a block-level element */
+    text-decoration: none; /* Remove underline from links */
+    color: inherit; /* Inherit text color from parent element */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and shadow */
+}
+
+a.rule-book:hover {
+    transform: translateY(-10px); /* Move the element up by 5px */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow to create the lifting effect */
+}
+
+.rule-title h3 {
+    color: white;
+    font-size: 30px;
+    background-color: #ffb14d;
+    padding: 10px;
+    border-radius: 1000px;
+}
+
+.rule-title .black-text {
+    color: #5edbed;
+}
+
+.rule-book {
+    display: flex;
+    align-items: flex-start; /* Align items at the start of the container */
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #5edbed;
+    width: 50%; /* Ensures each rule-book takes up the full width available */
+}
+
+.color-box {
+    display: flex;
+    align-items: flex-start; /* Align items at the start of the container */
+    gap: 1em;
+    width: 100%; /* Ensures the color-box takes up the full width available */
+}
+
+.rule-container {
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+}
+
+.description-of-game-mode{
+    display: flex;
+    flex-direction: column;
+    font-family: 'Fredoka One', cursive;
+}
+
+.image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    padding: 5px; /* Adjust padding as needed */
+}
+
+.image-container img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.description-of-game-mode {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+    font-family: 'Fredoka One', cursive;
+    flex: 1; /* Allows this container to take up the remaining space */
+}
+
+.game-mode-title {
+    font-family: 'Fredoka One', cursive; /* Keeps the same font */
+    font-size: 22px;
+    margin-bottom: 0; /* Removes margin to keep the title aligned */
+    width:200px;
+    background-color: #ffb14d;
+    border-radius: 10px;
+    padding: 5px;
+}
+.game-mode-description {
+    font-family: Arial, sans-serif; /* Change to a normal font */
+    margin: 0; /* Removes margin to keep the description aligned */
+}
+
+/* button to other game modes */
+
+/* Container for the entire section with background */
+.other-modes {
+    background-color: #5edbed; /* Background color */
+    padding: 10px 20px; /* Padding to give space around the content */
+    border-radius: 20px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+    text-align: center; /* Center align the text */
+    margin-top: 20px; /* Space above the section */
+}
+
+/**************************************************************************/
+/* Title styling */
+.other-modes-title {
+    font-size: 24px; /* Larger font size */
+    font-weight: bold; /* Bold text */
+    color: black; /* Title color */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+/* Container for the buttons */
+.button-container {
+    display: flex; /* Use flexbox for layout */
+    gap: 20px; /* Space between buttons */
+    justify-content: center; /* Center-align the buttons */
+    padding: 10px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+/* Individual button styling */
+.button-wrapper {
+    display: flex; /* Use flexbox for button layout */
+    flex-direction: column; /* Stack image and label vertically */
+    align-items: center; /* Center-align the content */
+    text-decoration: none; /* Remove underline from links */
+}
+
+/* Image inside the button */
+.button-image {
+    width: 50px; /* Set a fixed width for the image */
+    height: auto; /* Maintain aspect ratio */
+    cursor: pointer; /* Pointer cursor on hover */
+    border: 2px solid transparent; /* Add border for better click area */
+    transition: transform 0.2s, border-color 0.2s; /* Smooth transition for hover effects */
+}
+
+/* Hover effect for buttons */
+.button-image:hover {
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+    border-color: #007BFF; /* Add a border color on hover */
+}
+
+/* Label inside the button */
+.button-label {
+    font-size: 14px; /* Font size for the label */
+    color: #333; /* Label color */
+}
+
+/******************* ABOUT GAME PAGE ***********************************/
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 9999; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: hidden; /* Prevent scrolling on the background */
+    background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+    
+}
+.modal.show {
+    display: flex; /* Display as flex when visible */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+/* Modal Border/Container */
+.modal-container {
+    background-color: #ffb14d; /* Border color */
+    padding: 20px; /* Padding for border effect */
+    width: 80%; /* Width of the container (adjust as needed) */
+    max-width: 1500px; /* Max width of the container (adjust as needed) */
+    height: 90%; /* Height of the container (adjust as needed) */
+    max-height: 6000px; /* Max height of the container (adjust as needed) */
+    position: relative;
+    z-index: 10000; /* Ensure it's above the background */
+    border-radius: 20px; /* Rounded corners (adjust as needed) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Hide overflow from container */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe; /* Paper color */
+    padding: 20px;
+    border: 1px solid #888; /* Optional inner border */
+    position: relative;
+    border-radius: 10px; /* Rounded corners (adjust as needed) */
+    width: 100%; /* Full width of the container */
+    height: 100%; /* Full height of the container */
+    overflow-y: auto; /* Enable vertical scroll */
+    box-sizing: border-box; /* Include padding and border in width and height */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/************************************END**********************************************/
