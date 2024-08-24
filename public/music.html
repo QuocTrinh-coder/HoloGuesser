@@ -39,6 +39,17 @@
         #aboutMeBtn:hover .about-me-image {
             transform: scale(1.1);
         }
+
+        .kofi-image {
+            width: 50px;
+            height: 50px;
+            transition: transform 0.3s;
+        }
+        
+        #aboutMeBtn:hover .kofi-image {
+            transform: scale(1.1);
+        }
+
                 .pageInfo{
                     margin-top: 10px;
                 }
@@ -49,7 +60,7 @@
         <a href="home.html" class= "title">
             <h1>HoloGuesser</h1>   
         </a>
-        <button id="reset-button">Reset for Testing</button>
+        <button id="reset-button" display: hidden>Reset for Testing</button>
         <div class="hint-container">
             <div class="hint-area1">
                 <button id="hint1-button" onclick="toggleHint(1)" disabled>3 more guesses until Hint 1</button>
@@ -135,6 +146,11 @@
             <button id="aboutMeBtn">
                 <img src="https://cdn.pixabay.com/photo/2012/04/23/15/41/question-38595_1280.png" alt="About Me" class="about-me-image">
             </button>
+            <a href="https://ko-fi.com/hologuesser" target="_blank">
+                <button id="aboutMeBtn">
+                    <img src="https://cdn.prod.website-files.com/5c14e387dab576fe667689cf/64f1a9ddd0246590df69e9ef_ko-fi_logo_02.png" alt="kofi" class="kofi-image">
+                </button>
+            </a>
         </div>
 
         <div id="aboutMeModal" class="modal">
@@ -364,7 +380,7 @@
             const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
         
-            countdownElement.textContent = `Next reset in: ${hours}h ${minutes}m ${seconds}s`;
+            countdownElement.textContent = `New member in: ${hours}h ${minutes}m ${seconds}s`;
         }
         
         function updateHintAvailability() {
