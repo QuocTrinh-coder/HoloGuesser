@@ -8,7 +8,7 @@
         "Birthday": "05/15",
         "Status": "Active",
         "Height": "160cm / 5ft 3in",
-        "Song_link": "sora1, sora2, sora3",
+        "Song_link": "sora1,sora2,sora3",
         "Fanbase": "Sora-tomo",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "sora_stream.mp4"
@@ -22,7 +22,7 @@
         "Birthday": "05/23",
         "Status": "Active",
         "Height": "154cm / 5ft 1in",
-        "Song_link": "roboco1, roboco2, roboco3",
+        "Song_link": "roboco1,roboco2,roboco3",
         "Fanbase": "Robosa",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "roboco_stream.mp4"
@@ -36,7 +36,7 @@
         "Birthday": "07/01",
         "Status": "Active",
         "Height": "163cm / 5ft 4in",
-        "Song_link": "azki1, azki2, azki3",
+        "Song_link": "azki1,azki2,azki3",
         "Fanbase": "Kaitakusha",
         "Alternate_Fanname": "Pioneer",
         "Stream_link": "azki_stream.mp4"
@@ -50,7 +50,7 @@
         "Birthday": "03/05",
         "Status": "Active",
         "Height": "152cm / 4ft 12in",
-        "Song_link": "miko1, miko2, miko3",
+        "Song_link": "miko1,miko2,miko3",
         "Fanbase": "35P",
         "Alternate_Fanname": "Miko-P",
         "Stream_link": "miko_stream.mp4"
@@ -64,7 +64,7 @@
         "Birthday": "03/22",
         "Status": "Active",
         "Height": "160cm / 5ft 3in",
-        "Song_link": "suisei1, suisei2, suisei3",
+        "Song_link": "suisei1,suisei2,suisei3",
         "Fanbase": "Hoshiyomi",
         "Alternate_Fanname": "Stargazers",
         "Stream_link": "suisei_stream.mp4"
@@ -78,7 +78,7 @@
         "Birthday": "10/05",
         "Status": "Active",
         "Height": "160cm / 5ft 3in",
-        "Song_link": "fubuki1, fubuki2, fubuki3",
+        "Song_link": "fubuki1,fubuki2,fubuki3",
         "Fanbase": "Sukonbu ",
         "Alternate_Fanname": "Su-corn",
         "Stream_link": "fubuki_stream.mp4"
@@ -134,7 +134,7 @@
         "Birthday": "12/01",
         "Status": "Active",
         "Height": "148cm / 4ft 10in",
-        "Song_link": "aqua1, aqua2",
+        "Song_link": "aqua1, aqua2, aqua3",
         "Fanbase": "Aqua Crew ",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "aqua_stream.mp4"
@@ -176,7 +176,7 @@
         "Birthday": "02/14",
         "Status": "Active",
         "Height": "165cm / 5ft 5in",
-        "Song_link": "choco1, choco2",
+        "Song_link": "choco1, choco2, choco3",
         "Fanbase": "Choco Mate ",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "choco_stream.mp4"
@@ -246,7 +246,7 @@
         "Birthday": "01/12",
         "Status": "Active",
         "Height": "153cm / 5ft 0in",
-        "Song_link": "pekora1, pekora2, pekora3, pekora4",
+        "Song_link": "pekora1, pekora2, pekora3",
         "Fanbase": "Nousagi domei",
         "Alternate_Fanname": "The Rabbit Alliance",
         "Stream_link": "pekora_stream.mp4"
@@ -260,7 +260,7 @@
         "Birthday": "04/02",
         "Status": "Active",
         "Height": "158cm / 5ft 2in",
-        "Song_link": "flare1, flare2",
+        "Song_link": "flare1, flare2, flare3",
         "Fanbase": "Elfriend ",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "flare_stream.mp4"
@@ -274,7 +274,7 @@
         "Birthday": "11/24",
         "Status": "Active",
         "Height": "158cm / 5ft 2in",
-        "Song_link": "noel1, noel2",
+        "Song_link": "noel1, noel2, noel3",
         "Fanbase": "Knight's Order",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "noel_stream.mp4"
@@ -372,7 +372,7 @@
         "Birthday": "03/02",
         "Status": "Active",
         "Height": "159cm / 5ft 3in",
-        "Song_link": "nene1, nene2",
+        "Song_link": "nene1, nene2, nene3",
         "Fanbase": "Nekkos",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "nene_stream.mp4"
@@ -386,7 +386,7 @@
         "Birthday": "09/08",
         "Status": "Active",
         "Height": "166cm / 5ft 5in",
-        "Song_link": "botan1, botan2",
+        "Song_link": "botan1, botan2, botan3",
         "Fanbase": "SSRB",
         "Alternate_Fanname": "Shishiro Bodans",
         "Stream_link": "botan_stream.mp4"
@@ -414,7 +414,7 @@
         "Birthday": "05/25",
         "Status": "Active",
         "Height": "139cm / 4ft 7in",
-        "Song_link": "darknesss1, darknesss2",
+        "Song_link": "darknesss1, darknesss2, darknesss3",
         "Fanbase": "Plusmate ",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "darknesss_stream.mp4"
@@ -428,7 +428,7 @@
         "Birthday": "06/11",
         "Status": "Active",
         "Height": "161cm / 5ft 3in",
-        "Song_link": "lui1, lui2",
+        "Song_link": "lui1, lui2, lui3",
         "Fanbase": "Lui-tomo ",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "lui_stream.mp4"
@@ -442,7 +442,7 @@
         "Birthday": "03/15",
         "Status": "Active",
         "Height": "153cm / 5ft 0in",
-        "Song_link": "koyori1, koyori2",
+        "Song_link": "koyori1, koyori2, koyori3",
         "Fanbase": "Koyori's assistants ",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "koyori_stream.mp4"
@@ -456,7 +456,7 @@
         "Birthday": "05/18",
         "Status": "Active",
         "Height": "148cm / 4ft 10in",
-        "Song_link": "chloe1, chloe2",
+        "Song_link": "chloe1, chloe2, chloe3",
         "Fanbase": "Shiikuin",
         "Alternate_Fanname": "Zookeepers",
         "Stream_link": "chloe_stream.mp4"
@@ -470,7 +470,7 @@
         "Birthday": "06/18",
         "Status": "Active",
         "Height": "156cm / 5ft 1in",
-        "Song_link": "iroha2",
+        "Song_link": "iroha1, iroha2, iroha3",
         "Fanbase": "Kazama-tai",
         "Alternate_Fanname": "Kazama Squad",
         "Stream_link": "iroha_stream.mp4"
@@ -484,7 +484,7 @@
         "Birthday": "01/15",
         "Status": "Active",
         "Height": "153cm / 5ft 0in",
-        "Song_link": "risu1, risu2",
+        "Song_link": "risu1, risu2, risu3",
         "Fanbase": "Risuners",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "risu_stream.mp4"
@@ -498,7 +498,7 @@
         "Birthday": "02/15",
         "Status": "Active",
         "Height": "165cm / 5ft 5in",
-        "Song_link": "moona1, moona2",
+        "Song_link": "moona1, moona2, moona3",
         "Fanbase": "Moonafic",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "hoshinova_stream.mp4"
@@ -512,7 +512,7 @@
         "Birthday": "07/15",
         "Status": "Active",
         "Height": "150cm / 4ft 11in",
-        "Song_link": "iofifteen1, iofifteen2",
+        "Song_link": "iofifteen1, iofifteen2, iofifteen3",
         "Fanbase": "IOFORIA",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "iofifteen_stream.mp4"
@@ -526,7 +526,7 @@
         "Birthday": "10/13",
         "Status": "Active",
         "Height": "162cm / 5ft 4in",
-        "Song_link": "ollie1, ollie2",
+        "Song_link": "ollie1, ollie2, ollie3",
         "Fanbase": "Zomrade",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "ollie_stream.mp4"
@@ -540,7 +540,7 @@
         "Birthday": "03/12",
         "Status": "Active",
         "Height": "147cm / 4ft 10in",
-        "Song_link": "melfissa1, melfissa2",
+        "Song_link": "melfissa1, melfissa2, melfissa2",
         "Fanbase": "Melfriends",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "melfissa_stream.mp4"
@@ -554,7 +554,7 @@
         "Birthday": "09/09",
         "Status": "Active",
         "Height": "172cm / 5ft 8in",
-        "Song_link": "reine1, reine2",
+        "Song_link": "reine1, reine2, reine2",
         "Fanbase": "Merakyats",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "reine_stream.mp4"
@@ -568,7 +568,7 @@
         "Birthday": "11/07",
         "Status": "Active",
         "Height": "155cm / 5ft 1in",
-        "Song_link": "zeta1",
+        "Song_link": "zeta1, zeta2, zeta3",
         "Fanbase": "Zecretary",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "zeta_stream.mp4"
@@ -582,7 +582,7 @@
         "Birthday": "08/30",
         "Status": "Active",
         "Height": "173cm / 5ft 8in",
-        "Song_link": "kaela1",
+        "Song_link": "kaela1, kaela2, kaela3",
         "Fanbase": "Pemaloe",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "kovalskia_stream.mp4"
@@ -596,7 +596,7 @@
         "Birthday": "12/12",
         "Status": "Active",
         "Height": "150cm / 4ft 11in",
-        "Song_link": "kobo1",
+        "Song_link": "kobo1, kobo2, kobo3",
         "Fanbase": "Kobokerz",
         "Alternate_Fanname": "Cebokerz",
         "Stream_link": "kanaeru_stream.mp4"
@@ -610,7 +610,7 @@
         "Birthday": "02/27",
         "Status": "Active",
         "Height": "171cm / 5ft 7in",
-        "Song_link": "ao1",
+        "Song_link": "ao1, ao1, ao1",
         "Fanbase": "Dokusha",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "ao_stream.mp4"
@@ -624,7 +624,7 @@
         "Birthday": "04/20",
         "Status": "Active",
         "Height": "153cm / 5ft 0in",
-        "Song_link": "kanade1",
+        "Song_link": "kanade1, kanade2, kanade3",
         "Fanbase": "Otonozei ",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "kanade_stream.mp4"
@@ -638,7 +638,7 @@
         "Birthday": "05/12",
         "Status": "Active",
         "Height": "162cm / 5ft 4in",
-        "Song_link": "ririka1",
+        "Song_link": "ririka1, ririka1, ririka1",
         "Fanbase": "Hishominarai ",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "ririka_stream.mp4"
@@ -652,7 +652,7 @@
         "Birthday": "02/04",
         "Status": "Active",
         "Height": "159cm / 5ft 3in",
-        "Song_link": "raden1",
+        "Song_link": "raden1, raden2 , raden3",
         "Fanbase": "Dendoshi ",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "raden_stream.mp4"
@@ -666,7 +666,7 @@
         "Birthday": "06/07",
         "Status": "Active",
         "Height": "155cm / 5ft 1in",
-        "Song_link": "hajime1",
+        "Song_link": "hajime1, hajime2, hajime3",
         "Fanbase": "Massu-gumi",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "hajime_stream.mp4"
@@ -680,7 +680,7 @@
         "Birthday": "04/04",
         "Status": "Active",
         "Height": "167cm / 5ft 6in",
-        "Song_link": "calliope1",
+        "Song_link": "calliope1, calliope2 ,calliope3",
         "Fanbase": "Dead Beats ",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "calliope_stream.mp4"
@@ -694,7 +694,7 @@
         "Birthday": "07/06",
         "Status": "Active",
         "Height": "165cm / 5ft 5in",
-        "Song_link": "kiara1",
+        "Song_link": "kiara1, kiara2, kiara3",
         "Fanbase": "KFP",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "kiara_stream.mp4"
@@ -708,7 +708,7 @@
         "Birthday": "05/20",
         "Status": "Active",
         "Height": "157cm / 5ft 2in",
-        "Song_link": "ina1",
+        "Song_link": "ina1,ina2,ina3",
         "Fanbase": "Takodachis",
         "Alternate_Fanname": "Tentacult",
         "Stream_link": "inanis_stream.mp4"
@@ -722,7 +722,7 @@
         "Birthday": "06/20",
         "Status": "Active",
         "Height": "141cm / 4ft 8in",
-        "Song_link": "gura1",
+        "Song_link": "gura1, gura2, gura3",
         "Fanbase": "Chumbuds",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "gura_stream.mp4"
@@ -736,7 +736,7 @@
         "Birthday": "01/06",
         "Status": "Active",
         "Height": "150cm / 4ft 11in",
-        "Song_link": "watson1",
+        "Song_link": "watson1, watson1, watson2",
         "Fanbase": "Teamates",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "amelia_stream.mp4"
@@ -750,7 +750,7 @@
         "Birthday": "03/07",
         "Status": "Active",
         "Height": "166cm / 5ft 5in",
-        "Song_link": "irys1",
+        "Song_link": "irys1, irys2, irys3",
         "Fanbase": "Irystocrats",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "irys_stream.mp4"
@@ -764,7 +764,7 @@
         "Birthday": "03/21",
         "Status": "Active",
         "Height": "164cm / 5ft 5in",
-        "Song_link": "fauna1",
+        "Song_link": "fauna1, fauna1, fauna2",
         "Fanbase": "Saplings",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "fauna_stream.mp4"
@@ -778,7 +778,7 @@
         "Birthday": "03/14",
         "Status": "Active",
         "Height": "168cm / 5ft 6in",
-        "Song_link": "kronii1",
+        "Song_link": "kronii1, kronii2, kronii3",
         "Fanbase": "Kronies",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "kronii_stream.mp4"
@@ -792,7 +792,7 @@
         "Birthday": "08/04",
         "Status": "Active",
         "Height": "156cm / 5ft 1in",
-        "Song_link": "mumei1",
+        "Song_link": "mumei1, mumei1, mumei2",
         "Fanbase": "Hoomans",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "mumei_stream.mp4"
@@ -806,7 +806,7 @@
         "Birthday": "02/29",
         "Status": "Active",
         "Height": "149cm / 4ft 11in",
-        "Song_link": "baelz1",
+        "Song_link": "baelz1, baelz2, baelz3",
         "Fanbase": "Baerats",
         "Alternate_Fanname": "Brats",
         "Stream_link": "baelz_stream.mp4"
@@ -820,7 +820,7 @@
         "Birthday": "05/02",
         "Status": "Active",
         "Height": "163cm / 5ft 4in",
-        "Song_link": "shiori1",
+        "Song_link": "shiori1,shiori2,shiori3",
         "Fanbase": "Novelites",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "novella_stream.mp4"
@@ -834,7 +834,7 @@
         "Birthday": "04/14",
         "Status": "Active",
         "Height": "140cm / 4ft 7in",
-        "Song_link": "bijou1",
+        "Song_link": "bijou1,bijou2,bijou3",
         "Fanbase": "Pebbles",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "bijou_stream.mp4"
@@ -848,7 +848,7 @@
         "Birthday": "11/21",
         "Status": "Active",
         "Height": "175cm / 5ft 9in",
-        "Song_link": "nerissa1",
+        "Song_link": "nerissa1,nerissa2,nerissa3",
         "Fanbase": "Jailbirds",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "ravencroft_stream.mp4"
@@ -862,7 +862,7 @@
         "Birthday": "02/01",
         "Status": "Active",
         "Height": "155cm / 5ft 1in",
-        "Song_link": "fuwamoco1",
+        "Song_link": "fuwamoco1, fuwamoco2, fuwamoco3",
         "Fanbase": "Ruffians",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "fuwamoco_stream.mp4"
@@ -876,7 +876,7 @@
         "Birthday": "04/25",
         "Status": "Active",
         "Height": "171cm / 5ft 7in",
-        "Song_link": "erb1",
+        "Song_link": "erb1, erb2, erb3",
         "Fanbase": "Rosarians",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "bloodflame_stream.mp4"
@@ -890,7 +890,7 @@
         "Birthday": "10/18",
         "Status": "Active",
         "Height": "153cm / 5ft 0in",
-        "Song_link": "gigi1",
+        "Song_link": "gigi1,gigi1,gigi1",
         "Fanbase": "Gremurins",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "murin_stream.mp4"
@@ -904,7 +904,7 @@
         "Birthday": "11/11",
         "Status": "Active",
         "Height": "162cm / 5ft 4in",
-        "Song_link": "ceci1",
+        "Song_link": "ceci1,ceci1,ceci1",
         "Fanbase": "Otomos",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "immergreen_stream.mp4"
@@ -918,7 +918,7 @@
         "Birthday": "05/11",
         "Status": "Active",
         "Height": "158cm / 5ft 2in",
-        "Song_link": "raora1",
+        "Song_link": "raora1,raora1,raora1",
         "Fanbase": "Chattino",
         "Alternate_Fanname": "Chattini",
         "Stream_link": "panthera_stream.mp4"
@@ -932,7 +932,7 @@
         "Birthday": "02/28",
         "Status": "Graduated",
         "Height": "152cm / 5ft",
-        "Song_link": "achan1",
+        "Song_link": "achan1,achan1,achan1",
         "Fanbase": "\"N/A\"",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "chan_stream.mp4"
@@ -946,7 +946,7 @@
         "Birthday": "01/22",
         "Status": "Graduated",
         "Height": "148cm / 4ft 7in",
-        "Song_link": "rushia1",
+        "Song_link": "rushia1,rushia2,rushia3",
         "Fanbase": "Fandeddo",
         "Alternate_Fanname": "Fandead",
         "Stream_link": "rushia_stream.mp4"
@@ -960,7 +960,7 @@
         "Birthday": "06/10",
         "Status": "Graduated",
         "Height": "169cm / 5ft 7in",
-        "Song_link": "sana1",
+        "Song_link": "sana1,sana1,sana1",
         "Fanbase": "Sanallites",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "sana_stream.mp4"
@@ -974,7 +974,7 @@
         "Birthday": "06/17",
         "Status": "Graduated",
         "Height": "180cm / 5ft 10.8in",
-        "Song_link": "coco1",
+        "Song_link": "coco1,coco2,coco1",
         "Fanbase": "Tatsunoko",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "coco_stream.mp4"
@@ -988,7 +988,7 @@
         "Birthday": "05/07",
         "Status": "Active",
         "Height": "154cm / 5ft 1in",
-        "Song_link": "nodoka1",
+        "Song_link": "nodoka1,nodoka1,nodoka1",
         "Fanbase": "\"N/A\"",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "nodoka_stream.mp4"

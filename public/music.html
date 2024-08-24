@@ -222,6 +222,7 @@
         let members = [];
         let selectedMember = null;
         let randomMember = null;
+        let randomIndex = null;
         let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
         let isFirstGuess = false;
         let correctGuess = getLocalStorage('correctGuess') === 'true';
@@ -263,7 +264,7 @@
             .then(random_number => {
                 console.log(random_number); // This will log the object { randomNumber: <number> }
                 randomMember =  members[random_number[1]];; // Access the random number from the data
-                console.log('Random Number:', randomMember);
+                randomIndex = random_number[4];
                 setLocalStorage('randomMember', JSON.stringify(randomMember));
                 resetDailyMember();
                 startCountdown();
@@ -479,7 +480,6 @@
             const songList = memberData.songLink.split(',').map(song => song.trim());
         
             // Select a random song from the list
-            const randomIndex = Math.floor(Math.random() * songList.length);
             const selectedSong = songList[randomIndex];
         
             // Return the selected song name and the complete URL for the song
