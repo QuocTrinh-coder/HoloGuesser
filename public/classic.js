@@ -47,7 +47,7 @@ fetch(baseUrl)
     })
     .then(random_number => {
         randomMember = members[random_number[1]]; // Access the random number from the data
-        randomIndex = random_number[4];
+        console.log(random_number)
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
