@@ -59,20 +59,19 @@ fetch('hololive_members.json')
 
 fetch(baseUrl)
     .then(res => {
-        if (!res.ok) {
-            throw new Error('Network response was not ok');
+        if (!res.ok || res.status === 304) {
+            throw new Error('Network response was not ok or resource not modified');
         }
         return res.json();
     })
     .then(random_number => {
-//                console.log(random_number); // This will log the object { randomNumber: <number> }
-        randomMember =  members[random_number[1]];; // Access the random number from the data
+        randomMember = members[random_number[1]]; // Access the random number from the data
         randomIndex = random_number[4];
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
         updateGuessList();
-        playRandomSongForMember(randomMember)
+        playRandomSongForMember(randomMember);
     })
     .catch(error => console.error('Error fetching random number:', error));
 
