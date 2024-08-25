@@ -14,6 +14,7 @@ function removeLocalStorage(key) {
 let members = [];
 let selectedMember = null;
 let randomMember = null;
+let randomNumber = null;
 let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
 let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
@@ -28,6 +29,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('hint2').style.display = 'none';
 });
 
+fetch(baseUrl)
+    .then(res => {
+        if (!res.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return res.json();
+    })
+    .then(random_number => {
+    //    console.log(random_number); // This will log the object { randomNumber: <number> }
+        randomNumber = random_number[2]
+    //    console.log('Random Number:', randomMember);
+    })
+    .catch(error => console.error('Error fetching random number:', error));
+
 // Fetch members data from the JSON file
 fetch('hololive_members.json')
     .then(response => response.json())
@@ -40,26 +55,18 @@ fetch('hololive_members.json')
             fanbase: data[name].Fanbase,
             alternate_fanname: data[name].Alternate_Fanname,
         }));
-    })
-    .catch(error => console.error('Error fetching member data:', error));
-
-fetch(baseUrl)
-    .then(res => {
-        if (!res.ok || res.status === 304) {
-            throw new Error('Network response was not ok or resource not modified');
-        }
-        return res.json();
-    })
-    .then(random_number => {
-        randomMember = members[random_number[1]]; // Access the random number from the data
-        randomIndex = random_number[4];
+        randomMember =  members[randomNumber];; // Access the random number from the data
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
         updateGuessList();
-        playRandomSongForMember(randomMember);
+        const fanbaseNameSpan = document.getElementById('fanbase-name');
+        if (fanbaseNameSpan) {
+            fanbaseNameSpan.textContent = randomMember.fanbase;
+        }
     })
-    .catch(error => console.error('Error fetching random number:', error));
+    .catch(error => console.error('Error fetching member data:', error));
+
 
 
     const searchInput = document.getElementById('search-input');

@@ -15,12 +15,30 @@ function removeLocalStorage(key) {
 let members = [];
 let selectedMember = null;
 let randomMember = null;
+let randomNumber = null;
 let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
 let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
 const countdownElement = document.getElementById('countdown');
 let currentBlurLevel = 22; // Initial blur level
 const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
+
+
+
+fetch(baseUrl)
+    .then(res => {
+        if (!res.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return res.json();
+    })
+    .then(random_number => {
+        randomNumber = random_number[3]
+//                console.log(random_number); // This will log the object { randomNumber: <number> }
+//                console.log('Random Member:', randomMember);
+    })
+    .catch(error => console.error('Error fetching random number:', error));
+
 // Fetch members data from the JSON file
 fetch('hololive_members.json')
     .then(response => response.json())
@@ -30,27 +48,17 @@ fetch('hololive_members.json')
             img: data[name].ImageURL,
             streamLink: data[name].Stream_link
         }));
-    })
-    .catch(error => console.error('Error fetching member data:', error));
-
-
-fetch(baseUrl)
-    .then(res => {
-        if (!res.ok || res.status === 304) {
-            throw new Error('Network response was not ok or resource not modified');
-        }
-        return res.json();
-    })
-    .then(random_number => {
-        randomMember = members[random_number[1]]; // Access the random number from the data
-        randomIndex = random_number[4];
+        randomMember =  members[randomNumber];; // Access the random number from the data
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
         updateGuessList();
-        playRandomSongForMember(randomMember);
+        // Play the stream
+        playStreamForMember(randomMember);
     })
-    .catch(error => console.error('Error fetching random number:', error));
+    .catch(error => console.error('Error fetching member data:', error));
+
+
 
 
 const searchInput = document.getElementById('search-input');

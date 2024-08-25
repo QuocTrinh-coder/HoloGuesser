@@ -30,7 +30,7 @@ fetch(baseUrl)
     })
     .then(random_number => {
         randomNumber = random_number[0]
-        console.log(random_number)
+        // console.log(random_number)
     })
     .catch(error => console.error('Error fetching random number:', error));
 
