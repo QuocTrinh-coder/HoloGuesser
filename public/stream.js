@@ -20,7 +20,7 @@ let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
 const countdownElement = document.getElementById('countdown');
 let currentBlurLevel = 22; // Initial blur level
-const baseUrl = 'http://localhost:3000/randomMember';
+const baseUrl = 'http://localhost:8080/randomMember';
 // Fetch members data from the JSON file
 fetch('hololive_members.json')
     .then(response => response.json())

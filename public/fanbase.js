@@ -19,7 +19,7 @@ let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
 let wrongGuessCount = 0; // Counter for wrong guesses
 const countdownElement = document.getElementById('countdown');
-const baseUrl = 'http://localhost:3000/randomMember';
+const baseUrl = 'http://localhost:8080/randomMember';
 
 
 document.addEventListener('DOMContentLoaded', () => {

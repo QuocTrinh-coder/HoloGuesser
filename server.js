@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors'); // Import the cors middleware
 const cron = require('node-cron'); // Import node-cron for scheduling
 const app = express();
-const port = 8000;
+const port = 8080;
 
 // require('dotenv').config();
 
