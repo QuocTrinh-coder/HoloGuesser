@@ -17,7 +17,7 @@ let randomMember = null;
 let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
 let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
-const baseUrl = 'http://localhost:8080/randomMember';
+const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
 
 // Fetch members data from the JSON file
 fetch('hololive_members.json')

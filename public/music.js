@@ -31,7 +31,7 @@ let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
 let wrongGuessCount = 0; // Counter for wrong guesses
 const countdownElement = document.getElementById('countdown');
-const baseUrl = 'http://localhost:8080/randomMember';
+const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initial hiding of hints
