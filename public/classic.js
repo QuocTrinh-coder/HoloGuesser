@@ -33,7 +33,7 @@ fetch(baseUrl)
         console.log(random_number)
     })
     .catch(error => console.error('Error fetching random number:', error));
-    
+
 // Fetch members data from the JSON file
 fetch('hololive_members.json')
     .then(response => response.json())
@@ -50,7 +50,7 @@ fetch('hololive_members.json')
             height: parseHeight(data[name].Height),
             fullHeight: data[name].Height
         }));
-        randomMember = members[random_number[randomNumber]]; // Access the random number from the data
+        randomMember = members[randomNumber]; // Access the random number from the data
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
