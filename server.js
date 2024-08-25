@@ -2,9 +2,12 @@ const express = require('express');
 const cors = require('cors'); // Import the cors middleware
 const cron = require('node-cron'); // Import node-cron for scheduling
 const app = express();
-const port = 3000;
+const port = 8000;
+
+// require('dotenv').config();
 
 let randomNumbers = [];
+
 
 // Middleware to handle CORS
 app.use(cors());
@@ -15,12 +18,19 @@ app.use(express.static('public'));
 // Function to generate 4 unique random numbers
 function generateRandomNumbers() {
     const numbers = [];
+    
+    // Generate 4 unique random numbers between 0 and 70
     while (numbers.length < 4) {
         const number = Math.floor(Math.random() * 71);
         if (!numbers.includes(number)) {
             numbers.push(number);
         }
     }
+    
+    // Generate an additional random number (0, 1, or 2)
+    const additionalNumber = Math.floor(Math.random() * 3);
+    numbers.push(additionalNumber);
+    
     return numbers;
 }
 
