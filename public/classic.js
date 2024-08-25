@@ -20,6 +20,20 @@ let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
 const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
 
+
+fetch(baseUrl)
+    .then(res => {
+        if (!res.ok || res.status === 304) {
+            throw new Error('Network response was not ok or resource not modified');
+        }
+        return res.json();
+    })
+    .then(random_number => {
+        randomNumber = random_number[0]
+        console.log(random_number)
+    })
+    .catch(error => console.error('Error fetching random number:', error));
+    
 // Fetch members data from the JSON file
 fetch('hololive_members.json')
     .then(response => response.json())
@@ -36,27 +50,14 @@ fetch('hololive_members.json')
             height: parseHeight(data[name].Height),
             fullHeight: data[name].Height
         }));
-    })
-    .catch(error => console.error('Error fetching member data:', error));
-
-fetch(baseUrl)
-    .then(res => {
-        if (!res.ok || res.status === 304) {
-            throw new Error('Network response was not ok or resource not modified');
-        }
-        return res.json();
-    })
-    .then(random_number => {
-        randomMember = members[random_number[1]]; // Access the random number from the data
-        randomNumber = random_number[1]
-        console.log(random_number)
+        randomMember = members[random_number[randomNumber]]; // Access the random number from the data
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
         updateGuessList();
         playRandomSongForMember(randomMember);
     })
-    .catch(error => console.error('Error fetching random number:', error));
+    .catch(error => console.error('Error fetching member data:', error));
 
 const searchInput = document.getElementById('search-input');
 const menuItems = document.getElementById('menu-items');
