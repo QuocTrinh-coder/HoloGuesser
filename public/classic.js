@@ -14,6 +14,7 @@ function removeLocalStorage(key) {
 let members = [];
 let selectedMember = null;
 let randomMember = null;
+let randomNumber = null
 let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
 let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
@@ -47,6 +48,7 @@ fetch(baseUrl)
     })
     .then(random_number => {
         randomMember = members[random_number[1]]; // Access the random number from the data
+        randomNumber = random_number[1]
         console.log(random_number)
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
