@@ -470,6 +470,6 @@ function resetForTesting() {
     location.reload(); // Reload the page to apply changes
 }
 
-document.getElementById('reset-button').addEventListener('click', () => {
+document.querySelector('.refresh-image').addEventListener('click', () => {
     resetForTesting();
 });

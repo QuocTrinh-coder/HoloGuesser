@@ -392,6 +392,6 @@ function showConfetti() {
 
                 }
                 
-                document.getElementById('reset-button').addEventListener('click', () => {
+                document.querySelector('.refresh-image').addEventListener('click', () => {
                     resetForTesting();
                 });
