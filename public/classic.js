@@ -319,20 +319,17 @@ function showConfetti() {
 
 function resetDailyMember() {
     const now = new Date();
-    
-    // Convert local time to PST
-    const nowInPST = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
-    const resetHourPST = 23; // 11 PM PST
-    let resetTimePST = new Date(nowInPST.getFullYear(), nowInPST.getMonth(), nowInPST.getDate(), resetHourPST);
+    const resetHour = 23; // 11 PM in local time
+    let resetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), resetHour);
 
-    // If the current time is past the reset time in PST, set resetTime to 11 PM PST the next day
-    if (nowInPST > resetTimePST) {
-        resetTimePST.setDate(resetTimePST.getDate() + 1);
+    // If the current time is past the reset time, set resetTime to 11 PM the next day
+    if (now > resetTime) {
+        resetTime.setDate(resetTime.getDate() + 1);
     }
 
     const savedResetTime = getLocalStorage('resetTime');
-    if (!savedResetTime || new Date(savedResetTime) < nowInPST) {
-        setLocalStorage('resetTime', resetTimePST.toISOString());
+    if (!savedResetTime || new Date(savedResetTime) < now) {
+        setLocalStorage('resetTime', resetTime.toISOString());
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
         setLocalStorage('correctGuess', 'false'); // Reset correct guess state
@@ -358,24 +355,20 @@ function updateGuessList() {
 // Countdown timer
 function startCountdown() {
     const now = new Date();
+    const resetHour = 23; // 11 PM in local time
+    let nextReset = new Date(now.getFullYear(), now.getMonth(), now.getDate(), resetHour);
     
-    // Convert local time to PST
-    const nowInPST = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
-    const resetHourPST = 23; // 11 PM PST
-    let nextResetPST = new Date(nowInPST.getFullYear(), nowInPST.getMonth(), nowInPST.getDate(), resetHourPST);
-    
-    // If the current time is past the reset time in PST, set nextReset to 11 PM PST the next day
-    if (nowInPST > nextResetPST) {
-        nextResetPST.setDate(nextResetPST.getDate() + 1);
+    // If the current time is past the reset time, set nextReset to 11 PM the next day
+    if (now > nextReset) {
+        nextReset.setDate(nextReset.getDate() + 1);
     }
     
-    const timeRemaining = nextResetPST - nowInPST;
+    const timeRemaining = nextReset - now;
     updateCountdownDisplay(timeRemaining);
     
     const countdownInterval = setInterval(() => {
         const now = new Date();
-        const nowInPST = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
-        const timeRemaining = nextResetPST - nowInPST;
+        const timeRemaining = nextReset - now;
         
         if (timeRemaining <= 0) {
             clearInterval(countdownInterval);
