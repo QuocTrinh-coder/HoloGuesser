@@ -72,36 +72,40 @@ const videoElement = document.querySelector('video');
 
 function resetDailyMember() {
     const now = new Date();
-    const resetHour = 23; // 11 PM in local time
-    let resetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), resetHour);
+    
+    // Convert local time to PST
+    const nowInPST = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
+    const resetHourPST = 23; // 11 PM PST
+    let resetTimePST = new Date(nowInPST.getFullYear(), nowInPST.getMonth(), nowInPST.getDate(), resetHourPST);
 
-    // If the current time is past the reset time, set resetTime to 11 PM the next day
-    if (now > resetTime) {
-        resetTime.setDate(resetTime.getDate() + 1);
+    // If the current time is past the reset time in PST, set resetTime to 11 PM PST the next day
+    if (nowInPST > resetTimePST) {
+        resetTimePST.setDate(resetTimePST.getDate() + 1);
     }
 
     const savedResetTime = getLocalStorage('resetTime');
-    if (!savedResetTime || new Date(savedResetTime) < now) {
+    if (!savedResetTime || new Date(savedResetTime) < nowInPST) {
         // Select a random member and save to localStorage
-        setLocalStorage('resetTime', resetTime.toISOString());
+        setLocalStorage('resetTime', resetTimePST.toISOString());
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
         setLocalStorage('correctGuess', 'false'); // Reset correct guess state
-        setLocalStorage('currentBlurLevel', 22); // Reset correct guess state
+        setLocalStorage('currentBlurLevel', 22); // Reset blur level
         guessedMembers = []; // Clear local guessedMembers array
         correctGuess = false; // Reset correctGuess variable
-        submitButton.style.pointerEvents = 'auto'; // Enable the submit button
-        submitButton.style.opacity = '1.0'; // Reset button opacity
+        document.getElementById('submit-button').style.pointerEvents = 'auto'; // Enable the submit button
+        document.getElementById('submit-button').style.opacity = '1.0'; // Reset button opacity
         startCountdown(); // Restart countdown
 
         if (randomMember) {
             // Get the stream URL for the random member and save it to localStorage
             const streamURL = getRandomStream(randomMember);
             setLocalStorage('selectedStreamURL', streamURL);
-
         }
-        videoElement.muted = true; // Mute the video
-        videoElement.volume = 0; // Set volume to 0
+        
+        // Mute the video and set volume to 0
+        videoElement.muted = true;
+        videoElement.volume = 0;
         setLocalStorage('videoMuted', videoElement.muted); // Save mute state
         setLocalStorage('videoVolume', videoElement.volume); // Save volume level
     } else {
@@ -110,7 +114,8 @@ function resetDailyMember() {
         guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
         correctGuess = JSON.parse(getLocalStorage('correctGuess') === 'true');
         currentBlurLevel = parseInt(getLocalStorage('currentBlurLevel'), 10) || 0;
-                // Load video settings from localStorage
+
+        // Load video settings from localStorage
         const isMuted = JSON.parse(getLocalStorage('videoMuted')) || false;
         const videoVolume = parseFloat(getLocalStorage('videoVolume')) || 0;
         videoElement.style.filter = `blur(${currentBlurLevel}px)`;
@@ -138,20 +143,24 @@ function updateGuessList() {
 // Countdown timer
 function startCountdown() {
     const now = new Date();
-    const resetHour = 23; // 11 PM in local time
-    let nextReset = new Date(now.getFullYear(), now.getMonth(), now.getDate(), resetHour);
     
-    // If the current time is past the reset time, set nextReset to 11 PM the next day
-    if (now > nextReset) {
-        nextReset.setDate(nextReset.getDate() + 1);
+    // Convert local time to PST
+    const nowInPST = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
+    const resetHourPST = 23; // 11 PM PST
+    let nextResetPST = new Date(nowInPST.getFullYear(), nowInPST.getMonth(), nowInPST.getDate(), resetHourPST);
+    
+    // If the current time is past the reset time, set nextReset to 11 PM PST the next day
+    if (nowInPST > nextResetPST) {
+        nextResetPST.setDate(nextResetPST.getDate() + 1);
     }
     
-    const timeRemaining = nextReset - now;
+    const timeRemaining = nextResetPST - nowInPST;
     updateCountdownDisplay(timeRemaining);
     
     const countdownInterval = setInterval(() => {
         const now = new Date();
-        const timeRemaining = nextReset - now;
+        const nowInPST = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
+        const timeRemaining = nextResetPST - nowInPST;
         
         if (timeRemaining <= 0) {
             clearInterval(countdownInterval);
@@ -164,7 +173,6 @@ function startCountdown() {
         }
     }, 1000);
 }
-
 function updateCountdownDisplay(timeRemaining) {
     const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
     const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
