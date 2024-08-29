@@ -1,13 +1,12 @@
 const express = require('express');
-const cors = require('cors'); // Import the cors middleware
-const cron = require('node-cron'); // Import node-cron for scheduling
+const cors = require('cors');
+const cron = require('node-cron');
+const fetch = require('node-fetch'); // Import node-fetch to make HTTP requests
 const app = express();
 const port = 8080;
 
-// require('dotenv').config();
-
 let randomNumbers = [];
-
+let memberData = {}; // Variable to store the fetched data
 
 // Middleware to handle CORS
 app.use(cors());
@@ -15,22 +14,41 @@ app.use(cors());
 // Middleware to serve static files
 app.use(express.static('public'));
 
+// Function to fetch member data from DigitalOcean Space
+async function fetchMemberData() {
+    try {
+        const response = await fetch('https://hololive-assets.sfo3.digitaloceanspaces.com/hololive-json-file/hololive_members.json');
+        if (!response.ok) throw new Error('Failed to fetch member data');
+        const data = await response.json();
+        memberData = data; // Store the fetched data
+        console.log('Member data fetched and stored');
+    } catch (error) {
+        console.error('Error fetching member data:', error);
+    }
+}
+
+// Fetch data when the server starts
+fetchMemberData();
+
+// Schedule a task to fetch new data every day at 12:05 AM PST
+cron.schedule('5 0 * * *', () => {
+    fetchMemberData();
+}, {
+    scheduled: true,
+    timezone: "America/Los_Angeles"
+});
+
 // Function to generate 4 unique random numbers
 function generateRandomNumbers() {
     const numbers = [];
-    
-    // Generate 4 unique random numbers between 0 and 70
     while (numbers.length < 4) {
         const number = Math.floor(Math.random() * 71);
         if (!numbers.includes(number)) {
             numbers.push(number);
         }
     }
-    
-    // Generate an additional random number (0, 1, or 2)
     const additionalNumber = Math.floor(Math.random() * 3);
     numbers.push(additionalNumber);
-    
     return numbers;
 }
 
@@ -43,7 +61,7 @@ cron.schedule('0 23 * * *', () => {
     console.log('Random numbers updated:', randomNumbers);
 }, {
     scheduled: true,
-    timezone: "America/Los_Angeles" // Ensure the correct timezone
+    timezone: "America/Los_Angeles"
 });
 
 // Endpoint to get the current random numbers
@@ -51,11 +69,19 @@ app.get('/randomMember', (req, res) => {
     res.status(200).json(randomNumbers);
 });
 
+// Endpoint to get the member data
+app.get('/members', (req, res) => {
+    if (Object.keys(memberData).length === 0) {
+        return res.status(503).json({ error: 'Member data not available' });
+    }
+    res.status(200).json(memberData);
+});
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
 
+// Serve HTML pages
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/home.html');
 });
@@ -75,3 +101,4 @@ app.get('/music', (req, res) => {
 app.get('/stream', (req, res) => {
     res.sendFile(__dirname + '/public/stream.html');
 });
+

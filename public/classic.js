@@ -35,7 +35,7 @@ fetch(baseUrl)
     .catch(error => console.error('Error fetching random number:', error));
 
 // Fetch members data from the JSON file
-fetch('hololive_members.json')
+fetch('https://holomemsguesser-kqvor.ondigitalocean.app/members')
     .then(response => response.json())
     .then(data => {
         members = Object.keys(data).map(name => ({
