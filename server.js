@@ -64,23 +64,6 @@ cron.schedule('0 23 * * *', () => {
     timezone: "America/Los_Angeles"
 });
 
-
-app.get('/credits', async (req, res) => {
-    try {
-        const response = await fetch('https://hololive-assets.sfo3.digitaloceanspaces.com/Credits/Credits-page.pdf');
-        if (!response.ok) throw new Error('Failed to fetch PDF');
-
-        // Set the content type to PDF
-        res.setHeader('Content-Type', 'application/pdf');
-
-        // Pipe the PDF response to the client
-        response.body.pipe(res);
-    } catch (error) {
-        console.error('Error fetching PDF:', error);
-        res.status(500).send('Failed to fetch PDF');
-    }
-});
-
 // Endpoint to get the current random numbers
 app.get('/randomMember', (req, res) => {
     res.status(200).json(randomNumbers);
@@ -119,3 +102,19 @@ app.get('/stream', (req, res) => {
     res.sendFile(__dirname + '/public/stream.html');
 });
 
+
+app.get('/credits', async (req, res) => {
+    try {
+        const response = await fetch('https://hololive-assets.sfo3.digitaloceanspaces.com/Credits/Credits-page.pdf');
+        if (!response.ok) throw new Error('Failed to fetch PDF');
+
+        // Set the content type to PDF
+        res.setHeader('Content-Type', 'application/pdf');
+
+        // Pipe the PDF response to the client
+        response.body.pipe(res);
+    } catch (error) {
+        console.error('Error fetching PDF:', error);
+        res.status(500).send('Failed to fetch PDF');
+    }
+});
