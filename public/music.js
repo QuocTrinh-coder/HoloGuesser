@@ -51,15 +51,18 @@ fetch(baseUrl)
         return res.json();
     })
     .then(random_number => {
-//                console.log(random_number); // This will log the object { randomNumber: <number> }
-        randomNumber = random_number[1]
+        randomNumber = random_number[1];
         randomIndex = random_number[4];
-    })
-    .catch(error => console.error('Error fetching random number:', error));
 
-// Fetch members data from the JSON file
-fetch('https://holomemsguesser-kqvor.ondigitalocean.app/members')
-    .then(response => response.json())
+        // Fetch members data after getting the random number
+        return fetch('https://holomemsguesser-kqvor.ondigitalocean.app/members');
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         members = Object.keys(data).map(name => ({
             name: name,
@@ -69,14 +72,14 @@ fetch('https://holomemsguesser-kqvor.ondigitalocean.app/members')
             branch: data[name].Branch,
             songLink: data[name].Song_link // Add Song_link to the member data
         }));
-        randomMember =  members[randomNumber];; // Access the random number from the data
+        randomMember = members[randomNumber]; // Access the random number from the data
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
         updateGuessList();
-        playRandomSongForMember(randomMember)
+        playRandomSongForMember(randomMember);
     })
-    .catch(error => console.error('Error fetching member data:', error));
+    .catch(error => console.error('Error:', error));
 
 
 const searchInput = document.getElementById('search-input');
