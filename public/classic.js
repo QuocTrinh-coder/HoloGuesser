@@ -19,8 +19,9 @@ let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
 let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
 const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
+const membersUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/members';
 
-
+// Fetch random number, then fetch members data
 fetch(baseUrl)
     .then(res => {
         if (!res.ok || res.status === 304) {
@@ -29,13 +30,10 @@ fetch(baseUrl)
         return res.json();
     })
     .then(random_number => {
-        randomNumber = random_number[0]
-        // console.log(random_number)
+        randomNumber = random_number[0];
+        // Fetch members data only after getting the random number
+        return fetch(membersUrl);
     })
-    .catch(error => console.error('Error fetching random number:', error));
-
-// Fetch members data from the JSON file
-fetch('https://holomemsguesser-kqvor.ondigitalocean.app/members')
     .then(response => response.json())
     .then(data => {
         members = Object.keys(data).map(name => ({
@@ -56,7 +54,7 @@ fetch('https://holomemsguesser-kqvor.ondigitalocean.app/members')
         startCountdown();
         updateGuessList();
     })
-    .catch(error => console.error('Error fetching member data:', error));
+    .catch(error => console.error('Error:', error));
 
 const searchInput = document.getElementById('search-input');
 const menuItems = document.getElementById('menu-items');
