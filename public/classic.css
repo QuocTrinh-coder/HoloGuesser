@@ -424,27 +424,6 @@ td {
     margin-top: 20px;
 }
 
-.circle {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-left: 5px;
-    margin-right: 10px;
-}
-
-.green-circle {
-    background-color: #79d8a8;
-}
-
-.orange-circle {
-    background-color: #ff7e26;
-}
-
-.red-circle {
-    background-color: red;
-}
-
 /* button to other game modes */
 
 /* Container for the entire section with background */
