@@ -125,6 +125,20 @@
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "haato_stream.mp4"
     },
+    "Yozora Mel": {
+        "ImageURL": "https://static.miraheze.org/hololivewiki/thumb/1/1b/Yozora_Mel_-_Portrait_3D_04.png/290px-Yozora_Mel_-_Portrait_3D_04.png",
+        "Debut_Date": 2018,
+        "Group": "Hololive",
+        "Generation": "1st",
+        "Branch": "Japan",
+        "Birthday": "10/31",
+        "Status": "Terminated",
+        "Height": "154cm / 5ft 1in",
+        "Song_link": "mel1, mel2, mel3",
+        "Fanbase": "Kapu-min",
+        "Alternate_Fanname": "\"N/A\"",
+        "Stream_link": "mel_stream.mp4"
+    },
     "Minato Aqua": {
         "ImageURL": "https://static.miraheze.org/hololivewiki/thumb/5/57/Minato_Aqua_-_Main_Page_Icon.png/96px-Minato_Aqua_-_Main_Page_Icon.png",
         "Debut_Date": 2018,
@@ -944,7 +958,7 @@
         "Generation": "Fantasy",
         "Branch": "Japan",
         "Birthday": "01/22",
-        "Status": "Graduated",
+        "Status": "Terminated",
         "Height": "148cm / 4ft 7in",
         "Song_link": "rushia1,rushia2,rushia3",
         "Fanbase": "Fandeddo",

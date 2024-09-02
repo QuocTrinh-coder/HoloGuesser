@@ -273,10 +273,16 @@ function compareDebut(guessedDebut, randomDebut) {
 }
 
 function isBirthdayClose(guessedBirthday, randomBirthday) {
-    const guessedDate = new Date(guessedBirthday);
-    const randomDate = new Date(randomBirthday);
+    // Append a default year (e.g., 2000) to the MM/DD dates
+    const guessedDate = new Date(`2004/${guessedBirthday}`);
+    const randomDate = new Date(`2004/${randomBirthday}`);
+
+    // Calculate the time difference in milliseconds
     const timeDifference = Math.abs(randomDate - guessedDate);
+    // Convert the time difference to days
     const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+
+    // Check if the difference is within 30 days
     return daysDifference <= 30;
 }
 
