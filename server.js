@@ -42,7 +42,7 @@ cron.schedule('5 0 * * *', () => {
 function generateRandomNumbers() {
     const numbers = [];
     while (numbers.length < 4) {
-        const number = Math.floor(Math.random() * 71);
+        const number = Math.floor(Math.random() * 72);
         if (!numbers.includes(number)) {
             numbers.push(number);
         }
