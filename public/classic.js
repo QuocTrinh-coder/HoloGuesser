@@ -65,7 +65,10 @@ const tableContainer = document.getElementById('table-container');
 const confettiContainer = document.getElementById('confetti-container');
 const modal = document.getElementById("aboutMeModal");
 const btn = document.getElementById("aboutMeBtn");
+const news = document.getElementById("news");
+const news_btn = document.getElementById("news-button");
 const span = document.getElementsByClassName("close")[0];
+const closeNews = document.getElementsByClassName("news-close")[0];
 const countdownElement = document.getElementById('countdown'); // Element to display the countdown timer
 
 // Initially hide the guess table
@@ -249,12 +252,24 @@ function parseHeight(heightString) {
 }
 
 function compareHeight(guessedHeight, randomHeight) {
+    const difference = Math.abs(guessedHeight - randomHeight);
+
     if (guessedHeight === randomHeight) {
         return { arrow: '', class: 'correct' };
-    } else if (guessedHeight < randomHeight) {
-        return { arrow: '⬆', class: 'incorrect' };
+    } else if (difference <= 3) {
+        // If the guess is within 15 cm, add the 'close-answer' class
+        if (guessedHeight < randomHeight) {
+            return { arrow: '⬆', class: 'close-answer' };
+        } else {
+            return { arrow: '⬇', class: 'close-answer' };
+        }
     } else {
-        return { arrow: '⬇', class: 'incorrect' };
+        // If the guess is outside the 15 cm range, add the 'incorrect' class
+        if (guessedHeight < randomHeight) {
+            return { arrow: '⬆', class: 'incorrect' };
+        } else {
+            return { arrow: '⬇', class: 'incorrect' };
+        }
     }
 }
 
@@ -415,8 +430,19 @@ span.onclick = function() {
 window.onclick = function(event) {
     if (event.target === modal) {
         modal.classList.remove('show');
+    } else if (event.target === news) {
+        news.classList.remove('show');
     }
-}     
+}  
+
+// Modal event listeners
+news_btn.onclick = function() {
+    news.classList.add('show');
+}
+// When the user clicks on <span> (x), close the modal
+closeNews.onclick = function() {
+    news.classList.remove('show');
+}   
 
 // Function to clear local storage and reload for testing
 function resetForTesting() {

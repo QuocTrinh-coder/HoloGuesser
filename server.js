@@ -5,7 +5,7 @@ const fetch = require('node-fetch'); // Import node-fetch to make HTTP requests
 const app = express();
 const port = 8080;
 
-let randomNumbers = [];
+let randomNumbers = [ 20, 56, 71, 18, 2 ];
 let memberData = {}; // Variable to store the fetched data
 
 // Middleware to handle CORS
@@ -31,7 +31,7 @@ async function fetchMemberData() {
 fetchMemberData();
 
 // Schedule a task to fetch new data every day at 12:05 AM PST
-cron.schedule('5 0 * * *', () => {
+cron.schedule('0 23 * * *', () => {
     fetchMemberData();
 }, {
     scheduled: true,
@@ -51,9 +51,6 @@ function generateRandomNumbers() {
     numbers.push(additionalNumber);
     return numbers;
 }
-
-// Generate initial random numbers
-randomNumbers = generateRandomNumbers();
 
 // Schedule a task to generate new random numbers at 12:05 AM PST every day
 cron.schedule('0 23 * * *', () => {

@@ -674,6 +674,22 @@ audio {
     text-decoration: none;
 }
 
+/* The Close Button for news */
+.news-close {
+    color: #aaa;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.news-close:hover,
+.news-close:focus {
+    color: black;
+    text-decoration: none;
+}
 /************************************END**********************************************/
 
 #countdown {

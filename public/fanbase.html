@@ -112,6 +112,26 @@
                     text-decoration: none; /* Remove underline */
                     font-weight: bold; /* Make text bold */
                 }
+                #news-button {
+                    display: flex;
+                    flex-direction: column; /* Stack content vertically */
+                    align-items: center; /* Center content horizontally */
+                    background: none; /* Remove default button background */
+                    border: none; /* Remove default button border */
+                    cursor: pointer; /* Change cursor to pointer */
+                    background-color: #ffb14d;
+                    border-radius: 10px;
+                    padding:5px;
+                }
+        
+                #news-button:hover .news-image {
+                    transform: scale(1.1);
+                }
+                .news-image {
+                    width: 40px;
+                    height: 40px;
+                    transition: transform 0.3s;
+                }
     </style>
 </head>
 <body>
@@ -177,6 +197,9 @@
         </div>
         <!-- reset count down area -->
         <div class="countdownTime-resetbutton">
+            <button id="news-button">
+                <img src="news.png" alt="news-icon" class="news-image">
+            </button>
             <div id="countdown"></div>
             <button id="reset-button">
                 <img src="refresh-icon.png" alt="refresh-icon" class="refresh-image">
@@ -256,6 +279,21 @@
                 </div>
             </div>
         </div>   
+
+        <div id="news" class="modal">
+            <div class="modal-container">
+                <div class="modal-content">
+                    <span class="news-close">&times;</span>
+                    <h2>Updates</h2>
+                    <h3>9/4/2024 Updates</h3>
+                    <ul class="updates-list">
+                        <li>Fix server where new set off answers will introduce before reset time when an update is made</li>
+                        <li>Add orange color for height category in Classic mode. 3 cm or below is considered to be close, otherwise it's incorrect</li>
+                        <li>Add a news button to notify users for future feature added</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         
     </div>
     <div id="confetti-container"></div>
