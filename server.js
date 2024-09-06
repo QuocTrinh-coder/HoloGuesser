@@ -2,15 +2,27 @@ const express = require('express');
 const cors = require('cors');
 const cron = require('node-cron');
 const fetch = require('node-fetch'); // Import node-fetch to make HTTP requests
+const rateLimit = require('express-rate-limit'); // Import express-rate-limit
 const app = express();
 const port = 8080;
 
-let randomNumbers = [ 20, 56, 71, 18, 2 ];
+let randomNumbers = [ 55, 8, 45, 25, 2 ];
 let memberData = {}; // Variable to store the fetched data
+
+
+
+// Configure rate limiting: 200 requests per 10 mins
+const limiter = rateLimit({
+    windowMs: 10 * 60 * 1000,
+    max: 200,
+    message: 'Too many requests from this IP, please try again later.',
+});
+
+// Apply rate limiting to all requests
+app.use(limiter);
 
 // Middleware to handle CORS
 app.use(cors());
-
 // Middleware to serve static files
 app.use(express.static('public'));
 
@@ -98,7 +110,6 @@ app.get('/music', (req, res) => {
 app.get('/stream', (req, res) => {
     res.sendFile(__dirname + '/public/stream.html');
 });
-
 
 app.get('/credits', async (req, res) => {
     try {
