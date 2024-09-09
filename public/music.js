@@ -89,6 +89,7 @@ const selectedMemberDiv = document.getElementById('selected-member');
 const guessTableBody = document.querySelector('#guess-table tbody');
 const tableContainer = document.getElementById('table-container');
 const confettiContainer = document.getElementById('confetti-container');
+const audioElement = document.querySelector('audio');
 
 function resetDailyMember() {
     const now = new Date();
@@ -263,9 +264,11 @@ submitButton.addEventListener('click', () => {
                 setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
                 submitButton.style.pointerEvents = 'none';
                 submitButton.style.opacity = '0.5';
+                playFullAudio();
                 showConfetti();
             } else {
                 wrongGuessCount++; // Increase wrong guesses count
+                updateGrayBar();
                 setLocalStorage('wrongGuessCount', wrongGuessCount);
                 updateHintAvailability(); // Update hint availability based on wrong guesses
 
@@ -318,17 +321,158 @@ function playRandomSongForMember(memberData) {
 
     const songURL = `https://hololive-assets.sfo3.digitaloceanspaces.com/hololive-songs/${selectedSong}.mp3`;
 
-    // Select the audio element
-    const audioElement = document.querySelector('audio');
-
     // Set the source of the audio element
     audioElement.src = songURL;
 
-    // Set the volume to 50%
-    audioElement.volume = 0.5;
-
 //            console.log(`Playing song: ${selectedSong}`);
 }
+
+let maxPlayTime = 0;
+const playButton = document.getElementById('play-btn');
+const loadingBar = document.getElementById('loading-bar');
+const grayBar = document.getElementById('gray-bar');
+const volumeSlider = document.getElementById('volume-slider');
+const markerContainer = document.getElementById('marker-container');
+const MAX_PLAY_DURATION = 60; // Limit the play time to a maximum of 60 seconds
+
+function playFullAudio() {
+    // Remove all markers from the marker container
+    markerContainer.innerHTML = ''; 
+
+    // Set the maxPlayTime to the full duration of the audio
+    maxPlayTime = audioElement.duration;
+
+    // Allow the gray bar to cover the full duration
+    grayBar.style.width = '100%';
+
+    // Reset the audio to the beginning without playing it
+    audioElement.currentTime = 0; // Start from the beginning
+
+    // Update the loading bar for the full duration (without playing yet)
+    audioElement.addEventListener('timeupdate', function() {
+        const percentage = (audioElement.currentTime / audioElement.duration) * 100;
+        loadingBar.style.width = percentage + "%";
+    });
+
+    // Set the play button to show the play icon (▶) initially, not auto-playing the audio
+    playButton.innerHTML = "&#9658;"; // Play icon (▶)
+    
+    // Set up the event for when the audio ends to reset the button and bar
+    audioElement.addEventListener('ended', function() {
+        playButton.innerHTML = "&#9658;"; // Reset to play icon (▶)
+        loadingBar.style.width = "0%"; // Reset loading bar
+    });
+}
+
+
+function generateFibonacciUpTo(maxValue) {
+    let fib = [1, 1]; // Start with the first two Fibonacci numbers
+    while (true) {
+        let next = fib[fib.length - 1] + fib[fib.length - 2];
+        if (next > maxValue) break;
+        fib.push(next);
+    }
+    return fib; // Return all Fibonacci numbers
+}
+
+// Function to get the Fibonacci number for a given wrong guess count
+function getFibonacciNumber(index) {
+    const fibonacciNumbers = generateFibonacciUpTo(audioElement.duration);
+    if (index < fibonacciNumbers.length) {
+        return fibonacciNumbers[index];
+    } else {
+        return audioElement.duration; // If index is out of bounds, return the full duration
+    }
+}
+
+function createMarkers() {
+    const totalDuration = Math.min(audioElement.duration, MAX_PLAY_DURATION); // Cap the markers at 60 seconds
+    markerContainer.innerHTML = ''; // Clear existing markers
+
+    // Generate Fibonacci numbers up to the capped total duration
+    const fibonacciNumbers = generateFibonacciUpTo(totalDuration);
+
+    // Create markers based on the Fibonacci sequence
+    fibonacciNumbers.forEach(number => {
+        const marker = document.createElement('div');
+        marker.classList.add('marker');
+
+        // Calculate position in percentage relative to the capped total duration
+        const position = (number / totalDuration) * 100;
+        marker.style.left = position + '%';
+
+        markerContainer.appendChild(marker);
+    });
+}
+
+function updateGrayBar() {
+    const totalDuration = Math.min(audioElement.duration, MAX_PLAY_DURATION); // Cap the gray bar to 60 seconds
+    const fibonacciValue = getFibonacciNumber(wrongGuessCount + 1);
+
+    // Calculate the width of the gray bar based on the Fibonacci number
+    const grayBarWidth = (Math.min(fibonacciValue, MAX_PLAY_DURATION) / totalDuration) * 100;
+    grayBar.style.width = grayBarWidth + '%';
+}
+
+// Play/Pause functionality with time limit control
+playButton.addEventListener('click', function() {
+    if (correctGuess) {
+        // User has made the correct guess, so allow manual play/pause control
+        if (audioElement.paused) {
+            audioElement.play();
+            playButton.innerHTML = "&#10074;&#10074;"; // Pause icon (⏸)
+        } else {
+            audioElement.pause();
+            playButton.innerHTML = "&#9658;"; // Play icon (▶)
+        }
+    } else {
+        // Handle the usual incorrect guess logic here, using Fibonacci or restricted playtime logic
+        maxPlayTime = Math.min(getFibonacciNumber(wrongGuessCount + 1), audioElement.duration, MAX_PLAY_DURATION);
+        if (audioElement.paused) {
+            audioElement.play();
+            playButton.innerHTML = "&#10074;&#10074;"; // Pause icon (⏸)
+        } else {
+            audioElement.pause();
+            playButton.innerHTML = "&#9658;"; // Play icon (▶)
+        }
+    }
+});
+
+// Update the loading bar as the audio plays
+audioElement.addEventListener('timeupdate', function() {
+    if (!correctGuess) {  // Only update the loading bar if the guess is incorrect
+        const percentage = (audioElement.currentTime / MAX_PLAY_DURATION) * 100;
+        loadingBar.style.width = percentage + "%";
+
+        // If the current time exceeds the allowed maxPlayTime, pause the audio
+        if (audioElement.currentTime >= maxPlayTime) {
+            audioElement.pause();
+            audioElement.currentTime = 0; // Start from the beginning
+            playButton.innerHTML = "&#9658;"; // Reset to play icon (▶)
+        }
+    }
+});
+
+// Reset the button and bar when the audio ends
+audioElement.addEventListener('ended', function() {
+    playButton.innerHTML = "&#9658;"; // Reset to play icon (▶)
+    loadingBar.style.width = "0%";
+});
+
+// Volume control
+volumeSlider.addEventListener('input', function() {
+    audioElement.volume = volumeSlider.value; // Set the audio volume based on the slider value
+});
+
+// When audio metadata is loaded, check for correct guess
+audioElement.addEventListener('loadedmetadata', function() {
+    if (correctGuess) {
+        playFullAudio();  // Play the full audio right away if correct
+    } else {
+        createMarkers();   // Otherwise, create markers
+        updateGrayBar();   // Set initial gray bar
+    }
+});
 
 
 function addMemberToTable(member) {

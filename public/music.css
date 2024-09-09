@@ -404,17 +404,99 @@ td {
 audio {
     width: 600px
 }
-.audio-container audio::-webkit-media-controls-panel {
-    background-color: #5edbed;
-    border-radius: 10px;
-}
+
 
 .audio-container {
-    margin-bottom: 20px; /* Space between audio and other content */
+    margin-bottom: 1    0px; /* Space between audio and other content */
     text-align: center; /* Center the audio controls */
     overflow: hidden; /* Ensures the audio player does not overflow its container */
-    margin-top: 20px; /* Space between audio and other content */
+    margin-top: 10px; /* Space between audio and other content */
+    display:flex;
+    width:35%;
+    gap: 10px
 }
+
+/* .audio-container audio::-webkit-media-controls-panel {
+    background-color: #5edbed;
+    border-radius: 10px;
+} */
+
+        /* Container for the loading bar */
+/* Container for the loading bar */
+.loading-bar-container {
+    position: relative;
+    width: 100%;
+    height: 20px;
+    background-color: black;
+    overflow: hidden;
+}
+
+/* The gray bar showing allowed play time */
+.gray-bar {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    background-color: lightgray;
+    z-index: 1; /* Ensure gray bar is below the loading bar */
+}
+
+/* The actual progress loading bar */
+.loading-bar {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    background-color: #5edbed;
+    z-index: 2; /* Ensure loading bar is on top of the gray bar */
+}
+
+/* Marker container for vertical lines */
+.marker-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none; /* Allow click-through */
+    z-index: 3; /* Ensure markers are on top of both bars */
+}
+
+/* Vertical markers */
+.marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: white;
+}
+
+        /* Play button */
+.play-button {
+            background-color: #5edbed;
+            color: white;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            width: 50px; /* Set a fixed width */
+            height: 20px; /* Ensure consistent height */
+            display: inline-flex;
+            justify-content: center; /* Center the icon horizontally */
+            align-items: center; /* Center the icon vertically */
+        }
+
+        /* Volume control slider */
+.volume-control-container {
+        background-color: #5edbed ;
+        display: flex;
+        align-items: center;
+        justify-content: center; /* Center the icon horizontally */
+        height: 20px;
+        }
+
+.volume-slider {
+            width: 60%;
+            margin: none;
+        }
+
 
 /************************************************************************************/
 .hint-container {

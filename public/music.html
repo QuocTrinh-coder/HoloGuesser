@@ -166,9 +166,26 @@
             </div>
         </div>
 
-        <div class="audio-container">
-            <audio id="audio-player" controls></audio>
+        <div class="audio-container">   
+            <!-- Play Button with Icon -->
+            <audio id="audio-play"></audio>
+            
+            <!-- Loading bar container -->
+            <div class="loading-bar-container">
+                <div class="loading-bar" id="loading-bar"></div> <!-- Progress bar -->
+                <div class="gray-bar" id="gray-bar"></div> <!-- Gray bar -->
+                <div class="marker-container" id="marker-container"></div> <!-- Marker container -->
+            </div>
+            
+            <button class="play-button" id="play-btn">&#9658;</button> <!-- Play icon (▶) -->
+        
+            <!-- Volume Control -->
+            <div class="volume-control-container">
+                <span class="volume-icon">&#128266;</span> <!-- Speaker icon (🔊) -->
+                <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="1"> <!-- Volume slider -->
+            </div>
         </div>
+
         <div class="guessbox">
             <div class="input-button-container">
                 <div class="IZ-select__input-wrap">
@@ -193,6 +210,11 @@
                 <img src="news.png" alt="news-icon" class="news-image">
             </button>
             <div id="countdown"></div>
+            <button id="reset-button">
+                <img src="refresh-icon.png" alt="refresh-icon" class="refresh-image">
+                <a>Refresh Session</a>
+                <a>if there's glitches</a>
+            </button>
         </div>
         <!-- end -->
         <div id="selected-member" class="custom-selected-member"></div>
@@ -272,6 +294,12 @@
                 <div class="modal-content">
                     <span class="news-close">&times;</span>
                     <h2>Updates</h2>
+                    <h3>9/9/2024 Updates</h3>
+                    <ul class="updates-list">
+                        <li>Update Singer Mode to display 60 seconds of the song only and a small part of the song each time user guesses wrong</li>
+                        <li>Add back refresh session feature</li>
+                        <li>Increase Streamer Mode blur level</li>
+                    </ul>
                     <h3>9/6/2024 Updates</h3>
                     <ul class="updates-list">
                         <li>Update site security feature</li>

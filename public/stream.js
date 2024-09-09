@@ -20,7 +20,7 @@ let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
 let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
 const countdownElement = document.getElementById('countdown');
-let currentBlurLevel = 22; // Initial blur level
+let currentBlurLevel = 36; // Initial blur level
 const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
 
 
@@ -92,7 +92,7 @@ function resetDailyMember() {
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
         setLocalStorage('correctGuess', 'false'); // Reset correct guess state
-        setLocalStorage('currentBlurLevel', 22); // Reset blur level
+        setLocalStorage('currentBlurLevel', 36); // Reset blur level
         guessedMembers = []; // Clear local guessedMembers array
         correctGuess = false; // Reset correctGuess variable
         document.getElementById('submit-button').style.pointerEvents = 'auto'; // Enable the submit button
@@ -390,7 +390,7 @@ closeNews.onclick = function() {
                     setLocalStorage('randomMember', JSON.stringify(randomMember));
                     setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
                     setLocalStorage('correctGuess', 'false'); // Reset correct guess state
-                    setLocalStorage('currentBlurLevel', 22); // Reset correct guess state
+                    setLocalStorage('currentBlurLevel', 36); // Reset correct guess state
                     guessedMembers = []; // Clear local guessedMembers array
                     correctGuess = false; // Reset correctGuess variable
                     submitButton.style.pointerEvents = 'auto'; // Enable the submit button
