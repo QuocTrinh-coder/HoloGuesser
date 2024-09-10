@@ -184,6 +184,7 @@ function startCountdown() {
             resetDailyMember();
             startCountdown();
             resetForTesting();
+            setLocalStorage('wrongGuessCount', 0); // Reset correct guess state
             location.reload(); // Refresh the page when the countdown reaches zero
         } else {
             updateCountdownDisplay(timeRemaining);
@@ -623,6 +624,7 @@ function resetForTesting() {
     }
 
     clearPageLocalStorage();
+    setLocalStorage('wrongGuessCount', 0); // Reset correct guess state
     location.reload(); // Reload the page to apply changes
 }
 
