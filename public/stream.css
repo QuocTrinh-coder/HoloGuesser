@@ -428,6 +428,7 @@ audio {
 video {
     width: 100%;
     height: auto;
+    filter: blur(40px);
 }
 
 /******************* ABOUT GAME PAGE ***********************************/
