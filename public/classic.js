@@ -172,7 +172,24 @@ function addMemberToTable(member, skipAnimation = false) {
         cells[1].classList.add(debutComparison.class);
 
         cells[2].textContent = member.group;
-        cells[2].classList.add(member.group === randomMember.group ? 'correct' : 'incorrect');
+        const guessedGroups = member.group.split(',').map(group => group.trim());
+        const randomGroups = randomMember.group.split(',').map(group => group.trim());
+    
+        const hasExactMatch = guessedGroups.length === randomGroups.length &&
+                              guessedGroups.every(group => randomGroups.includes(group));
+    
+        const hasPartialMatch = guessedGroups.some(group => randomGroups.includes(group));
+    
+        cells[2].textContent = member.group;
+    
+        // Apply class based on comparison
+        if (hasExactMatch) {
+            cells[2].classList.add('correct');
+        } else if (hasPartialMatch) {
+            cells[2].classList.add('close-answer');
+        } else {
+            cells[2].classList.add('incorrect');
+        };
 
         cells[3].textContent = member.generation;
         cells[3].classList.add(member.generation === randomMember.generation ? 'correct' : 'incorrect');
@@ -202,8 +219,24 @@ function addMemberToTable(member, skipAnimation = false) {
         }, 200);
 
         setTimeout(() => {
+            const guessedGroups = member.group.split(',').map(group => group.trim());
+            const randomGroups = randomMember.group.split(',').map(group => group.trim());
+        
+            const hasExactMatch = guessedGroups.length === randomGroups.length &&
+                                  guessedGroups.every(group => randomGroups.includes(group));
+        
+            const hasPartialMatch = guessedGroups.some(group => randomGroups.includes(group));
+        
             cells[2].textContent = member.group;
-            cells[2].classList.add('fade-in', member.group === randomMember.group ? 'correct' : 'incorrect');
+        
+            // Apply class based on comparison
+            if (hasExactMatch) {
+                cells[2].classList.add('fade-in', 'correct');
+            } else if (hasPartialMatch) {
+                cells[2].classList.add('fade-in', 'close-answer');
+            } else {
+                cells[2].classList.add('fade-in', 'incorrect');
+            }
         }, 800);
 
         setTimeout(() => {
