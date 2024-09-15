@@ -6,6 +6,8 @@ const rateLimit = require('express-rate-limit'); // Import express-rate-limit
 const app = express();
 const port = 8080;
 
+app.set('trust proxy', 1); // Add this line to trust the first proxy
+
 let randomNumbers = [ 23, 8, 0, 29, 0 ];
 let memberData = {}; // Variable to store the fetched data
 
