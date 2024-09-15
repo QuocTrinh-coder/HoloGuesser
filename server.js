@@ -6,7 +6,7 @@ const rateLimit = require('express-rate-limit'); // Import express-rate-limit
 const app = express();
 const port = 8080;
 
-let randomNumbers = [ 44, 9, 67, 43, 0 ];
+let randomNumbers = [ 23, 8, 0, 29, 0 ];
 let memberData = {}; // Variable to store the fetched data
 
 
