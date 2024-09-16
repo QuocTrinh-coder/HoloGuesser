@@ -549,3 +549,43 @@ a.rule-book:hover {
 }
 
 /************************************END**********************************************/
+@media (max-width: 1280px) {
+    .title {
+        font-size: 4vw; /* Adjust font size for smaller screens */
+    }
+    #rule {
+        width: 100%;
+        padding: 10px; /* Adjust padding for smaller screens */
+        gap: 1em;
+    }
+
+    .rule-title h3 {
+        font-size: 20px; /* Smaller font size for titles */
+        padding: 8px; /* Adjust padding */
+    }
+
+    .rule-book {
+        width: 100%; /* Ensure rule-book takes up full width */
+        max-width: none; /* Remove max width for better responsiveness */
+    }
+
+    .game-mode-title {
+        font-size: 16px; /* Smaller font for mobile */
+        width: 90%; /* Allow it to take full width */
+    }
+
+    .image-container {
+        width: 50px;
+        height: 50px;
+    }
+
+    .image-container img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .game-mode-description {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+    
+}

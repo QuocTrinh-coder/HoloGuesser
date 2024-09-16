@@ -521,31 +521,283 @@ video {
     margin-top: 10px;
 }
 /************************************************************************************/
-.fan-container2{
+.fan-container2 {
     display: flex;
     align-items: center;
     background-color: #3f8ece;
     padding: 10px;
     border-radius: 100px;
+    width: 100%; /* Set to 100% for flexibility */
+    max-width: 600px; /* Limit width on larger screens */
+    box-sizing: border-box; /* Ensure padding doesn't exceed width */
 }
 
-.fan-container{
+.fan-container {
     display: flex;
     align-items: center;
     background-color: #5edbed;
     padding: 10px;
     border-radius: 100px;
-    margin-bottom: 10px;
+    width: 100%; /* Set to 100% for smaller screens */
+    max-width: 600px; /* Limit width to 600px on larger screens */
+    box-sizing: border-box;
 }
-#fanbase-name{
-    font-size: 20px;
+
+#fanbase-name {
+    font-size: 18px; /* Slightly reduce font size */
+    text-align: center; /* Center text for better readability on small screens */
+    margin: 0;
 }
+
 #fanbase {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: white;
-    width: 600px;
+    width: 100%; /* Full width on small screens */
+    max-width: 600px; /* Limit width for larger screens */
     border-radius: 100px;
+    box-sizing: border-box;
+}
+/************************************************************************************/
+table {
+    border-collapse: collapse; /* Ensures no space between cells */
+}
+#aboutMeBtn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.about-me-image {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s;
+}
+
+#aboutMeBtn:hover .about-me-image {
+    transform: scale(1.1);
+}
+
+.kofi-image {
+    width: 50px;
+    height: 50px;
+    transition: transform 0.3s;
+}
+
+#aboutMeBtn:hover .kofi-image {
+    transform: scale(1.1);
+}
+
+.X-image {
+    width: 55px;
+    height: 55px;
+    transition: transform 0.3s;
+}
+
+#aboutMeBtn:hover .X-image {
+    transform: scale(1.1);
+}
+
+.pageInfo{
+            margin-top: 10px;
+        }
+#reset-button {
+            background-color: transparent; /* Ensures the button has no background color */
+            border: none; /* Removes any border */
+        }
+
+.refresh-image {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s;
+        }
+#reset-button {
+            display: flex;
+            flex-direction: column; /* Stack content vertically */
+            align-items: center; /* Center content horizontally */
+            background: none; /* Remove default button background */
+            border: none; /* Remove default button border */
+            padding: 0; /* Remove default button padding */
+            cursor: pointer; /* Change cursor to pointer */
+            background-color: #ffb14d;
+            border-radius: 20px;
+            width: 120px
+        }
+
+#reset-button:hover .refresh-image {
+            transform: scale(1.1);
+        }
+
+.countdownTime-resetbutton {
+            display: flex;
+            align-items: center; /* Vertically center items */
+            justify-content: center; /* Center-align the buttons */
+            gap: 10px; /* Space between items */
+        }
+
+#reset-button a {
+            margin-top: 5px; /* Space between image and subtitle */
+            font-size: 12px; /* Adjust font size as needed */
+            color: black;
+            text-decoration: none; /* Remove underline */
+            font-weight: bold; /* Make text bold */
+        }
+        #news-button {
+            display: flex;
+            flex-direction: column; /* Stack content vertically */
+            align-items: center; /* Center content horizontally */
+            background: none; /* Remove default button background */
+            border: none; /* Remove default button border */
+            cursor: pointer; /* Change cursor to pointer */
+            background-color: #ffb14d;
+            border-radius: 10px;
+            padding:5px;
+        }
+
+        #news-button:hover .news-image {
+            transform: scale(1.1);
+        }
+        .news-image {
+            width: 40px;
+            height: 40px;
+            transition: transform 0.3s;
+        }
+
+@media (max-width: 1280px) {
+    .title {
+        font-size: 4vw; /* Adjust font size for smaller screens */
+    }
+    th, td {
+        font-size: 14px; /* Smaller font size */
+        padding: 4px;    /* Reduce padding */
+    }
+
+    .name-column {
+        width: 100px; /* Reduce column width */
+    }
+    #rule {
+        width: 100%; /* Make it take 90% of the screen width */
+        padding: 5px; /* Adjust padding for smaller screens */
+    }
+
+    .rule-title {
+        font-size: 14px; /* Reduce font size for smaller screens */
+        padding: 5px 15px; /* Adjust padding */
+    }
+
+    .rule-container {
+        width: 100%; /* Adjust width to fit within smaller screens */
+        padding: 5px; /* Adjust padding for smaller screens */
+    }
+
+    .circle {
+        width: 40px; /* Make circles smaller */
+        height: 40px;
+    }
+
+    .rule-book {
+        gap: 0.5em; /* Adjust the gap */
+    }
+    /* Styles for .other-modes-title */
+    .other-modes-title {
+        font-size: 18px; /* Reduce font size for smaller screens */
+    }
+
+    /* Styles for .button-container */
+    .button-container {
+        gap: 10px; /* Reduce gap between buttons */
+    }
+
+    /* Styles for .button-image */
+    .button-image {
+        width: 40px; /* Smaller image size for mobile */
+    }
+
+    /* Styles for .button-label */
+    .button-label {
+        font-size: 12px; /* Smaller label font size */
+    }
+
+    /* Styles for .countdownTime-resetbutton */
+    .countdownTime-resetbutton {
+        gap: 5px; /* Reduce gap between items */
+        padding: 5px; /* Reduce padding for smaller screens */
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    }
+
+    /* Styles for #reset-button a */
+    #reset-button a {
+        font-size: 10px; /* Reduce font size for smaller screens */
+    }
+
+    /* Styles for #news-button */
+    #news-button {
+        width: 80px; /* Adjust button size for smaller screens */
+        padding: 5px;
+    }
+
+    /* Styles for .news-image */
+    .news-image {
+        width: 35px; /* Slightly smaller image for small screens */
+        height: 35px;
+    }
+    .guessbox {
+        width: 90%; /* Make the guessbox take 90% of the width */
+        padding: 5px; /* Adjust padding for smaller screens */
+    }
+
+    .IZ-select__input {
+        font-size: 12px; /* Reduce input font size */
+        padding: 10px 15px; /* Adjust padding inside the input */
+    }
+
+    .custom-selected-member {
+        font-size: 16px; /* Smaller font size for selected member text */
+    }
+
+    .table-container {
+        font-size: 12px; /* Smaller font size for the table */
+        width: 100%; /* Make the table take the full width */
+    }
+    .hint-container {
+        max-width: 100%; /* Take up full width */
+    }
+
+    .hint-area {
+        max-width: 100%; /* Make hint areas full width */
+        height: auto; /* Adjust height automatically */
+    }
+    .audio-container {
+        align-items: center; /* Center the items */
+        width: 80%; /* Ensure full width on small screens */
+        gap: 8px; /* Reduced gap for smaller space */
+    }
+
+    .play-button {
+        width: 40px; /* Slightly smaller play button for compactness */
+        font-size: 14px; /* Reduce font size */
+    }
+
+    .volume-slider {
+        width: 90%; /* Full width for the slider */
+    }
+
+    .loading-bar-container {
+        height: 15px; /* Slightly reduce the height of the loading bar */
+    }
+    .fan-container2, .fan-container, #fanbase {
+        padding: 8px; /* Reduce padding to fit smaller screens */
+        border-radius: 50px; /* Slightly smaller border radius for compact design */
+    }
+
+    #fanbase-name {
+        font-size: 16px; /* Reduce font size on smaller screens */
+    }
+    .IZ-select__menu-items {
+        padding: 6px 6px; /* Adjust padding for smaller devices */
+    }
+
 }
