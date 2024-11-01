@@ -8,7 +8,7 @@ const port = 8080;
 
 app.set('trust proxy', 1); // Add this line to trust the first proxy
 
-let randomNumbers = [ 40, 52, 36, 58, 0 ];
+let randomNumbers = [ 25, 61, 16, 51, 2 ];
 let memberData = {}; // Variable to store the fetched data
 
 
