@@ -8,8 +8,10 @@ const port = 8080;
 
 app.set('trust proxy', 1); // Add this line to trust the first proxy
 
-let randomNumbers = [ 23, 40, 57, 64, 1 ];
+let randomNumbers = [ 45, 36, 33, 19, 1 ];
 let memberData = {}; // Variable to store the fetched data
+let pastAnswer = []; // Stores past sets of random numbers
+let generationCounter = 0; // Tracks the number of sets generated
 
 
 
@@ -56,7 +58,7 @@ cron.schedule('0 23 * * *', () => {
 function generateRandomNumbers() {
     const numbers = [];
     while (numbers.length < 4) {
-        const number = Math.floor(Math.random() * 72);
+        const number = Math.floor(Math.random() * 77);
         if (!numbers.includes(number)) {
             numbers.push(number);
         }
@@ -66,10 +68,38 @@ function generateRandomNumbers() {
     return numbers;
 }
 
+// Function to check if a set of numbers exists in pastAnswer
+function isDuplicate(newNumbers) {
+    const newSet = newNumbers.slice(0, 4).sort(); // Sort the first 4 numbers
+    return pastAnswer.some(pastSet => {
+        const pastSetSorted = pastSet.slice(0, 4).sort(); // Sort past first 4 numbers
+        return JSON.stringify(newSet) === JSON.stringify(pastSetSorted); // Compare sets
+    });
+}
+
 // Schedule a task to generate new random numbers at 12:05 AM PST every day
 cron.schedule('0 23 * * *', () => {
-    randomNumbers = generateRandomNumbers();
+    let newNumbers;
+
+    // Ensure the new set of numbers is not in pastAnswer
+    do {
+        newNumbers = generateRandomNumbers();
+    } while (isDuplicate(newNumbers));
+
+    // Update randomNumbers and pastAnswer
+    randomNumbers = newNumbers;
+    pastAnswer.push(newNumbers);
+    generationCounter++;
+
+    // Reset pastAnswer and generationCounter if it reaches 7
+    if (generationCounter === 7) {
+        pastAnswer = [];
+        generationCounter = 0;
+    }
+
     console.log('Random numbers updated:', randomNumbers);
+    console.log('Past answers:', pastAnswer);
+    console.log('Generation counter:', generationCounter);
 }, {
     scheduled: true,
     timezone: "America/Los_Angeles"
