@@ -334,7 +334,7 @@ const loadingBar = document.getElementById('loading-bar');
 const grayBar = document.getElementById('gray-bar');
 const volumeSlider = document.getElementById('volume-slider');
 const markerContainer = document.getElementById('marker-container');
-const MAX_PLAY_DURATION = 60; // Limit the play time to a maximum of 60 seconds
+const MAX_PLAY_DURATION = 30; // Limit the play time to a maximum of 60 seconds
 
 function playFullAudio() {
     // Remove all markers from the marker container
@@ -367,13 +367,13 @@ function playFullAudio() {
 
 
 function generateFibonacciUpTo(maxValue) {
-    let fib = [1, 1]; // Start with the first two Fibonacci numbers
+    let fib = [1, 2]; // Start with the first two Fibonacci numbers
     while (true) {
         let next = fib[fib.length - 1] + fib[fib.length - 2];
         if (next > maxValue) break;
         fib.push(next);
     }
-    return fib; // Return all Fibonacci numbers
+    return fib.slice(1); // Return all Fibonacci numbers
 }
 
 // Function to get the Fibonacci number for a given wrong guess count
@@ -408,7 +408,7 @@ function createMarkers() {
 
 function updateGrayBar() {
     const totalDuration = Math.min(audioElement.duration, MAX_PLAY_DURATION); // Cap the gray bar to 60 seconds
-    const fibonacciValue = getFibonacciNumber(wrongGuessCount + 1);
+    const fibonacciValue = getFibonacciNumber(wrongGuessCount);
 
     // Calculate the width of the gray bar based on the Fibonacci number
     const grayBarWidth = (Math.min(fibonacciValue, MAX_PLAY_DURATION) / totalDuration) * 100;
@@ -428,7 +428,7 @@ playButton.addEventListener('click', function() {
         }
     } else {
         // Handle the usual incorrect guess logic here, using Fibonacci or restricted playtime logic
-        maxPlayTime = Math.min(getFibonacciNumber(wrongGuessCount + 1), audioElement.duration, MAX_PLAY_DURATION);
+        maxPlayTime = Math.min(getFibonacciNumber(wrongGuessCount), audioElement.duration, MAX_PLAY_DURATION);
         if (audioElement.paused) {
             audioElement.play();
             playButton.innerHTML = "&#10074;&#10074;"; // Pause icon (⏸)
