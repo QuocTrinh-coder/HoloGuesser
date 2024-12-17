@@ -245,6 +245,15 @@ submitButton.addEventListener('click', () => {
     }
 });
 
+// Add a keydown event listener for the Enter key
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        // Ensure an option is selected and there isn't already a correct guess
+        if (selectedMember && !correctGuess) {
+            submitButton.click(); // Trigger the submit button click programmatically
+        }
+    }
+});
 
 document.addEventListener('click', (event) => {
     if (!event.target.closest('.guessbox')) {
