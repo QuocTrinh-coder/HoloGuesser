@@ -8,9 +8,9 @@ const port = 8080;
 
 app.set('trust proxy', 1); // Add this line to trust the first proxy
 
-let randomNumbers = [ 45, 36, 33, 19, 1 ];
+let randomNumbers = [ 30, 65, 38, 2, 0 ];
 let memberData = {}; // Variable to store the fetched data
-let pastAnswer = []; // Stores past sets of random numbers
+let pastAnswer = [ [ 16, 46, 3, 71, 2 ], [ 30, 65, 38, 2, 0 ] ]; // Stores past sets of random numbers
 let generationCounter = 0; // Tracks the number of sets generated
 
 
