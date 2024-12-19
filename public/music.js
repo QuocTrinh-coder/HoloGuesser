@@ -641,3 +641,8 @@ function resetForTesting() {
 document.querySelector('.refresh-image').addEventListener('click', () => {
     resetForTesting();
 });
+
+// Disable right-click globally
+document.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+});
