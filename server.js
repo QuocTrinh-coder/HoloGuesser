@@ -8,10 +8,10 @@ const port = 8080;
 
 app.set('trust proxy', 1); // Add this line to trust the first proxy
 
-let randomNumbers = [ 76, 59, 25, 29, 2 ];
+let randomNumbers = [ 38, 45, 32, 68, 2 ];
 let memberData = {}; // Variable to store the fetched data
-let pastAnswer = [ [ 16, 46, 3, 71, 2 ], [ 30, 65, 38, 2, 0 ], [ 76, 59, 25, 29, 2 ] ]; // Stores past sets of random numbers
-let generationCounter = 3; // Tracks the number of sets generated
+let pastAnswer = [ [ 38, 45, 32, 68, 2 ] ]; // Stores past sets of random numbers
+let generationCounter = 1; // Tracks the number of sets generated
 
 
 
@@ -56,13 +56,22 @@ cron.schedule('0 23 * * *', () => {
 
 // Function to generate 4 unique random numbers
 function generateRandomNumbers() {
+    const usedNumbers = new Set(); // Collect all previously used numbers
+
+    // Add all past numbers to the set
+    pastAnswer.forEach(set => {
+        set.slice(0, 4).forEach(num => usedNumbers.add(num));
+    });
+
     const numbers = [];
     while (numbers.length < 4) {
         const number = Math.floor(Math.random() * 77);
-        if (!numbers.includes(number)) {
+        // Ensure the number is not already used
+        if (!numbers.includes(number) && !usedNumbers.has(number)) {
             numbers.push(number);
         }
     }
+
     const additionalNumber = Math.floor(Math.random() * 3);
     numbers.push(additionalNumber);
     return numbers;
@@ -92,7 +101,7 @@ cron.schedule('0 23 * * *', () => {
     generationCounter++;
 
     // Reset pastAnswer and generationCounter if it reaches 7
-    if (generationCounter === 7) {
+    if (generationCounter === 11) {
         pastAnswer = [];
         generationCounter = 0;
     }
