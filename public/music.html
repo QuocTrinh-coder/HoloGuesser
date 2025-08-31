@@ -69,7 +69,7 @@
             
             <!-- Loading bar container -->
             <div class="loading-bar-container">
-                <div class="loading-bar" id="loading-bar"></div> <!-- Progress bar -->
+                <div class="loading-bar" id="loading-bar" ></div> <!-- Progress bar -->
                 <div class="gray-bar" id="gray-bar"></div> <!-- Gray bar -->
                 <div class="marker-container" id="marker-container"></div> <!-- Marker container -->
             </div>
@@ -85,6 +85,18 @@
 
         <div class="guessbox">
             <div class="input-button-container">
+                        <!-- Mode dropdown -->
+                <div class="mode-container">
+                    <select class="mode-select" onchange="selectMode(this.value)">
+                    <!-- Placeholder removed, Daily is default -->
+                    <option value="daily" selected>Daily</option>
+                    <option value="unlimited">Unlimited</option>
+                    </select>
+
+                    <button id="newMemberBtn" class="mode-card new-member-btn" onclick="getNewUnlimitedMember()" style="display:none;">
+                            Get New Member
+                    </button>
+                </div>
                 <div class="IZ-select__input-wrap">
                     <input id="search-input" class="IZ-select__input" placeholder="Type member name ..." type="text" autocomplete="off">
                 </div>
@@ -101,12 +113,21 @@
                 <!-- Options will be inserted here dynamically -->
             </div>
         </div>
+
+                <!-- difficulties level  -->
+        <div class="level-buttons">
+            <button class="level-btn easy" onclick="setLevel('easy')">Easy</button>
+            <button class="level-btn medium" onclick="setLevel('medium')">Medium</button>
+            <button class="level-btn hard" onclick="setLevel('hard')">Hard</button>
+        </div>
         <!-- reset count down area -->
         <div class="countdownTime-resetbutton">
             <button id="news-button">
                 <img src="news.png" alt="news-icon" class="news-image">
             </button>
             <div id="countdown"></div>
+                        <!-- Level timer (hidden by default) -->
+            <div id="levelTimer" style="display:none;"></div>
             <button id="reset-button">
                 <img src="refresh-icon.png" alt="refresh-icon" class="refresh-image">
                 <a>Refresh Session</a>
@@ -232,6 +253,7 @@
         </div>
     </div>
     <div id="confetti-container"></div>
+    <div id="loserConfetti-container"></div>
     <script src="music.js" defer></script>
     </body>
     </html>

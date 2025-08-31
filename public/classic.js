@@ -20,6 +20,7 @@ let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
 const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
 const membersUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/members';
+const unlimitedModeUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/unlimitedMember'
 
 // Fetch random number, then fetch members data
 fetch(baseUrl)
@@ -49,6 +50,7 @@ fetch(baseUrl)
             fullHeight: data[name].Height
         }));
         randomMember = members[randomNumber]; // Access the random number from the data
+        currentAnswer = randomMember;
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
@@ -70,6 +72,7 @@ const news_btn = document.getElementById("news-button");
 const span = document.getElementsByClassName("close")[0];
 const closeNews = document.getElementsByClassName("news-close")[0];
 const countdownElement = document.getElementById('countdown'); // Element to display the countdown timer
+const loserConfettiContainer = document.getElementById('loserConfetti-container'); // MOVE THIS
 
 // Initially hide the guess table
 tableContainer.style.display = 'none';
@@ -117,6 +120,11 @@ submitButton.addEventListener('click', () => {
             guessedMembers.push(selectedMember.name);
             setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
 
+            // Start timer only on the first guess
+            if (guessedMembers.length === 1 && modeSelect.value === 'unlimited') {
+                runLevelTimer();
+            }
+
             searchInput.value = '';
             menuItems.style.display = 'none';
 
@@ -125,12 +133,21 @@ submitButton.addEventListener('click', () => {
                 isFirstGuess = true;
             }
 
-            if (selectedMember.name === randomMember.name) {
+            if (selectedMember.name === currentAnswer.name) {
                 correctGuess = true;
                 setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
                 submitButton.style.pointerEvents = 'none';
                 submitButton.style.opacity = '0.5';
                 showConfetti();
+
+                // STOP the level timer
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+
+            // Disable level button when the first guesses come in
+            if (guessedMembers.length > 0) {
+                disableLevelButton();
             }
         }
     }
@@ -156,10 +173,10 @@ document.addEventListener('click', (event) => {
 function addMemberToTable(member, skipAnimation = false) {
     const newRow = document.createElement('tr');
 
-    const heightComparison = compareHeight(member.height, randomMember.height);
+    const heightComparison = compareHeight(member.height, currentAnswer.height);
     const heightDisplay = `${member.fullHeight} ${heightComparison.arrow}`;
-    const birthdayClose = isBirthdayClose(member.birthday, randomMember.birthday);
-    const debutComparison = compareDebut(member.debut, randomMember.debut);
+    const birthdayClose = isBirthdayClose(member.birthday, currentAnswer.birthday);
+    const debutComparison = compareDebut(member.debut, currentAnswer.debut);
 
     newRow.innerHTML = `
         <td class="guessed-pic"><img src="${member.img}" width="60px" height="60px"></td>
@@ -183,7 +200,7 @@ function addMemberToTable(member, skipAnimation = false) {
 
         cells[2].textContent = member.group;
         const guessedGroups = member.group.split(',').map(group => group.trim());
-        const randomGroups = randomMember.group.split(',').map(group => group.trim());
+        const randomGroups = currentAnswer.group.split(',').map(group => group.trim());
     
         const hasExactMatch = guessedGroups.length === randomGroups.length &&
                               guessedGroups.every(group => randomGroups.includes(group));
@@ -202,13 +219,13 @@ function addMemberToTable(member, skipAnimation = false) {
         };
 
         cells[3].textContent = member.generation;
-        cells[3].classList.add(member.generation === randomMember.generation ? 'correct' : 'incorrect');
+        cells[3].classList.add(member.generation === currentAnswer.generation ? 'correct' : 'incorrect');
 
         cells[4].textContent = member.branch;
-        cells[4].classList.add(member.branch === randomMember.branch ? 'correct' : 'incorrect');
+        cells[4].classList.add(member.branch === currentAnswer.branch ? 'correct' : 'incorrect');
 
         cells[5].textContent = member.birthday;
-        if (member.birthday === randomMember.birthday) {
+        if (member.birthday === currentAnswer.birthday) {
             cells[5].classList.add('correct');
         } else if (birthdayClose) {
             cells[5].classList.add('close-answer');
@@ -217,7 +234,7 @@ function addMemberToTable(member, skipAnimation = false) {
         }
 
         cells[6].textContent = member.status;
-        cells[6].classList.add(member.status === randomMember.status ? 'correct' : 'incorrect');
+        cells[6].classList.add(member.status === currentAnswer.status ? 'correct' : 'incorrect');
 
         cells[7].innerHTML = heightDisplay;
         cells[7].classList.add(heightComparison.class);
@@ -230,7 +247,7 @@ function addMemberToTable(member, skipAnimation = false) {
 
         setTimeout(() => {
             const guessedGroups = member.group.split(',').map(group => group.trim());
-            const randomGroups = randomMember.group.split(',').map(group => group.trim());
+            const randomGroups = currentAnswer.group.split(',').map(group => group.trim());
         
             const hasExactMatch = guessedGroups.length === randomGroups.length &&
                                   guessedGroups.every(group => randomGroups.includes(group));
@@ -251,17 +268,17 @@ function addMemberToTable(member, skipAnimation = false) {
 
         setTimeout(() => {
             cells[3].textContent = member.generation;
-            cells[3].classList.add('fade-in', member.generation === randomMember.generation ? 'correct' : 'incorrect');
+            cells[3].classList.add('fade-in', member.generation === currentAnswer.generation ? 'correct' : 'incorrect');
         }, 1400);
 
         setTimeout(() => {
             cells[4].textContent = member.branch;
-            cells[4].classList.add('fade-in', member.branch === randomMember.branch ? 'correct' : 'incorrect');
+            cells[4].classList.add('fade-in', member.branch === currentAnswer.branch ? 'correct' : 'incorrect');
         }, 2000);
 
         setTimeout(() => {
             cells[5].textContent = member.birthday;
-            if (member.birthday === randomMember.birthday) {
+            if (member.birthday === currentAnswer.birthday) {
                 cells[5].classList.add('fade-in', 'correct');
             } else if (birthdayClose) {
                 cells[5].classList.add('fade-in', 'close-answer');
@@ -272,7 +289,7 @@ function addMemberToTable(member, skipAnimation = false) {
 
         setTimeout(() => {
             cells[6].textContent = member.status;
-            cells[6].classList.add('fade-in', member.status === randomMember.status ? 'correct' : 'incorrect');
+            cells[6].classList.add('fade-in', member.status === currentAnswer.status ? 'correct' : 'incorrect');
         }, 3200);
 
         setTimeout(() => {
@@ -506,4 +523,198 @@ function resetForTesting() {
 
 document.querySelector('.refresh-image').addEventListener('click', () => {
     resetForTesting();
+});
+///////////////////////////////////////////////// Unlimited Mode Feature ///////////////////////////////////////////////////////////////////////
+let currentLevel = "easy"; // default
+let timerInterval;
+let timerSeconds = 0;     // store remaining seconds
+let dailyCountdownInterval;
+const modeSelect = document.querySelector(".mode-select");
+
+document.querySelectorAll(".level-btn").forEach(btn => {
+    if (btn.classList.contains("easy")) {
+        btn.style.opacity = "1"; // highlight Easy
+    } else {
+        btn.style.opacity = "0.4"; // dim Medium & Hard
+    }
+});
+
+function setLevel(level) {
+    currentLevel = level;
+
+    // Highlight active level button
+    document.querySelectorAll(".level-btn").forEach(btn => btn.style.opacity = "0.4");
+    document.querySelector(`.level-btn.${level}`).style.opacity = "1";
+
+    // If in Unlimited mode, restart timer for the selected level
+    const modeSelect = document.querySelector(".mode-select");
+    if (modeSelect.value === "unlimited") {
+        startLevelTimer(level);
+    }
+}
+
+function stopLevelTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+}
+
+function startLevelTimer(level) {
+    const levelTimerDiv = document.getElementById("levelTimer");
+
+    if (level === "easy") timerSeconds = 60;
+    else if (level === "medium") timerSeconds = 30;
+    else if (level === "hard") timerSeconds = 10;
+
+    levelTimerDiv.textContent = `Timer: ${timerSeconds} seconds`;
+    clearInterval(timerInterval); // ensure no old interval runs
+}
+
+function loserConfetti() {
+    loserConfettiContainer.innerHTML = '';
+
+    const emoteImages = [
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+    ];
+
+    for (let i = 0; i < emoteImages.length; i++) {
+        const loser_confetti = document.createElement('div');
+        loser_confetti.classList.add('loser_confetti');
+        loser_confetti.style.backgroundImage = `url('${emoteImages[i]}')`;
+        loser_confetti.style.left = `${Math.random() * 100}vw`;
+        loser_confetti.style.top = `${Math.random() * 100}vh`;
+        loserConfettiContainer.appendChild(loser_confetti);
+    }
+}
+
+function runLevelTimer() {
+    const levelTimerDiv = document.getElementById("levelTimer");
+
+    if (timerInterval) return; // already running
+
+    timerInterval = setInterval(() => {
+        timerSeconds--;
+        levelTimerDiv.textContent = `Timer: ${timerSeconds} seconds`;
+
+        if (timerSeconds <= 0) {
+            clearInterval(timerInterval);
+            levelTimerDiv.textContent = "You Failed";
+            timerInterval = null;
+            loserConfetti();
+            // Play fail sound
+            const failAudio = new Audio("https://hololive-assets.sfo3.digitaloceanspaces.com/hololive-songs/raora_laugh.mp3"); 
+            failAudio.play();
+        }
+    }, 1000);
+}
+
+// re-enable buttons
+function reEnableLevelButton() {
+    document.querySelectorAll(".level-btn").forEach(btn => {
+        btn.disabled = false;
+    });
+}
+
+function disableLevelButton() {
+    document.querySelectorAll(".level-btn").forEach(btn => {
+        btn.disabled = true;
+    });
+}
+
+function resetGuessedMembers() {
+    // 1. Clear the guessed members array
+    guessedMembers = [];
+    setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+
+    // 2. Reset the correct guess flag
+    correctGuess = false;
+    setLocalStorage('correctGuess', 'false');
+
+    // 3. Clear the table body
+    const guessTableBody = document.querySelector('.table-body');
+    if (guessTableBody) {
+        guessTableBody.innerHTML = ''; // removes all guessed member rows
+    }
+
+    // 4. Hide the table container again
+    const tableContainer = document.getElementById('table-container');
+    if (tableContainer) {
+        tableContainer.style.display = 'none';
+    }
+
+    // 5. Reset first guess flag
+    isFirstGuess = false;
+
+    // Optional: re-enable submit button if it was disabled
+    const submitButton = document.getElementById('submit-button');
+    if (submitButton) {
+        submitButton.style.pointerEvents = 'auto';
+        submitButton.style.opacity = '1';
+    }
+
+    reEnableLevelButton();
+}
+
+function selectMode(mode) {
+    const newMemberBtn = document.getElementById("newMemberBtn");
+    const levelButtons = document.querySelector(".level-buttons");
+    const levelTimer = document.getElementById("levelTimer");
+
+    if (mode === "unlimited") {
+        newMemberBtn.style.display = "block";
+        levelButtons.style.display = "flex";
+        countdownElement.style.display = "none"; // hide daily countdown
+        levelTimer.style.display = "block";    // show level timer
+        resetGuessedMembers();
+        getNewUnlimitedMember();
+        startLevelTimer(currentLevel);
+    } else {
+        newMemberBtn.style.display = "none";
+        levelButtons.style.display = "none";
+        levelTimer.style.display = "none";     // hide level timer
+        countdownElement.style.display = "block"; // show daily countdown
+        resetGuessedMembers();
+        currentAnswer = randomMember;
+        clearInterval(timerInterval);           // stop level timer
+    }
+}
+
+// Unlimited Mode get new member
+function getNewUnlimitedMember() {
+    resetGuessedMembers();
+    // 🔹 Stop any running timer before starting fresh
+    stopLevelTimer();
+
+    // 🔹 Reset timer back to the full value for current level
+    startLevelTimer(currentLevel);
+    fetch(unlimitedModeUrl)
+        .then(res => {
+            if (!res.ok || res.status === 304) {
+                throw new Error('Network response was not ok or resource not modified');
+            }
+            return res.json();
+        })
+        .then(random_number => {
+            unlimitedRandomNumber = random_number[0];
+            // Use already-fetched "members" array (from Daily fetch)
+            unlimitedRandomMember = members[unlimitedRandomNumber];
+            currentAnswer = members[unlimitedRandomNumber];
+            // Save and update UI
+            setLocalStorage('unlimitedRandomMember', JSON.stringify(unlimitedRandomMember));
+            updateGuessList();
+        })
+        .catch(error => console.error('Error fetching unlimited member:', error));
+}
+
+// Initialize
+document.addEventListener("DOMContentLoaded", () => {
+    selectMode(modeSelect.value);
 });

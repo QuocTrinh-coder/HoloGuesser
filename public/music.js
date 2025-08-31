@@ -33,6 +33,7 @@ let correctGuess = getLocalStorage('correctGuess') === 'true';
 let wrongGuessCount = 0; // Counter for wrong guesses
 const countdownElement = document.getElementById('countdown');
 const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
+const unlimitedModeUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/unlimitedMember' 
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initial hiding of hints
@@ -73,11 +74,19 @@ fetch(baseUrl)
             songLink: data[name].Song_link // Add Song_link to the member data
         }));
         randomMember = members[randomNumber]; // Access the random number from the data
+        currentAnswer = randomMember;
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
         updateGuessList();
-        playRandomSongForMember(randomMember);
+        playRandomSongForMember(currentAnswer);
+
+            // Wait for the audio metadata to be loaded before selecting mode
+        audioElement.addEventListener('loadedmetadata', function initAfterFetch() {
+            selectMode(modeSelect.value);
+            audioElement.removeEventListener('loadedmetadata', initAfterFetch);
+        });
+        setupLimitedAudio();
     })
     .catch(error => console.error('Error:', error));
 
@@ -90,6 +99,7 @@ const guessTableBody = document.querySelector('#guess-table tbody');
 const tableContainer = document.getElementById('table-container');
 const confettiContainer = document.getElementById('confetti-container');
 const audioElement = document.querySelector('audio');
+const loserConfettiContainer = document.getElementById('loserConfetti-container'); // MOVE THIS
 
 function resetDailyMember() {
     const now = new Date();
@@ -118,7 +128,7 @@ function resetDailyMember() {
         startCountdown(); // Restart countdown
 
         // Select and save a random song for the selected member
-        const { songName, songURL } = getRandomSong(randomMember);
+        const { songName, songURL } = getRandomSong(currentAnswer);
         localStorage.setItem('selectedSong', songName);
 
         // Clear hint visibility states on daily reset
@@ -255,24 +265,36 @@ submitButton.addEventListener('click', () => {
             searchInput.value = '';
             menuItems.style.display = 'none';
 
+            // Start timer only on the first guess
+            if (guessedMembers.length === 1 && modeSelect.value === 'unlimited') {
+                runLevelTimer();
+            }
+
             if (!isFirstGuess) {
                 tableContainer.style.display = 'none'; // Show table after first guess
                 isFirstGuess = true;
             }
 
-            if (selectedMember.name === randomMember.name) {
+            if (selectedMember.name === currentAnswer.name) {
                 correctGuess = true;
                 setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
                 submitButton.style.pointerEvents = 'none';
                 submitButton.style.opacity = '0.5';
                 playFullAudio();
                 showConfetti();
+
+                clearInterval(timerInterval);
+                timerInterval = null;        
             } else {
                 wrongGuessCount++; // Increase wrong guesses count
                 updateGrayBar();
                 setLocalStorage('wrongGuessCount', wrongGuessCount);
                 updateHintAvailability(); // Update hint availability based on wrong guesses
 
+            }
+                        // Disable level button when the first guesses come in
+            if (guessedMembers.length > 0) {
+                disableLevelButton();
             }
         }
     }
@@ -347,34 +369,50 @@ const markerContainer = document.getElementById('marker-container');
 const MAX_PLAY_DURATION = 30; // Limit the play time to a maximum of 60 seconds
 
 function playFullAudio() {
-    // Remove all markers from the marker container
-    markerContainer.innerHTML = ''; 
+    // Remove old listeners
+    audioElement.removeEventListener('timeupdate', limitedListener);
+    audioElement.removeEventListener('timeupdate', fullListener);
 
-    // Set the maxPlayTime to the full duration of the audio
+    markerContainer.innerHTML = '';
     maxPlayTime = audioElement.duration;
-
-    // Allow the gray bar to cover the full duration
     grayBar.style.width = '100%';
+    loadingBar.style.width = '0%';
+    audioElement.currentTime = 0;
 
-    // Reset the audio to the beginning without playing it
-    audioElement.currentTime = 0; // Start from the beginning
+    audioElement.addEventListener('timeupdate', fullListener);
 
-    // Update the loading bar for the full duration (without playing yet)
-    audioElement.addEventListener('timeupdate', function() {
-        const percentage = (audioElement.currentTime / audioElement.duration) * 100;
-        loadingBar.style.width = percentage + "%";
-    });
+    playButton.innerHTML = "&#9658;";
 
-    // Set the play button to show the play icon (▶) initially, not auto-playing the audio
-    playButton.innerHTML = "&#9658;"; // Play icon (▶)
-    
-    // Set up the event for when the audio ends to reset the button and bar
-    audioElement.addEventListener('ended', function() {
-        playButton.innerHTML = "&#9658;"; // Reset to play icon (▶)
-        loadingBar.style.width = "0%"; // Reset loading bar
+    audioElement.addEventListener('ended', function reset() {
+        playButton.innerHTML = "&#9658;";
+        loadingBar.style.width = "0%";
+        audioElement.removeEventListener('ended', reset);
     });
 }
 
+function setupLimitedAudio() {
+    audioElement.removeEventListener('timeupdate', fullListener);
+    audioElement.removeEventListener('timeupdate', limitedListener);
+    audioElement.addEventListener('timeupdate', limitedListener);
+}
+
+function limitedListener() {
+    if (!correctGuess) {
+        const percentage = (audioElement.currentTime / MAX_PLAY_DURATION) * 100;
+        loadingBar.style.width = percentage + "%";
+
+        if (audioElement.currentTime >= maxPlayTime) {
+            audioElement.pause();
+            audioElement.currentTime = 0;
+            playButton.innerHTML = "&#9658;";
+        }
+    }
+}
+
+function fullListener() {
+    const percentage = (audioElement.currentTime / audioElement.duration) * 100;
+    loadingBar.style.width = percentage + "%";
+}
 
 function generateFibonacciUpTo(maxValue) {
     let fib = [1, 2]; // Start with the first two Fibonacci numbers
@@ -454,6 +492,8 @@ audioElement.addEventListener('timeupdate', function() {
     if (!correctGuess) {  // Only update the loading bar if the guess is incorrect
         const percentage = (audioElement.currentTime / MAX_PLAY_DURATION) * 100;
         loadingBar.style.width = percentage + "%";
+        console.log(percentage);
+        console.log(loadingBar.style.width);
 
         // If the current time exceeds the allowed maxPlayTime, pause the audio
         if (audioElement.currentTime >= maxPlayTime) {
@@ -496,7 +536,7 @@ function addMemberToTable(member) {
     guessTableBody.insertBefore(newRow, guessTableBody.firstChild);
 
     const imgCell = newRow.querySelector('.guessed-pic');
-    const isCorrectGuess = member.name === randomMember.name;
+    const isCorrectGuess = member.name === currentAnswer.name;
 
     // Check if this member has been guessed before
     const hasBeenGuessedBefore = guessedMembers.some(guess => guess.name === member.name);
@@ -575,9 +615,9 @@ function toggleHint(hintNumber) {
 
 function updateHints() {
     if (randomMember) { // Ensure randomMember is defined
-        document.getElementById('hint1-content').textContent = `Debut Year: ${randomMember.debut}`;
-        document.getElementById('hint2-content').textContent = `Branch: ${randomMember.branch}`;
-        document.getElementById('hint3-content').textContent = `Generation: ${randomMember.generation}`;
+        document.getElementById('hint1-content').textContent = `Debut Year: ${currentAnswer.debut}`;
+        document.getElementById('hint2-content').textContent = `Branch: ${currentAnswer.branch}`;
+        document.getElementById('hint3-content').textContent = `Generation: ${currentAnswer.generation}`;
 //                console.log('Hints updated:', {
 //                   debut: randomMember.debut,
 //                    branch: randomMember.branch,
@@ -646,3 +686,234 @@ document.querySelector('.refresh-image').addEventListener('click', () => {
 document.addEventListener('contextmenu', (event) => {
     event.preventDefault();
 });
+
+
+let currentLevel = "easy"; // default
+let timerInterval;
+let timerSeconds = 0;     // store remaining seconds
+let dailyCountdownInterval;
+const modeSelect = document.querySelector(".mode-select");
+
+
+document.querySelectorAll(".level-btn").forEach(btn => {
+    if (btn.classList.contains("easy")) {
+        btn.style.opacity = "1"; // highlight Easy
+    } else {
+        btn.style.opacity = "0.4"; // dim Medium & Hard
+    }
+});
+
+document.querySelectorAll(".level-btn").forEach(btn => {
+    if (btn.classList.contains("easy")) {
+        btn.style.opacity = "1"; // highlight Easy
+    } else {
+        btn.style.opacity = "0.4"; // dim Medium & Hard
+    }
+});
+
+function setLevel(level) {
+    currentLevel = level;
+
+    // Highlight active level button
+    document.querySelectorAll(".level-btn").forEach(btn => btn.style.opacity = "0.4");
+    document.querySelector(`.level-btn.${level}`).style.opacity = "1";
+
+    // If in Unlimited mode, restart timer for the selected level
+    const modeSelect = document.querySelector(".mode-select");
+    if (modeSelect.value === "unlimited") {
+        startLevelTimer(level);
+    }
+}
+
+function stopLevelTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+}
+
+function startLevelTimer(level) {
+    const levelTimerDiv = document.getElementById("levelTimer");
+
+    if (level === "easy") timerSeconds = 60;
+    else if (level === "medium") timerSeconds = 30;
+    else if (level === "hard") timerSeconds = 10;
+
+    levelTimerDiv.textContent = `Timer: ${timerSeconds} seconds`;
+    clearInterval(timerInterval); // ensure no old interval runs
+}
+
+function loserConfetti() {
+    loserConfettiContainer.innerHTML = '';
+
+    const emoteImages = [
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+        'Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg','Emotes/chattini_laugh.jpg', 'Emotes/raora_laugh.jpg',
+    ];
+
+    for (let i = 0; i < emoteImages.length; i++) {
+        const loser_confetti = document.createElement('div');
+        loser_confetti.classList.add('loser_confetti');
+        loser_confetti.style.backgroundImage = `url('${emoteImages[i]}')`;
+        loser_confetti.style.left = `${Math.random() * 100}vw`;
+        loser_confetti.style.top = `${Math.random() * 100}vh`;
+        loserConfettiContainer.appendChild(loser_confetti);
+    }
+}
+
+function runLevelTimer() {
+    const levelTimerDiv = document.getElementById("levelTimer");
+
+    if (timerInterval) return; // already running
+
+    timerInterval = setInterval(() => {
+        timerSeconds--;
+        levelTimerDiv.textContent = `Timer: ${timerSeconds} seconds`;
+
+        if (timerSeconds <= 0) {
+            clearInterval(timerInterval);
+            levelTimerDiv.textContent = "You Failed";
+            submitButton.style.pointerEvents = 'none';
+            submitButton.style.opacity = '0.5';
+            timerInterval = null;
+            
+            loserConfetti();
+            audioElement.pause();
+
+            // Play fail sound
+            const failAudio = new Audio("https://hololive-assets.sfo3.digitaloceanspaces.com/hololive-songs/raora_laugh.mp3"); 
+            failAudio.play();
+        }
+    }, 1000);
+}
+
+// re-enable buttons
+function reEnableLevelButton() {
+    document.querySelectorAll(".level-btn").forEach(btn => {
+        btn.disabled = false;
+    });
+}
+
+function disableLevelButton() {
+    document.querySelectorAll(".level-btn").forEach(btn => {
+        btn.disabled = true;
+    });
+}
+
+function resetGuessedMembers() {
+    // 1. Clear the guessed members array
+    guessedMembers = [];
+    setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+
+    // 2. Reset the correct guess flag
+    correctGuess = false;
+    setLocalStorage('correctGuess', 'false');
+
+    // 3. Reset wrong guess count (important for song reveal)
+    wrongGuessCount = 0;
+
+    // 4. Clear the table body
+    const guessTableBody = document.querySelector('.table-body');
+    if (guessTableBody) {
+        guessTableBody.innerHTML = ''; // removes all guessed member rows
+    }
+
+    // 5. Hide the table container again
+    const tableContainer = document.getElementById('table-container');
+    if (tableContainer) {
+        tableContainer.style.display = 'none';
+    }
+
+    // 6. Reset first guess flag
+    isFirstGuess = false;
+
+    // 7. Re-enable submit button
+    const submitButton = document.getElementById('submit-button');
+    if (submitButton) {
+        submitButton.style.pointerEvents = 'auto';
+        submitButton.style.opacity = '1';
+    }
+
+    reEnableLevelButton();
+
+    // 8. Reset song selection
+    localStorage.removeItem('selectedSong');
+    audioElement.pause();
+    audioElement.currentTime = 0;
+    loadingBar.style.width = "0%";
+    updateGrayBar();
+    grayBar.style.width = "0%";
+    playButton.innerHTML = "&#9658;"; // Reset to play icon
+
+    // 9. Reset hints
+    ['1', '2', '3'].forEach(hintNumber => {
+        localStorage.removeItem(`hint${hintNumber}Visibility`);
+        const hintElement = document.getElementById(`hint${hintNumber}`);
+        if (hintElement) hintElement.style.display = 'none';
+    });
+}
+
+function selectMode(mode) {
+    const newMemberBtn = document.getElementById("newMemberBtn");
+    const levelButtons = document.querySelector(".level-buttons");
+    const levelTimer = document.getElementById("levelTimer");
+
+    if (mode === "unlimited") {
+        newMemberBtn.style.display = "block";
+        levelButtons.style.display = "flex";
+        countdownElement.style.display = "none"; // hide daily countdown
+        levelTimer.style.display = "block";    // show level timer
+        resetGuessedMembers();
+        getNewUnlimitedMember();
+        startLevelTimer(currentLevel);
+    } else {
+        newMemberBtn.style.display = "none";
+        levelButtons.style.display = "none";
+        levelTimer.style.display = "none";     // hide level timer
+        countdownElement.style.display = "block"; // show daily countdown
+        resetGuessedMembers();
+        currentAnswer = randomMember;
+        clearInterval(timerInterval);           // stop level timer
+        playRandomSongForMember(currentAnswer);
+        updateHints();
+        updateHintAvailability();
+        setupLimitedAudio();
+    }
+}
+
+// Unlimited Mode get new member
+function getNewUnlimitedMember() {
+    resetGuessedMembers();
+    // 🔹 Stop any running timer before starting fresh
+    stopLevelTimer();
+
+    // 🔹 Reset timer back to the full value for current level
+    startLevelTimer(currentLevel);
+    fetch(unlimitedModeUrl)
+        .then(res => {
+            if (!res.ok || res.status === 304) {
+                throw new Error('Network response was not ok or resource not modified');
+            }
+            return res.json();
+        })
+        .then(random_number => {
+            unlimitedRandomNumber = random_number[0];
+            // Use already-fetched "members" array (from Daily fetch)
+            unlimitedRandomMember = members[unlimitedRandomNumber];
+            currentAnswer = members[unlimitedRandomNumber];
+            playRandomSongForMember(currentAnswer);
+            setupLimitedAudio();
+            updateHints();
+            updateHintAvailability();
+            // Save and update UI
+            setLocalStorage('unlimitedRandomMember', JSON.stringify(unlimitedRandomMember));
+            updateGuessList();
+        })
+        .catch(error => console.error('Error fetching unlimited member:', error));
+}

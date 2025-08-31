@@ -8,24 +8,26 @@ const port = 8080;
 
 app.set('trust proxy', 1); // Add this line to trust the first proxy
 
-let randomNumbers = [ 3, 68, 14, 55, 2 ];
+let randomNumbers = [ 26, 29, 27, 13, 0 ];
 let memberData = {}; // Variable to store the fetched data
-let pastAnswer = [ [ 17, 72, 45, 53, 0 ],
-[ 73, 18, 5, 63, 1 ],
-[ 30, 4, 11, 65, 1 ],
-[ 15, 67, 69, 25, 2 ],
-[ 21, 29, 38, 41, 2 ],
-[ 26, 8, 66, 27, 0 ],
-[ 19, 75, 28, 47, 0 ],
-[ 3, 68, 14, 55, 2 ] ]; // Stores past sets of random numbers
-let generationCounter = 8; // Tracks the number of sets generated
+let pastAnswer = [ 
+   [ 18, 51, 43, 70, 2 ],
+   [ 10, 48, 72, 49, 1 ],
+   [ 9, 67, 41, 64, 1 ],
+   [ 22, 46, 0, 52, 2 ],
+   [ 30, 16, 50, 11, 1 ],
+   [ 34, 5, 36, 15, 0 ],
+   [ 65, 60, 3, 61, 1 ],
+   [ 59, 66, 38, 55, 1 ],
+   [ 26, 29, 27, 13, 0 ] ]; // Stores past sets of random numbers
+let generationCounter = 9; // Tracks the number of sets generated
 
 
 
-// Configure rate limiting: 200 requests per 10 mins
+// Configure rate limiting: 400 requests per 10 mins
 const limiter = rateLimit({
-    windowMs: 10 * 60 * 1000,
-    max: 200,
+    windowMs: 1 * 60 * 1000,
+    max: 500,
     message: 'Too many requests from this IP, please try again later.',
 });
 
@@ -124,6 +126,12 @@ cron.schedule('0 23 * * *', () => {
 // Endpoint to get the current random numbers
 app.get('/randomMember', (req, res) => {
     res.status(200).json(randomNumbers);
+});
+
+// Endpoint to get the current unlimited mode random number
+app.get('/unlimitedMember', (req, res) => {
+    unlimitedModeMember = generateRandomNumbers();
+    res.status(200).json(unlimitedModeMember);
 });
 
 // Endpoint to get the member data

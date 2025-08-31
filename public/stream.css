@@ -77,6 +77,8 @@ html, body {
 .input-button-container {
     display: flex;
     align-items: center;
+    justify-content: space-between; /* spreads children evenly */
+    gap: 10px; /* optional spacing */
     position: relative;
     width: 100%;
 }
@@ -801,3 +803,110 @@ table {
     }
 
 }
+
+/* --------------------------------------------------------------------------------- */
+/* Mod selector styling portion */
+/* make refresh a square */
+
+.mode-select {
+  width: 80px;
+  height: 50px;
+  font-size: 13px;       /* size of the text showing on selector */
+  font-weight: bold;
+  text-align: center;
+  color: white;           /* text color on selector */
+  background-color: #5edbed;
+  border: 2px solid #3f8ece;
+  border-radius: 12px;
+  cursor: pointer;
+  appearance: none;       /* remove default arrow styling if needed */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 5px;
+  transition: all 0.2s ease; /* smooth effect */
+}
+
+.mode-select:hover {
+  background: linear-gradient(135deg, #4facfe, #00f2fe); /* gradient change */
+  transform: translateY(-3px); /* slight lift effect */
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+}
+
+.mode-select option {
+  color: black;
+  font-size: 15px;
+}
+
+.new-member-btn {
+  margin-top: 10px;
+  width: 80px;
+  height: 50px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #5edbed, #4facfe);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.new-member-btn:hover {
+  background: linear-gradient(135deg, #3f8ece, #2f7ebe);
+  transform: translateY(-2px);
+}
+
+/* level difficult styling portion */
+
+.level-buttons {
+    display: flex;
+    gap: 10px;           /* space between buttons */  
+    margin-bottom: 10px;
+}
+
+.level-btn {
+    padding: 5px 5px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+/* Different colors per level */
+.level-btn.easy {
+    background: #4caf50; /* green */
+}
+.level-btn.medium {
+    background: #ff9800; /* orange */
+}
+.level-btn.hard {
+    background: #f44336; /* red */
+}
+
+.level-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+#levelTimer {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #ffb14d;
+    padding:10px;
+    border-radius: 100px;
+}
+
+/* Loser Confetti images */
+#loserConfetti-container .loser_confetti {
+    position: fixed;
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    animation: confettiAnimation 5s linear forwards;
+}
+
+.loser_confetti:nth-child(1) { background-image: url('Emotes/chattini_laugh.jpg'); }
+.loser_confetti:nth-child(2) { background-image: url('Emotes/raora_laugh.jpg'); }
