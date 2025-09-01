@@ -607,6 +607,8 @@ function runLevelTimer() {
         if (timerSeconds <= 0) {
             clearInterval(timerInterval);
             levelTimerDiv.textContent = "You Failed";
+            submitButton.style.pointerEvents = 'none';
+            submitButton.style.opacity = '0.5';
             timerInterval = null;
             loserConfetti();
             // Play fail sound

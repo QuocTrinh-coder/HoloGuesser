@@ -236,11 +236,6 @@ submitButton.addEventListener('click', () => {
             searchInput.value = '';
             menuItems.style.display = 'none';
 
-            // Start timer only on the first guess
-            if (guessedMembers.length === 1 && modeSelect.value === 'unlimited') {
-                runLevelTimer();
-            }
-
             if (!isFirstGuess) {
                 tableContainer.style.display = 'none'; // Show table after first guess
                 isFirstGuess = true;
@@ -252,21 +247,14 @@ submitButton.addEventListener('click', () => {
                 submitButton.style.pointerEvents = 'none';
                 submitButton.style.opacity = '0.5';
                 showConfetti();
-
-                clearInterval(timerInterval);
-                timerInterval = null;
             } else {
                 wrongGuessCount++; // Increase wrong guesses count
                 setLocalStorage('wrongGuessCount', wrongGuessCount);
                 updateHintAvailability(); // Update hint availability based on wrong guesses
+                decrementAttempts();
             }
             if (guessedMembers.length > 0) {
                 disableLevelButton();
-            }
-
-                        // Start timer only on the first guess
-            if (guessedMembers.length === 1 && modeSelect.value === 'unlimited') {
-                runLevelTimer();
             }
         }
     }
@@ -444,9 +432,7 @@ document.querySelector('.refresh-image').addEventListener('click', () => {
 });
 
 let currentLevel = "easy"; // default
-let timerInterval;
-let timerSeconds = 0;     // store remaining seconds
-let dailyCountdownInterval;
+let attemptsLeft = 6;      // default for easy
 const modeSelect = document.querySelector(".mode-select");
 
 document.querySelectorAll(".level-btn").forEach(btn => {
@@ -464,27 +450,21 @@ function setLevel(level) {
     document.querySelectorAll(".level-btn").forEach(btn => btn.style.opacity = "0.4");
     document.querySelector(`.level-btn.${level}`).style.opacity = "1";
 
-    // If in Unlimited mode, restart timer for the selected level
+    // If in Unlimited mode, restart attempt for the selected level
     const modeSelect = document.querySelector(".mode-select");
     if (modeSelect.value === "unlimited") {
-        startLevelTimer(level);
+        startLevelAttempts(level);
     }
 }
 
-function stopLevelTimer() {
-    clearInterval(timerInterval);
-    timerInterval = null;
-}
+function startLevelAttempts(level) { 
+    const levelAttemptsDiv = document.getElementById("levelTimer"); // reuse same div
 
-function startLevelTimer(level) {
-    const levelTimerDiv = document.getElementById("levelTimer");
+    if (level === "easy") attemptsLeft = 6;
+    else if (level === "medium") attemptsLeft = 4;
+    else if (level === "hard") attemptsLeft = 3;
 
-    if (level === "easy") timerSeconds = 60;
-    else if (level === "medium") timerSeconds = 30;
-    else if (level === "hard") timerSeconds = 10;
-
-    levelTimerDiv.textContent = `Timer: ${timerSeconds} seconds`;
-    clearInterval(timerInterval); // ensure no old interval runs
+    levelAttemptsDiv.textContent = `Attempts left: ${attemptsLeft}`;
 }
 
 function loserConfetti() {
@@ -513,29 +493,24 @@ function loserConfetti() {
     }
 }
 
-function runLevelTimer() {
-    const levelTimerDiv = document.getElementById("levelTimer");
+function decrementAttempts() {
+    const levelAttemptsDiv = document.getElementById("levelTimer");
+    attemptsLeft--;
 
-    if (timerInterval) return; // already running
+    if (attemptsLeft > 0) {
+        levelAttemptsDiv.textContent = `Attempts left: ${attemptsLeft}`;
+    } else {
+        // Fail condition (when no attempts remain)
+        levelAttemptsDiv.textContent = "You Failed";
+        submitButton.style.pointerEvents = 'none';
+        submitButton.style.opacity = '0.5';
 
-    timerInterval = setInterval(() => {
-        timerSeconds--;
-        levelTimerDiv.textContent = `Timer: ${timerSeconds} seconds`;
+        loserConfetti();
 
-        if (timerSeconds <= 0) {
-            clearInterval(timerInterval);
-            levelTimerDiv.textContent = "You Failed";
-            submitButton.style.pointerEvents = 'none';
-            submitButton.style.opacity = '0.5';
-            timerInterval = null;
-            
-            loserConfetti();
-
-            // Play fail sound
-            const failAudio = new Audio("https://hololive-assets.sfo3.digitaloceanspaces.com/hololive-songs/raora_laugh.mp3"); 
-            failAudio.play();
-        }
-    }, 1000);
+        // Play fail sound
+        const failAudio = new Audio("https://hololive-assets.sfo3.digitaloceanspaces.com/hololive-songs/raora_laugh.mp3"); 
+        failAudio.play();
+    }
 }
 
 // re-enable buttons
@@ -605,7 +580,7 @@ function selectMode(mode) {
         levelTimer.style.display = "block";    // show level timer
         resetGuessedMembers();
         getNewUnlimitedMember();
-        startLevelTimer(currentLevel);
+        startLevelAttempts(currentLevel);
     } else {
         newMemberBtn.style.display = "none";
         levelButtons.style.display = "none";
@@ -613,7 +588,6 @@ function selectMode(mode) {
         countdownElement.style.display = "block"; // show daily countdown
         resetGuessedMembers();
         currentAnswer = randomMember;
-        clearInterval(timerInterval);           // stop level timer
         displayFanbaseName();
         updateHints();
         updateHintAvailability();
@@ -623,11 +597,9 @@ function selectMode(mode) {
 // Unlimited Mode get new member
 function getNewUnlimitedMember() {
     resetGuessedMembers();
-    // 🔹 Stop any running timer before starting fresh
-    stopLevelTimer();
 
-    // 🔹 Reset timer back to the full value for current level
-    startLevelTimer(currentLevel);
+    // 🔹 Reset attempt back to the full value for current level
+    startLevelAttempts(currentLevel);
     fetch(unlimitedModeUrl)
         .then(res => {
             if (!res.ok || res.status === 304) {

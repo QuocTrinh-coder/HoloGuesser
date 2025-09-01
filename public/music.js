@@ -265,11 +265,6 @@ submitButton.addEventListener('click', () => {
             searchInput.value = '';
             menuItems.style.display = 'none';
 
-            // Start timer only on the first guess
-            if (guessedMembers.length === 1 && modeSelect.value === 'unlimited') {
-                runLevelTimer();
-            }
-
             if (!isFirstGuess) {
                 tableContainer.style.display = 'none'; // Show table after first guess
                 isFirstGuess = true;
@@ -281,15 +276,13 @@ submitButton.addEventListener('click', () => {
                 submitButton.style.pointerEvents = 'none';
                 submitButton.style.opacity = '0.5';
                 playFullAudio();
-                showConfetti();
-
-                clearInterval(timerInterval);
-                timerInterval = null;        
+                showConfetti(); 
             } else {
                 wrongGuessCount++; // Increase wrong guesses count
                 updateGrayBar();
                 setLocalStorage('wrongGuessCount', wrongGuessCount);
                 updateHintAvailability(); // Update hint availability based on wrong guesses
+                decrementAttempts();
 
             }
                         // Disable level button when the first guesses come in
@@ -356,8 +349,6 @@ function playRandomSongForMember(memberData) {
 
     // Set the source of the audio element
     audioElement.src = songURL;
-
-//            console.log(`Playing song: ${selectedSong}`);
 }
 
 let maxPlayTime = 0;
@@ -492,8 +483,6 @@ audioElement.addEventListener('timeupdate', function() {
     if (!correctGuess) {  // Only update the loading bar if the guess is incorrect
         const percentage = (audioElement.currentTime / MAX_PLAY_DURATION) * 100;
         loadingBar.style.width = percentage + "%";
-        console.log(percentage);
-        console.log(loadingBar.style.width);
 
         // If the current time exceeds the allowed maxPlayTime, pause the audio
         if (audioElement.currentTime >= maxPlayTime) {
@@ -608,8 +597,6 @@ function toggleHint(hintNumber) {
 
     // Save the new state to localStorage
     localStorage.setItem(`hint${hintNumber}Visibility`, newDisplayValue);
-
-//            console.log(`Hint ${hintNumber} toggled:`, newDisplayValue); // Debug line
 }
 
 
@@ -618,11 +605,6 @@ function updateHints() {
         document.getElementById('hint1-content').textContent = `Debut Year: ${currentAnswer.debut}`;
         document.getElementById('hint2-content').textContent = `Branch: ${currentAnswer.branch}`;
         document.getElementById('hint3-content').textContent = `Generation: ${currentAnswer.generation}`;
-//                console.log('Hints updated:', {
-//                   debut: randomMember.debut,
-//                    branch: randomMember.branch,
-//                    generation: randomMember.generation
-//                }); // Debug line
     }
 }
 const modal = document.getElementById("aboutMeModal");
@@ -689,9 +671,6 @@ document.addEventListener('contextmenu', (event) => {
 
 
 let currentLevel = "easy"; // default
-let timerInterval;
-let timerSeconds = 0;     // store remaining seconds
-let dailyCountdownInterval;
 const modeSelect = document.querySelector(".mode-select");
 
 
@@ -718,27 +697,21 @@ function setLevel(level) {
     document.querySelectorAll(".level-btn").forEach(btn => btn.style.opacity = "0.4");
     document.querySelector(`.level-btn.${level}`).style.opacity = "1";
 
-    // If in Unlimited mode, restart timer for the selected level
+    // If in Unlimited mode, restart attempt for the selected level
     const modeSelect = document.querySelector(".mode-select");
     if (modeSelect.value === "unlimited") {
-        startLevelTimer(level);
+        startLevelAttempts(level);
     }
 }
 
-function stopLevelTimer() {
-    clearInterval(timerInterval);
-    timerInterval = null;
-}
+function startLevelAttempts(level) { 
+    const levelAttemptsDiv = document.getElementById("levelTimer"); // reuse same div
 
-function startLevelTimer(level) {
-    const levelTimerDiv = document.getElementById("levelTimer");
+    if (level === "easy") attemptsLeft = 8;
+    else if (level === "medium") attemptsLeft = 6;
+    else if (level === "hard") attemptsLeft = 4;
 
-    if (level === "easy") timerSeconds = 60;
-    else if (level === "medium") timerSeconds = 30;
-    else if (level === "hard") timerSeconds = 10;
-
-    levelTimerDiv.textContent = `Timer: ${timerSeconds} seconds`;
-    clearInterval(timerInterval); // ensure no old interval runs
+    levelAttemptsDiv.textContent = `Attempts left: ${attemptsLeft}`;
 }
 
 function loserConfetti() {
@@ -767,30 +740,26 @@ function loserConfetti() {
     }
 }
 
-function runLevelTimer() {
-    const levelTimerDiv = document.getElementById("levelTimer");
 
-    if (timerInterval) return; // already running
+function decrementAttempts() {
+    const levelAttemptsDiv = document.getElementById("levelTimer");
+    attemptsLeft--;
 
-    timerInterval = setInterval(() => {
-        timerSeconds--;
-        levelTimerDiv.textContent = `Timer: ${timerSeconds} seconds`;
+    if (attemptsLeft > 0) {
+        levelAttemptsDiv.textContent = `Attempts left: ${attemptsLeft}`;
+    } else {
+        // Fail condition (when no attempts remain)
+        levelAttemptsDiv.textContent = "You Failed";
+        submitButton.style.pointerEvents = 'none';
+        submitButton.style.opacity = '0.5';
 
-        if (timerSeconds <= 0) {
-            clearInterval(timerInterval);
-            levelTimerDiv.textContent = "You Failed";
-            submitButton.style.pointerEvents = 'none';
-            submitButton.style.opacity = '0.5';
-            timerInterval = null;
-            
-            loserConfetti();
-            audioElement.pause();
+        loserConfetti();
+        audioElement.pause();
 
-            // Play fail sound
-            const failAudio = new Audio("https://hololive-assets.sfo3.digitaloceanspaces.com/hololive-songs/raora_laugh.mp3"); 
-            failAudio.play();
-        }
-    }, 1000);
+        // Play fail sound
+        const failAudio = new Audio("https://hololive-assets.sfo3.digitaloceanspaces.com/hololive-songs/raora_laugh.mp3"); 
+        failAudio.play();
+    }
 }
 
 // re-enable buttons
@@ -871,7 +840,7 @@ function selectMode(mode) {
         levelTimer.style.display = "block";    // show level timer
         resetGuessedMembers();
         getNewUnlimitedMember();
-        startLevelTimer(currentLevel);
+        startLevelAttempts(currentLevel);
     } else {
         newMemberBtn.style.display = "none";
         levelButtons.style.display = "none";
@@ -879,7 +848,6 @@ function selectMode(mode) {
         countdownElement.style.display = "block"; // show daily countdown
         resetGuessedMembers();
         currentAnswer = randomMember;
-        clearInterval(timerInterval);           // stop level timer
         playRandomSongForMember(currentAnswer);
         updateHints();
         updateHintAvailability();
@@ -890,11 +858,8 @@ function selectMode(mode) {
 // Unlimited Mode get new member
 function getNewUnlimitedMember() {
     resetGuessedMembers();
-    // 🔹 Stop any running timer before starting fresh
-    stopLevelTimer();
-
-    // 🔹 Reset timer back to the full value for current level
-    startLevelTimer(currentLevel);
+    // 🔹 Reset attempt back to the full value for current level
+    startLevelAttempts(currentLevel);
     fetch(unlimitedModeUrl)
         .then(res => {
             if (!res.ok || res.status === 304) {
