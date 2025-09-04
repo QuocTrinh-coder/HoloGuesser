@@ -16,13 +16,16 @@ let selectedMember = null;
 let randomMember = null;
 let randomNumber = null;
 let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
+let guessedMembersUnlimited = JSON.parse(getLocalStorage('guessedMembersUnlimited')) || [];
 let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
+let correctGuessUnlimited = getLocalStorage('correctGuessUnlimited') === 'true';
 let wrongGuessCount = 0; // Counter for wrong guesses
+let wrongGuessCountUnlimited = 0; 
 const countdownElement = document.getElementById('countdown');
 const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
-const unlimitedModeUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/unlimitedMember'  // move this
-const fanbaseNameSpan = document.getElementById('fanbase-name'); // move this here
+const unlimitedModeUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/unlimitedMember'  
+const fanbaseNameSpan = document.getElementById('fanbase-name'); 
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initial hiding of hints
@@ -63,7 +66,6 @@ fetch(baseUrl)
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
-        updateGuessList();
         displayFanbaseName();
     })
     .catch(error => console.error('Error:', error));
@@ -77,7 +79,7 @@ const selectedMemberDiv = document.getElementById('selected-member');
 const guessTableBody = document.querySelector('#guess-table tbody');
 const tableContainer = document.getElementById('table-container');
 const confettiContainer = document.getElementById('confetti-container');
-const loserConfettiContainer = document.getElementById('loserConfetti-container'); // MOVE THIS
+const loserConfettiContainer = document.getElementById('loserConfetti-container');
 
 
     function resetDailyMember() {
@@ -127,6 +129,13 @@ if (correctGuess) {
     submitButton.style.pointerEvents = 'none';
     submitButton.style.opacity = '0.5';
 }
+
+if (correctGuessUnlimited) {
+    submitButton.style.pointerEvents = 'none';
+    submitButton.style.opacity = '0.5';
+}
+
+
 function handleGuess(isCorrect) {
     if (!isCorrect) {
         wrongGuessCount++; // Increase wrong guesses count
@@ -135,6 +144,15 @@ function handleGuess(isCorrect) {
 }
 function updateGuessList() {
     guessedMembers.forEach(memberName => {
+        const member = members.find(m => m.name === memberName);
+        if (member) {
+            addMemberToTable(member, true); // Skip animation for loaded guesses
+        }
+    });
+}
+
+function updateGuessListUnlimited() {
+    guessedMembersUnlimited.forEach(memberName => {
         const member = members.find(m => m.name === memberName);
         if (member) {
             addMemberToTable(member, true); // Skip animation for loaded guesses
@@ -193,18 +211,35 @@ function updateHintAvailability() {
     hint1Button.textContent = wrongGuessCount >= 3 ? 'Show Alternate Fan Name' : `${3 - wrongGuessCount} more guesses until Hint 1`;
     hint2Button.textContent = wrongGuessCount >= 5 ? 'Show Generation' : `${5 - wrongGuessCount} more guesses until Hint 2`;
 
-//    console.log(`Updating hint availability: wrongGuessCount = ${wrongGuessCount}`);
+}
+
+function updateHintAvailabilityUnlimited() {
+    const hint1Button = document.getElementById('hint1-button');
+    const hint2Button = document.getElementById('hint2-button');
+
+    hint1Button.disabled = wrongGuessCountUnlimited < 3;
+    hint2Button.disabled = wrongGuessCountUnlimited < 5;
+
+    hint1Button.textContent = wrongGuessCountUnlimited >= 3 ? 'Show Alternate Fan Name' : `${3 - wrongGuessCountUnlimited} more guesses until Hint 1`;
+    hint2Button.textContent = wrongGuessCountUnlimited >= 5 ? 'Show Generation' : `${5 - wrongGuessCountUnlimited} more guesses until Hint 2`;
+    
 }
 
 
 searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase();
     menuItems.innerHTML = '';
-
+    let filteredMembers = [];
     if (query) {
-        const filteredMembers = members
-            .filter(member => !guessedMembers.includes(member.name))
-            .filter(member => member.name.toLowerCase().includes(query));
+        if (modeSelect.value === "unlimited") { 
+            filteredMembers = members 
+            .filter(member => !guessedMembersUnlimited.includes(member.name)) 
+            .filter(member => member.name.toLowerCase().includes(query)); 
+        } else { 
+            filteredMembers = members 
+                .filter(member => !guessedMembers.includes(member.name)) 
+                .filter(member => member.name.toLowerCase().includes(query));
+        }
         filteredMembers.forEach(member => {
             const item = document.createElement('div');
             item.classList.add('IZ-select__item');
@@ -228,45 +263,83 @@ searchInput.addEventListener('input', () => {
 });
 
 submitButton.addEventListener('click', () => {
-    if (selectedMember && !correctGuess) {
-        if (!guessedMembers.includes(selectedMember.name)) {
-            addMemberToTable(selectedMember);
-            guessedMembers.push(selectedMember.name);
-            setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
-            searchInput.value = '';
-            menuItems.style.display = 'none';
+    if (modeSelect.value === "unlimited") { 
+        if (selectedMember && !correctGuessUnlimited) {
+            if (!guessedMembersUnlimited.includes(selectedMember.name)) {
+                addMemberToTable(selectedMember);
+                guessedMembersUnlimited.push(selectedMember.name);
+                setLocalStorage('guessedMembersUnlimited', JSON.stringify(guessedMembersUnlimited));
+                searchInput.value = '';
+                menuItems.style.display = 'none';
 
-            if (!isFirstGuess) {
-                tableContainer.style.display = 'none'; // Show table after first guess
-                isFirstGuess = true;
-            }
+                if (!isFirstGuess) {
+                    tableContainer.style.display = 'none'; // Show table after first guess
+                    isFirstGuess = true;
+                }
 
-            if (selectedMember.name === currentAnswer.name) {
-                correctGuess = true;
-                setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
-                submitButton.style.pointerEvents = 'none';
-                submitButton.style.opacity = '0.5';
-                showConfetti();
-            } else {
-                wrongGuessCount++; // Increase wrong guesses count
-                setLocalStorage('wrongGuessCount', wrongGuessCount);
-                updateHintAvailability(); // Update hint availability based on wrong guesses
-                decrementAttempts();
+                if (selectedMember.name === currentAnswer.name) {
+                    correctGuessUnlimited = true; 
+                    setLocalStorage('correctGuessUnlimited', 'true');
+                    submitButton.style.pointerEvents = 'none';
+                    submitButton.style.opacity = '0.5';
+                    showConfetti();
+                } else {
+                    wrongGuessCountUnlimited++;
+                    setLocalStorage('wrongGuessCountUnlimited', wrongGuessCountUnlimited);
+                    updateHintAvailabilityUnlimited(); 
+                    decrementAttempts();
+                }
+                if (guessedMembersUnlimited.length > 0) {
+                    disableLevelButton();
+                }
             }
-            if (guessedMembers.length > 0) {
-                disableLevelButton();
+        }        
+    } else {
+        if (selectedMember && !correctGuess) {
+            if (!guessedMembers.includes(selectedMember.name)) {
+                addMemberToTable(selectedMember);
+                guessedMembers.push(selectedMember.name);
+                setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+                searchInput.value = '';
+                menuItems.style.display = 'none';
+
+                if (!isFirstGuess) {
+                    tableContainer.style.display = 'none'; // Show table after first guess
+                    isFirstGuess = true;
+                }
+
+                if (selectedMember.name === currentAnswer.name) {
+                    correctGuess = true;
+                    setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
+                    submitButton.style.pointerEvents = 'none';
+                    submitButton.style.opacity = '0.5';
+                    showConfetti();
+                } else {
+                    wrongGuessCount++; // Increase wrong guesses count
+                    setLocalStorage('wrongGuessCount', wrongGuessCount);
+                    updateHintAvailability(); // Update hint availability based on wrong guesses
+                }
+                if (guessedMembers.length > 0) {
+                    disableLevelButton();
+                }
             }
         }
     }
 });
 
-// Add a keydown event listener for the Enter key
+// Submit member by pressing enter key ( instead of clicking on the submit button )
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-        // Ensure an option is selected and there isn't already a correct guess
-        if (selectedMember && !correctGuess) {
-            submitButton.click(); // Trigger the submit button click programmatically
-        }
+        if (modeSelect.value === "unlimited") {
+            if (selectedMember && !correctGuessUnlimited) {
+                submitButton.click(); // Trigger the submit button click programmatically
+            }        
+    } else {
+            // Ensure an option is selected and there isn't already a correct guess
+            if (selectedMember && !correctGuess) {
+                submitButton.click(); // Trigger the submit button click programmatically
+            }
+        }        
     }
 });
 
@@ -360,17 +433,12 @@ function toggleHint(hintNumber) {
     // Save the new state to localStorage
     setLocalStorage(`hint${hintNumber}Visibility`, newDisplayValue);
 
-//    console.log(`Hint ${hintNumber} toggled:`, newDisplayValue); // Debug line
 }
 
 function updateHints() {
     if (randomMember) { // Ensure randomMember is defined
         document.getElementById('hint1-content').textContent = `Alternate Fan name: ${currentAnswer.alternate_fanname}`;
         document.getElementById('hint2-content').textContent = `Generation: ${currentAnswer.generation}`;
-//                console.log('Hints updated:', {
-//                    alternate_fanname: randomMember.alternate_fanname,
-//                    generation: randomMember.generation
-//                }); // Debug line
     }
 }
 
@@ -528,12 +596,12 @@ function disableLevelButton() {
 
 function resetGuessedMembers() {
     // 1. Clear the guessed members array
-    guessedMembers = [];
-    setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+    guessedMembersUnlimited = [];
+    setLocalStorage('guessedMembersUnlimited', JSON.stringify(guessedMembersUnlimited));
 
     // 2. Reset the correct guess flag
-    correctGuess = false;
-    setLocalStorage('correctGuess', 'false');
+    correctGuessUnlimited = false;
+    setLocalStorage('correctGuessUnlimited', 'false');
 
     // 3. Clear the table body
     const guessTableBody = document.querySelector('.table-body');
@@ -560,8 +628,8 @@ function resetGuessedMembers() {
     reEnableLevelButton();
 
     // 9. Reset hints
-    wrongGuessCount = 0;
-    setLocalStorage('wrongGuessCount', wrongGuessCount); // make sure storage matches reset
+    wrongGuessCountUnlimited = 0;
+    setLocalStorage('wrongGuessCountUnlimited', wrongGuessCountUnlimited); // make sure storage matches reset
     ['1', '2'].forEach(hintNumber => {
             removeLocalStorage(`hint${hintNumber}Visibility`);
             document.getElementById(`hint${hintNumber}`).style.display = 'none';
@@ -588,9 +656,14 @@ function selectMode(mode) {
         countdownElement.style.display = "block"; // show daily countdown
         resetGuessedMembers();
         currentAnswer = randomMember;
+        updateGuessList();
         displayFanbaseName();
         updateHints();
         updateHintAvailability();
+        if ( correctGuess === true) {
+            submitButton.style.pointerEvents = 'none';
+            submitButton.style.opacity = '0.5';
+        }
     }
 }
 
@@ -614,10 +687,10 @@ function getNewUnlimitedMember() {
             currentAnswer = members[unlimitedRandomNumber];
             displayFanbaseName();
             updateHints();
-            updateHintAvailability();
+            updateHintAvailabilityUnlimited();
             // Save and update UI
             setLocalStorage('unlimitedRandomMember', JSON.stringify(unlimitedRandomMember));
-            updateGuessList();
+            updateGuessListUnlimited();
         })
         .catch(error => console.error('Error fetching unlimited member:', error));
 }

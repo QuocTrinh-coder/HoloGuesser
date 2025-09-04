@@ -17,10 +17,13 @@ let selectedMember = null;
 let randomMember = null;
 let randomNumber = null;
 let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
+let guessedMembersUnlimited = JSON.parse(getLocalStorage('guessedMembersUnlimited')) || [];
 let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
+let correctGuessUnlimited = getLocalStorage('correctGuessUnlimited') === 'true'; 
 const countdownElement = document.getElementById('countdown');
-let currentBlurLevel = 40; // Initial blur level
+let currentBlurLevel = 30; // Initial blur level
+let currentBlurLevelUnlimited = 30; 
 const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
 const unlimitedModeUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/unlimitedMember'
 
@@ -51,12 +54,11 @@ fetch(baseUrl)
             streamLink: data[name].Stream_link
         }));
         randomMember = members[randomNumber]; // Access the random number from the data
-        currentAnswer = randomMember; // move this
-        selectMode(modeSelect.value); // move this
+        currentAnswer = randomMember; 
+        selectMode(modeSelect.value); 
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
-        updateGuessList();
         // Play the stream
         playStreamForMember(currentAnswer);
     })
@@ -73,7 +75,7 @@ const guessTableBody = document.querySelector('#guess-table tbody');
 const tableContainer = document.getElementById('table-container');
 const confettiContainer = document.getElementById('confetti-container');
 const videoElement = document.querySelector('video');
-const loserConfettiContainer = document.getElementById('loserConfetti-container'); // MOVE THIS
+const loserConfettiContainer = document.getElementById('loserConfetti-container');
 
 function resetDailyMember() {
     const now = new Date();
@@ -95,7 +97,7 @@ function resetDailyMember() {
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
         setLocalStorage('correctGuess', 'false'); // Reset correct guess state
-        setLocalStorage('currentBlurLevel', 40); // Reset blur level
+        setLocalStorage('currentBlurLevel', 30); // Reset blur level
         guessedMembers = []; // Clear local guessedMembers array
         correctGuess = false; // Reset correctGuess variable
         document.getElementById('submit-button').style.pointerEvents = 'auto'; // Enable the submit button
@@ -136,8 +138,22 @@ if (correctGuess) {
     submitButton.style.opacity = '0.5';
 }
 
+if (correctGuessUnlimited) {
+    submitButton.style.pointerEvents = 'none';
+    submitButton.style.opacity = '0.5';
+}
+
 function updateGuessList() {
     guessedMembers.forEach(memberName => {
+        const member = members.find(m => m.name === memberName);
+        if (member) {
+            addMemberToTable(member, true); // Skip animation for loaded guesses
+        }
+    });
+}
+
+function updateGuessListUnlimited() {
+    guessedMembersUnlimited.forEach(memberName => {
         const member = members.find(m => m.name === memberName);
         if (member) {
             addMemberToTable(member, true); // Skip animation for loaded guesses
@@ -189,11 +205,17 @@ function updateCountdownDisplay(timeRemaining) {
 searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase();
     menuItems.innerHTML = '';
-
+    let filteredMembers = [];
     if (query) {
-        const filteredMembers = members
-            .filter(member => !guessedMembers.includes(member.name))
-            .filter(member => member.name.toLowerCase().includes(query));
+        if (modeSelect.value === "unlimited") {  
+            filteredMembers = members 
+            .filter(member => !guessedMembersUnlimited.includes(member.name)) 
+            .filter(member => member.name.toLowerCase().includes(query)); 
+        } else { 
+            filteredMembers = members 
+                .filter(member => !guessedMembers.includes(member.name)) 
+                .filter(member => member.name.toLowerCase().includes(query)); 
+        }
         filteredMembers.forEach(member => {
             const item = document.createElement('div');
             item.classList.add('IZ-select__item');
@@ -217,49 +239,87 @@ searchInput.addEventListener('input', () => {
 });
 
 submitButton.addEventListener('click', () => {
-    if (selectedMember && !correctGuess) {
-        if (!guessedMembers.includes(selectedMember.name)) {
-            addMemberToTable(selectedMember);
-            guessedMembers.push(selectedMember.name);
-            setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+    if (modeSelect.value === "unlimited") { 
+        if (selectedMember && !correctGuessUnlimited) {
+            if (!guessedMembersUnlimited.includes(selectedMember.name)) {
+                addMemberToTable(selectedMember);
+                guessedMembersUnlimited.push(selectedMember.name);
+                setLocalStorage('guessedMembersUnlimited', JSON.stringify(guessedMembersUnlimited));
 
-            searchInput.value = '';
-            menuItems.style.display = 'none';
+                searchInput.value = '';
+                menuItems.style.display = 'none';
 
-            if (!isFirstGuess) {
-                tableContainer.style.display = 'none'; // Show table after first guess
-                isFirstGuess = true;
-            }
+                if (!isFirstGuess) {
+                    tableContainer.style.display = 'none'; // Show table after first guess
+                    isFirstGuess = true;
+                }
 
-            if (selectedMember.name === currentAnswer.name) {
-                correctGuess = true;
-                setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
-                submitButton.style.pointerEvents = 'none';
-                submitButton.style.opacity = '0.5';
-                showConfetti();
-                resetBlurLevel();
-            } else {
-                currentBlurLevel = Math.max(0, currentBlurLevel - 2); // Ensure blur level doesn't go below 0
-                updateBlurLevel();
-                setLocalStorage('currentBlurLevel', currentBlurLevel); // Save to localStorage
-                decrementAttempts();
+                if (selectedMember.name === currentAnswer.name) {
+                    correctGuessUnlimited = true; 
+                    setLocalStorage('correctGuessUnlimited', 'true'); 
+                    submitButton.style.pointerEvents = 'none';
+                    submitButton.style.opacity = '0.5';
+                    showConfetti();
+                    resetBlurLevelUnlimited(); 
+                } else {
+                    currentBlurLevelUnlimited = Math.max(0, currentBlurLevelUnlimited - 2); 
+                    updateBlurLevel();
+                    setLocalStorage('currentBlurLevelUnlimited', currentBlurLevelUnlimited); 
+                    decrementAttempts();
 
-            }
-                        // Disable level button when the first guesses come in
-            if (guessedMembers.length > 0) {
-                disableLevelButton();
+                }
+                            // Disable level button when the first guesses come in
+                if (guessedMembersUnlimited.length > 0) {
+                    disableLevelButton();
+                }
             }
         }
+    } else {
+        if (selectedMember && !correctGuess) {
+            if (!guessedMembers.includes(selectedMember.name)) {
+                addMemberToTable(selectedMember);
+                guessedMembers.push(selectedMember.name);
+                setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+
+                searchInput.value = '';
+                menuItems.style.display = 'none';
+
+                if (!isFirstGuess) {
+                    tableContainer.style.display = 'none'; // Show table after first guess
+                    isFirstGuess = true;
+                }
+
+                if (selectedMember.name === currentAnswer.name) {
+                    correctGuess = true;
+                    setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
+                    submitButton.style.pointerEvents = 'none';
+                    submitButton.style.opacity = '0.5';
+                    showConfetti();
+                    resetBlurLevel();
+                } else {
+                    currentBlurLevel = Math.max(0, currentBlurLevel - 2); // Ensure blur level doesn't go below 0
+                    updateBlurLevel();
+                    setLocalStorage('currentBlurLevel', currentBlurLevel); // Save to localStorage
+
+                }
+            }        
+    }
     }
 });
 
-// Add a keydown event listener for the Enter key
+// Submit member by pressing enter key ( instead of clicking on the submit button )
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-        // Ensure an option is selected and there isn't already a correct guess
-        if (selectedMember && !correctGuess) {
-            submitButton.click(); // Trigger the submit button click programmatically
-        }
+        if (modeSelect.value === "unlimited") {
+            if (selectedMember && !correctGuessUnlimited) {
+                submitButton.click(); // Trigger the submit button click programmatically
+            }        
+    } else {
+            // Ensure an option is selected and there isn't already a correct guess
+            if (selectedMember && !correctGuess) {
+                submitButton.click(); // Trigger the submit button click programmatically
+            }
+        }        
     }
 });
 
@@ -278,7 +338,6 @@ function playStreamForMember(member) {
     const streamUrl = getRandomStream(member);
     const videoSourceElement = document.getElementById('video-source');
     videoSourceElement.src = streamUrl;
-//            console.log(`Playing stream for ${member.name}: ${streamUrl}`);
     videoSourceElement.parentElement.load();
 }
 
@@ -316,8 +375,11 @@ function addMemberToTable(member) {
 }
 
 function updateBlurLevel() {
-    videoElement.style.filter = `blur(${currentBlurLevel}px)`;
-//            console.log(`Updated blur level to: ${currentBlurLevel}px`);
+    if ( modeSelect.value === "unlimited") {
+        videoElement.style.filter = `blur(${currentBlurLevelUnlimited}px)`;
+    } else {
+        videoElement.style.filter = `blur(${currentBlurLevel}px)`;        
+    }
 }
 
 function resetBlurLevel() {
@@ -325,8 +387,17 @@ function resetBlurLevel() {
     videoElement.style.filter = `blur(${currentBlurLevel}px)`;
     videoElement.muted = false; // Unmute the video
     videoElement.volume = 0.5; // Set volume to 30%
-//            console.log(`Reset blur level to: ${currentBlurLevel}px, unmuted the video, and set volume to 30%`);
     setLocalStorage('currentBlurLevel', currentBlurLevel); // Reset correct guess state
+    setLocalStorage('videoMuted', videoElement.muted); // Save mute state
+    setLocalStorage('videoVolume', videoElement.volume); // Save volume level
+}
+
+function resetBlurLevelUnlimited() {
+    currentBlurLevelUnlimited = 0; // Reset blur level to 0
+    videoElement.style.filter = `blur(${currentBlurLevelUnlimited}px)`;
+    videoElement.muted = false; // Unmute the video
+    videoElement.volume = 0.5; // Set volume to 30%
+    setLocalStorage('currentBlurLevelUnlimited', currentBlurLevelUnlimited); // Reset correct guess state
     setLocalStorage('videoMuted', videoElement.muted); // Save mute state
     setLocalStorage('videoVolume', videoElement.volume); // Save volume level
 }
@@ -407,7 +478,7 @@ closeNews.onclick = function() {
                     setLocalStorage('randomMember', JSON.stringify(randomMember));
                     setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
                     setLocalStorage('correctGuess', 'false'); // Reset correct guess state
-                    setLocalStorage('currentBlurLevel', 40); // Reset correct guess state
+                    setLocalStorage('currentBlurLevel', 30); // Reset correct guess state
                     guessedMembers = []; // Clear local guessedMembers array
                     correctGuess = false; // Reset correctGuess variable
                     submitButton.style.pointerEvents = 'auto'; // Enable the submit button
@@ -524,12 +595,12 @@ function disableLevelButton() {
 
 function resetGuessedMembers() {
     // 1. Clear the guessed members array
-    guessedMembers = [];
-    setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+    guessedMembersUnlimited = [];
+    setLocalStorage('guessedMembersUnlimited', JSON.stringify(guessedMembersUnlimited));
 
     // 2. Reset the correct guess flag
-    correctGuess = false;
-    setLocalStorage('correctGuess', 'false');
+    correctGuessUnlimited = false;
+    setLocalStorage('correctGuessUnlimited', 'false');
 
     // 3. Clear the table body
     const guessTableBody = document.querySelector('.table-body');
@@ -554,14 +625,20 @@ function resetGuessedMembers() {
     }
 
     reEnableLevelButton();
+    if (modeSelect.value === "unlimited") {
+        currentBlurLevelUnlimited = 30;
+        videoElement.style.filter = `blur(${currentBlurLevelUnlimited}px)`;
+        videoElement.muted = true; 
+        videoElement.volume = 0;       
+    } else {
+        const savedMuted = getLocalStorage('videoMuted') === 'true';
+        const savedVolume = parseFloat(getLocalStorage('videoVolume')) || 0.5;
 
-    currentBlurLevel = 22; // Initial blur level
-    videoElement.style.filter = `blur(${currentBlurLevel}px)`;
-    videoElement.muted = true; 
-    videoElement.volume = 0;
-    setLocalStorage('currentBlurLevel', currentBlurLevel); // make sure storage matches reset
-    setLocalStorage('videoMuted', videoElement.muted); // Save mute state
-    setLocalStorage('videoVolume', videoElement.volume); // Save volume level
+        videoElement.style.filter = `blur(${currentBlurLevel}px)`;
+        videoElement.muted = savedMuted;
+        videoElement.volume = savedVolume;
+    }
+
 }
 
 function selectMode(mode) {
@@ -585,6 +662,11 @@ function selectMode(mode) {
         resetGuessedMembers();
         currentAnswer = randomMember;
         playStreamForMember(currentAnswer);
+        updateGuessList();
+        if ( correctGuess === true) {
+            submitButton.style.pointerEvents = 'none';
+            submitButton.style.opacity = '0.5';
+        }
     }
 }
 
@@ -608,7 +690,7 @@ function getNewUnlimitedMember() {
             playStreamForMember(currentAnswer);
             // Save and update UI
             setLocalStorage('unlimitedRandomMember', JSON.stringify(unlimitedRandomMember));
-            updateGuessList();
+            updateGuessListUnlimited();
         })
         .catch(error => console.error('Error fetching unlimited member:', error));
 }

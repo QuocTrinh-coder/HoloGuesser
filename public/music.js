@@ -28,9 +28,12 @@ let randomMember = null;
 let randomNumber = null;
 let randomIndex = null;
 let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
+let guessedMembersUnlimited = JSON.parse(getLocalStorage('guessedMembersUnlimited')) || [];
 let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
+let correctGuessUnlimited = getLocalStorage('correctGuessUnlimited') === 'true';
 let wrongGuessCount = 0; // Counter for wrong guesses
+let wrongGuessCountUnlimited = 0; 
 const countdownElement = document.getElementById('countdown');
 const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
 const unlimitedModeUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/unlimitedMember' 
@@ -78,7 +81,6 @@ fetch(baseUrl)
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
-        updateGuessList();
         playRandomSongForMember(currentAnswer);
 
             // Wait for the audio metadata to be loaded before selecting mode
@@ -99,7 +101,7 @@ const guessTableBody = document.querySelector('#guess-table tbody');
 const tableContainer = document.getElementById('table-container');
 const confettiContainer = document.getElementById('confetti-container');
 const audioElement = document.querySelector('audio');
-const loserConfettiContainer = document.getElementById('loserConfetti-container'); // MOVE THIS
+const loserConfettiContainer = document.getElementById('loserConfetti-container'); 
 
 function resetDailyMember() {
     const now = new Date();
@@ -147,7 +149,13 @@ function resetDailyMember() {
 }
 
 tableContainer.style.display = 'none';
+
 if (correctGuess) {
+    submitButton.style.pointerEvents = 'none';
+    submitButton.style.opacity = '0.5';
+}
+
+if (correctGuessUnlimited) {
     submitButton.style.pointerEvents = 'none';
     submitButton.style.opacity = '0.5';
 }
@@ -160,6 +168,15 @@ function handleGuess(isCorrect) {
 }
 function updateGuessList() {
     guessedMembers.forEach(memberName => {
+        const member = members.find(m => m.name === memberName);
+        if (member) {
+            addMemberToTable(member, true); // Skip animation for loaded guesses
+        }
+    });
+}
+
+function updateGuessListUnlimited() {
+    guessedMembersUnlimited.forEach(memberName => {
         const member = members.find(m => m.name === memberName);
         if (member) {
             addMemberToTable(member, true); // Skip animation for loaded guesses
@@ -225,14 +242,36 @@ function updateHintAvailability() {
     
 }
 
+function updateHintAvailabilityUnlimited() {
+    const hint1Button = document.getElementById('hint1-button');
+    const hint2Button = document.getElementById('hint2-button');
+    const hint3Button = document.getElementById('hint3-button');
+
+    hint1Button.disabled = wrongGuessCountUnlimited < 3;
+    hint2Button.disabled = wrongGuessCountUnlimited < 5;
+    hint3Button.disabled = wrongGuessCountUnlimited < 7;
+
+    hint1Button.textContent = wrongGuessCountUnlimited >= 3 ? 'Show Debut Year' : `${3 - wrongGuessCountUnlimited} more guesses until Hint 1`;
+    hint2Button.textContent = wrongGuessCountUnlimited >= 5 ? 'Show Branch' : `${5 - wrongGuessCountUnlimited} more guesses until Hint 2`;
+    hint3Button.textContent = wrongGuessCountUnlimited >= 7 ? 'Show Generation' : `${7 - wrongGuessCountUnlimited} more guesses until Hint 3`;
+    
+}
+
+
 searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase();
     menuItems.innerHTML = '';
-
+    let filteredMembers = [];
     if (query) {
-        const filteredMembers = members
-            .filter(member => !guessedMembers.includes(member.name))
-            .filter(member => member.name.toLowerCase().includes(query));
+        if (modeSelect.value === "unlimited") {  
+            filteredMembers = members 
+            .filter(member => !guessedMembersUnlimited.includes(member.name)) 
+            .filter(member => member.name.toLowerCase().includes(query)); 
+        } else { 
+            filteredMembers = members 
+                .filter(member => !guessedMembers.includes(member.name)) 
+                .filter(member => member.name.toLowerCase().includes(query));
+        }
         filteredMembers.forEach(member => {
             const item = document.createElement('div');
             item.classList.add('IZ-select__item');
@@ -256,50 +295,93 @@ searchInput.addEventListener('input', () => {
 });
 
 submitButton.addEventListener('click', () => {
-    if (selectedMember && !correctGuess) {
-        if (!guessedMembers.includes(selectedMember.name)) {
-            addMemberToTable(selectedMember);
-            guessedMembers.push(selectedMember.name);
-            setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+    if (modeSelect.value === "unlimited") { 
+        if (selectedMember && !correctGuessUnlimited) {
+            if (!guessedMembersUnlimited.includes(selectedMember.name)) {
+                addMemberToTable(selectedMember);
+                guessedMembersUnlimited.push(selectedMember.name);
+                setLocalStorage('guessedMembersUnlimited', JSON.stringify(guessedMembersUnlimited));
 
-            searchInput.value = '';
-            menuItems.style.display = 'none';
+                searchInput.value = '';
+                menuItems.style.display = 'none';
 
-            if (!isFirstGuess) {
-                tableContainer.style.display = 'none'; // Show table after first guess
-                isFirstGuess = true;
-            }
+                if (!isFirstGuess) {
+                    tableContainer.style.display = 'none'; // Show table after first guess
+                    isFirstGuess = true;
+                }
 
-            if (selectedMember.name === currentAnswer.name) {
-                correctGuess = true;
-                setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
-                submitButton.style.pointerEvents = 'none';
-                submitButton.style.opacity = '0.5';
-                playFullAudio();
-                showConfetti(); 
-            } else {
-                wrongGuessCount++; // Increase wrong guesses count
-                updateGrayBar();
-                setLocalStorage('wrongGuessCount', wrongGuessCount);
-                updateHintAvailability(); // Update hint availability based on wrong guesses
-                decrementAttempts();
+                if (selectedMember.name === currentAnswer.name) {
+                    correctGuessUnlimited = true; 
+                    setLocalStorage('correctGuessUnlimited', 'true'); 
+                    submitButton.style.pointerEvents = 'none';
+                    submitButton.style.opacity = '0.5';
+                    playFullAudio();
+                    showConfetti(); 
+                } else {
+                    wrongGuessCountUnlimited++; 
+                    setLocalStorage('wrongGuessCountUnlimited', wrongGuessCountUnlimited); 
+                    updateHintAvailabilityUnlimited(); 
+                    updateGrayBarUnlimited(); 
+                    decrementAttempts();
 
-            }
-                        // Disable level button when the first guesses come in
-            if (guessedMembers.length > 0) {
-                disableLevelButton();
+                }
+                            // Disable level button when the first guesses come in
+                if (guessedMembersUnlimited.length > 0) {
+                    disableLevelButton();
+                }
             }
         }
+    } else {
+        if (selectedMember && !correctGuess) {
+            if (!guessedMembers.includes(selectedMember.name)) {
+                addMemberToTable(selectedMember);
+                guessedMembers.push(selectedMember.name);
+                setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+
+                searchInput.value = '';
+                menuItems.style.display = 'none';
+
+                if (!isFirstGuess) {
+                    tableContainer.style.display = 'none'; // Show table after first guess
+                    isFirstGuess = true;
+                }
+
+                if (selectedMember.name === currentAnswer.name) {
+                    correctGuess = true;
+                    setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
+                    submitButton.style.pointerEvents = 'none';
+                    submitButton.style.opacity = '0.5';
+                    playFullAudio();
+                    showConfetti(); 
+                } else {
+                    wrongGuessCount++; // Increase wrong guesses count
+                    updateGrayBar();
+                    setLocalStorage('wrongGuessCount', wrongGuessCount);
+                    updateHintAvailability(); // Update hint availability based on wrong guesses
+
+                }
+                            // Disable level button when the first guesses come in
+                if (guessedMembers.length > 0) {
+                    disableLevelButton();
+                }
+            }
+        }        
     }
 });
 
-// Add a keydown event listener for the Enter key
+// Submit member by pressing enter key
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-        // Ensure an option is selected and there isn't already a correct guess
-        if (selectedMember && !correctGuess) {
-            submitButton.click(); // Trigger the submit button click programmatically
-        }
+        if (modeSelect.value === "unlimited") {
+            if (selectedMember && !correctGuessUnlimited) {
+                submitButton.click(); // Trigger the submit button click programmatically
+            }        
+    } else {
+            // Ensure an option is selected and there isn't already a correct guess
+            if (selectedMember && !correctGuess) {
+                submitButton.click(); // Trigger the submit button click programmatically
+            }
+        }        
     }
 });
 
@@ -454,42 +536,89 @@ function updateGrayBar() {
     grayBar.style.width = grayBarWidth + '%';
 }
 
+
+function updateGrayBarUnlimited() {
+    const totalDuration = Math.min(audioElement.duration, MAX_PLAY_DURATION); // Cap the gray bar to 60 seconds
+    const fibonacciValue = getFibonacciNumber(wrongGuessCountUnlimited);
+
+    // Calculate the width of the gray bar based on the Fibonacci number
+    const grayBarWidth = (Math.min(fibonacciValue, MAX_PLAY_DURATION) / totalDuration) * 100;
+    grayBar.style.width = grayBarWidth + '%';
+}
+
 // Play/Pause functionality with time limit control
 playButton.addEventListener('click', function() {
-    if (correctGuess) {
-        // User has made the correct guess, so allow manual play/pause control
-        if (audioElement.paused) {
-            audioElement.play();
-            playButton.innerHTML = "&#10074;&#10074;"; // Pause icon (⏸)
+    if (modeSelect.value === "unlimited") {
+        if (correctGuessUnlimited) {
+            // User has made the correct guess, so allow manual play/pause control
+            if (audioElement.paused) {
+                audioElement.play();
+                playButton.innerHTML = "&#10074;&#10074;"; // Pause icon (⏸)
+            } else {
+                audioElement.pause();
+                playButton.innerHTML = "&#9658;"; // Play icon (▶)
+            }
         } else {
-            audioElement.pause();
-            playButton.innerHTML = "&#9658;"; // Play icon (▶)
+            // Handle the usual incorrect guess logic here, using Fibonacci or restricted playtime logic
+            maxPlayTime = Math.min(getFibonacciNumber(wrongGuessCountUnlimited), audioElement.duration, MAX_PLAY_DURATION);
+            if (audioElement.paused) {
+                audioElement.play();
+                playButton.innerHTML = "&#10074;&#10074;"; // Pause icon (⏸)
+            } else {
+                audioElement.pause();
+                playButton.innerHTML = "&#9658;"; // Play icon (▶)
+            }
         }
     } else {
-        // Handle the usual incorrect guess logic here, using Fibonacci or restricted playtime logic
-        maxPlayTime = Math.min(getFibonacciNumber(wrongGuessCount), audioElement.duration, MAX_PLAY_DURATION);
-        if (audioElement.paused) {
-            audioElement.play();
-            playButton.innerHTML = "&#10074;&#10074;"; // Pause icon (⏸)
+        if (correctGuess) {
+            // User has made the correct guess, so allow manual play/pause control
+            if (audioElement.paused) {
+                audioElement.play();
+                playButton.innerHTML = "&#10074;&#10074;"; // Pause icon (⏸)
+            } else {
+                audioElement.pause();
+                playButton.innerHTML = "&#9658;"; // Play icon (▶)
+            }
         } else {
-            audioElement.pause();
-            playButton.innerHTML = "&#9658;"; // Play icon (▶)
-        }
+            // Handle the usual incorrect guess logic here, using Fibonacci or restricted playtime logic
+            maxPlayTime = Math.min(getFibonacciNumber(wrongGuessCount), audioElement.duration, MAX_PLAY_DURATION);
+            if (audioElement.paused) {
+                audioElement.play();
+                playButton.innerHTML = "&#10074;&#10074;"; // Pause icon (⏸)
+            } else {
+                audioElement.pause();
+                playButton.innerHTML = "&#9658;"; // Play icon (▶)
+            }
+        }        
     }
 });
 
 // Update the loading bar as the audio plays
 audioElement.addEventListener('timeupdate', function() {
-    if (!correctGuess) {  // Only update the loading bar if the guess is incorrect
-        const percentage = (audioElement.currentTime / MAX_PLAY_DURATION) * 100;
-        loadingBar.style.width = percentage + "%";
+    if ( modeSelect.value === "unlimited") {
+        if (!correctGuessUnlimited) {  // Only update the loading bar if the guess is incorrect
+            const percentage = (audioElement.currentTime / MAX_PLAY_DURATION) * 100;
+            loadingBar.style.width = percentage + "%";
 
-        // If the current time exceeds the allowed maxPlayTime, pause the audio
-        if (audioElement.currentTime >= maxPlayTime) {
-            audioElement.pause();
-            audioElement.currentTime = 0; // Start from the beginning
-            playButton.innerHTML = "&#9658;"; // Reset to play icon (▶)
+            // If the current time exceeds the allowed maxPlayTime, pause the audio
+            if (audioElement.currentTime >= maxPlayTime) {
+                audioElement.pause();
+                audioElement.currentTime = 0; // Start from the beginning
+                playButton.innerHTML = "&#9658;"; // Reset to play icon (▶)
+            }
         }
+    } else {
+        if (!correctGuess) {  // Only update the loading bar if the guess is incorrect
+            const percentage = (audioElement.currentTime / MAX_PLAY_DURATION) * 100;
+            loadingBar.style.width = percentage + "%";
+
+            // If the current time exceeds the allowed maxPlayTime, pause the audio
+            if (audioElement.currentTime >= maxPlayTime) {
+                audioElement.pause();
+                audioElement.currentTime = 0; // Start from the beginning
+                playButton.innerHTML = "&#9658;"; // Reset to play icon (▶)
+            }
+        }        
     }
 });
 
@@ -506,12 +635,22 @@ volumeSlider.addEventListener('input', function() {
 
 // When audio metadata is loaded, check for correct guess
 audioElement.addEventListener('loadedmetadata', function() {
-    if (correctGuess) {
-        playFullAudio();  // Play the full audio right away if correct
+    if (modeSelect.value === "unlimited"){
+        if (correctGuessUnlimited) { 
+            playFullAudio();  // Play the full audio right away if correct
+        } else {
+            createMarkers();   // Otherwise, create markers
+            updateGrayBarUnlimited();   // Set initial gray bar
+        }        
     } else {
-        createMarkers();   // Otherwise, create markers
-        updateGrayBar();   // Set initial gray bar
+        if (correctGuess) {
+            playFullAudio();  // Play the full audio right away if correct
+        } else {
+            createMarkers();   // Otherwise, create markers
+            updateGrayBar();   // Set initial gray bar
+        }   
     }
+
 });
 
 
@@ -656,6 +795,8 @@ function resetForTesting() {
     }
 
     clearPageLocalStorage();
+    guessedMembers = [];
+    setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
     setLocalStorage('wrongGuessCount', 0); // Reset correct guess state
     location.reload(); // Reload the page to apply changes
 }
@@ -777,15 +918,16 @@ function disableLevelButton() {
 
 function resetGuessedMembers() {
     // 1. Clear the guessed members array
-    guessedMembers = [];
-    setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+    guessedMembersUnlimited = [];
+    setLocalStorage('guessedMembersUnlimited', JSON.stringify(guessedMembersUnlimited));
 
     // 2. Reset the correct guess flag
-    correctGuess = false;
-    setLocalStorage('correctGuess', 'false');
+    correctGuessUnlimited = false;
+    setLocalStorage('correctGuessUnlimited', 'false');
 
     // 3. Reset wrong guess count (important for song reveal)
-    wrongGuessCount = 0;
+    wrongGuessCountUnlimited = 0; 
+    setLocalStorage('wrongGuessCountUnlimited', wrongGuessCountUnlimited);
 
     // 4. Clear the table body
     const guessTableBody = document.querySelector('.table-body');
@@ -816,7 +958,7 @@ function resetGuessedMembers() {
     audioElement.pause();
     audioElement.currentTime = 0;
     loadingBar.style.width = "0%";
-    updateGrayBar();
+    updateGrayBarUnlimited();
     grayBar.style.width = "0%";
     playButton.innerHTML = "&#9658;"; // Reset to play icon
 
@@ -852,6 +994,11 @@ function selectMode(mode) {
         updateHints();
         updateHintAvailability();
         setupLimitedAudio();
+        updateGuessList();
+        if ( correctGuess === true) {
+            submitButton.style.pointerEvents = 'none';
+            submitButton.style.opacity = '0.5';
+        }
     }
 }
 
@@ -875,10 +1022,10 @@ function getNewUnlimitedMember() {
             playRandomSongForMember(currentAnswer);
             setupLimitedAudio();
             updateHints();
-            updateHintAvailability();
+            updateHintAvailabilityUnlimited();
             // Save and update UI
             setLocalStorage('unlimitedRandomMember', JSON.stringify(unlimitedRandomMember));
-            updateGuessList();
+            updateGuessListUnlimited();
         })
         .catch(error => console.error('Error fetching unlimited member:', error));
 }

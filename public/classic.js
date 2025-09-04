@@ -16,8 +16,10 @@ let selectedMember = null;
 let randomMember = null;
 let randomNumber = null
 let guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
+let guessedMembersUnlimited = JSON.parse(getLocalStorage('guessedMembersUnlimited')) || [];
 let isFirstGuess = false;
 let correctGuess = getLocalStorage('correctGuess') === 'true';
+let correctGuessUnlimited = getLocalStorage('correctGuessUnlimited') === 'true';
 const baseUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/randomMember';
 const membersUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/members';
 const unlimitedModeUrl = 'https://holomemsguesser-kqvor.ondigitalocean.app/unlimitedMember'
@@ -72,7 +74,7 @@ const news_btn = document.getElementById("news-button");
 const span = document.getElementsByClassName("close")[0];
 const closeNews = document.getElementsByClassName("news-close")[0];
 const countdownElement = document.getElementById('countdown'); // Element to display the countdown timer
-const loserConfettiContainer = document.getElementById('loserConfetti-container'); // MOVE THIS
+const loserConfettiContainer = document.getElementById('loserConfetti-container'); 
 
 // Initially hide the guess table
 tableContainer.style.display = 'none';
@@ -83,14 +85,25 @@ if (correctGuess) {
     submitButton.style.opacity = '0.5';
 }
 
+if (correctGuessUnlimited) {
+    submitButton.style.pointerEvents = 'none';
+    submitButton.style.opacity = '0.5';
+}
+
 searchInput.addEventListener('input', () => {
     const query = searchInput.value.toLowerCase();
     menuItems.innerHTML = '';
-
+    let filteredMembers = [];
     if (query) {
-        const filteredMembers = members
-            .filter(member => !guessedMembers.includes(member.name))
-            .filter(member => member.name.toLowerCase().includes(query));
+        if (modeSelect.value === "unlimited") {  
+            filteredMembers = members 
+            .filter(member => !guessedMembersUnlimited.includes(member.name)) 
+            .filter(member => member.name.toLowerCase().includes(query)); 
+        } else { 
+            filteredMembers = members 
+                .filter(member => !guessedMembers.includes(member.name)) 
+                .filter(member => member.name.toLowerCase().includes(query));
+        }
         filteredMembers.forEach(member => {
             const item = document.createElement('div');
             item.classList.add('IZ-select__item');
@@ -114,52 +127,86 @@ searchInput.addEventListener('input', () => {
 });
 
 submitButton.addEventListener('click', () => {
-    if (selectedMember && !correctGuess) {
-        if (!guessedMembers.includes(selectedMember.name)) {
-            addMemberToTable(selectedMember);
-            guessedMembers.push(selectedMember.name);
-            setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+    if (modeSelect.value === "unlimited") {
+        if (selectedMember && !correctGuessUnlimited) {
+            if (!guessedMembersUnlimited.includes(selectedMember.name)) {
+                addMemberToTable(selectedMember);
+                guessedMembersUnlimited.push(selectedMember.name);
+                setLocalStorage('guessedMembersUnlimited', JSON.stringify(guessedMembersUnlimited));
 
-            // Start timer only on the first guess
-            if (guessedMembers.length === 1 && modeSelect.value === 'unlimited') {
-                runLevelTimer();
-            }
+                // Start timer only on the first guess
+                if (guessedMembersUnlimited.length === 1 && modeSelect.value === 'unlimited') {
+                    runLevelTimer();
+                }
 
-            searchInput.value = '';
-            menuItems.style.display = 'none';
+                searchInput.value = '';
+                menuItems.style.display = 'none';
 
-            if (!isFirstGuess) {
-                tableContainer.style.display = 'none'; // Show table after first guess
-                isFirstGuess = true;
-            }
+                if (!isFirstGuess) {
+                    tableContainer.style.display = 'none'; // Show table after first guess
+                    isFirstGuess = true;
+                }
 
-            if (selectedMember.name === currentAnswer.name) {
-                correctGuess = true;
-                setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
-                submitButton.style.pointerEvents = 'none';
-                submitButton.style.opacity = '0.5';
-                showConfetti();
+                if (selectedMember.name === currentAnswer.name) {
+                    correctGuessUnlimited = true; 
+                    setLocalStorage('correctGuessUnlimited', 'true'); 
+                    submitButton.style.pointerEvents = 'none';
+                    submitButton.style.opacity = '0.5';
+                    showConfetti();
 
-                // STOP the level timer
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
+                    // STOP the level timer
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                }
 
-            // Disable level button when the first guesses come in
-            if (guessedMembers.length > 0) {
-                disableLevelButton();
+                // Disable level button when the first guesses come in
+                if (guessedMembersUnlimited.length > 0) {
+                    disableLevelButton();
+                }
             }
         }
+    } else {
+        if (selectedMember && !correctGuess) {
+            if (!guessedMembers.includes(selectedMember.name)) {
+                addMemberToTable(selectedMember);
+                guessedMembers.push(selectedMember.name);
+                setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+
+                searchInput.value = '';
+                menuItems.style.display = 'none';
+
+                if (!isFirstGuess) {
+                    tableContainer.style.display = 'none'; // Show table after first guess
+                    isFirstGuess = true;
+                }
+
+                if (selectedMember.name === currentAnswer.name) {
+                    correctGuess = true;
+                    setLocalStorage('correctGuess', 'true'); // Save correct guess state to local storage
+                    submitButton.style.pointerEvents = 'none';
+                    submitButton.style.opacity = '0.5';
+                    showConfetti();
+
+                }
+            }
+        }        
     }
+
 });
 
-// Add a keydown event listener for the Enter key
+// Submit member by pressing enter key ( instead of clicking on the submit button )
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
-        // Ensure an option is selected and there isn't already a correct guess
-        if (selectedMember && !correctGuess) {
-            submitButton.click(); // Trigger the submit button click programmatically
-        }
+        if (modeSelect.value === "unlimited") {
+            if (selectedMember && !correctGuessUnlimited) {
+                submitButton.click(); // Trigger the submit button click programmatically
+            }        
+    } else {
+            // Ensure an option is selected and there isn't already a correct guess
+            if (selectedMember && !correctGuess) {
+                submitButton.click(); // Trigger the submit button click programmatically
+            }
+        }        
     }
 });
 
@@ -433,6 +480,15 @@ function updateGuessList() {
     });
 }
 
+function updateGuessListUnlimited() {
+    guessedMembersUnlimited.forEach(memberName => {
+        const member = members.find(m => m.name === memberName);
+        if (member) {
+            addMemberToTable(member, true); // Skip animation for loaded guesses
+        }
+    });
+}
+
 // Countdown timer
 function startCountdown() {
     const now = new Date();
@@ -633,12 +689,12 @@ function disableLevelButton() {
 
 function resetGuessedMembers() {
     // 1. Clear the guessed members array
-    guessedMembers = [];
-    setLocalStorage('guessedMembers', JSON.stringify(guessedMembers));
+    guessedMembersUnlimited = [];
+    setLocalStorage('guessedMembersUnlimited', JSON.stringify(guessedMembersUnlimited));
 
     // 2. Reset the correct guess flag
-    correctGuess = false;
-    setLocalStorage('correctGuess', 'false');
+    correctGuessUnlimited = false;
+    setLocalStorage('correctGuessUnlimited', 'false');
 
     // 3. Clear the table body
     const guessTableBody = document.querySelector('.table-body');
@@ -686,6 +742,11 @@ function selectMode(mode) {
         resetGuessedMembers();
         currentAnswer = randomMember;
         clearInterval(timerInterval);           // stop level timer
+        updateGuessList();
+        if ( correctGuess === true) {
+            submitButton.style.pointerEvents = 'none';
+            submitButton.style.opacity = '0.5';
+        }
     }
 }
 
@@ -711,7 +772,7 @@ function getNewUnlimitedMember() {
             currentAnswer = members[unlimitedRandomNumber];
             // Save and update UI
             setLocalStorage('unlimitedRandomMember', JSON.stringify(unlimitedRandomMember));
-            updateGuessList();
+            updateGuessListUnlimited();
         })
         .catch(error => console.error('Error fetching unlimited member:', error));
 }
