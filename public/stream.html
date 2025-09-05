@@ -12,7 +12,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="icon" type="image/png" href="Emotes/logo.png">
     <link rel="stylesheet" href="stream.css">
     <title>Guess the Stream</title>
     <style>
@@ -21,6 +21,9 @@
         }
         .incorrect {
             background-color: red;
+        }
+        .revealed-answer {
+            background-color: gray;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -116,19 +119,19 @@
             <h3 class="other-modes-title">Other Game Modes</h3>
             <div id="other-games-buttons" class="button-container">
                 <a href="classic.html" class="button-wrapper">
-                    <img src="classic_mode.png" alt="Button 1" class="button-image" id="button1">
+                    <img src="Emotes/classic_mode.png" alt="Button 1" class="button-image" id="button1">
                     <span class="button-label">Classic Mode</span>
                 </a>
                 <a href="music.html" class="button-wrapper">
-                    <img src="music_icon.png" alt="Button 2" class="button-image" id="button1">
+                    <img src="Emotes/music_icon.png" alt="Button 2" class="button-image" id="button1">
                     <span class="button-label">Singer Mode</span>
                 </a>
                 <a href="fanbase.html" class="button-wrapper">
-                    <img src="fanbase_mode.png" alt="Button 3" class="button-image" id="button2">
+                    <img src="Emotes/fanbase_mode.png" alt="Button 3" class="button-image" id="button2">
                     <span class="button-label">Fanbase Mode</span>
                 </a>
                 <a href="stream.html" class="button-wrapper">
-                    <img src="stream_mode.png" alt="Button 4" class="button-image" id="button3">
+                    <img src="Emotes/stream_mode.png" alt="Button 4" class="button-image" id="button3">
                     <span class="button-label">Stream Mode</span>
                 </a>
             </div>
@@ -176,6 +179,11 @@
                 <div class="modal-content">
                     <span class="news-close">&times;</span>
                     <h2>Updates</h2>
+                    <h3>9/5/2025 Updates</h3>
+                    <ul class="updates-list">
+                        <li>Answer will be revealed if you failed while playing the Unlimited Mode</li>
+                        <li>Revealed Answer will have a gray background color</li>
+                    </ul>
                     <h3>9/4/2025 Updates</h3>
                     <ul class="updates-list">
                         <li>Small bug fix where guessed Daily answer reset after playing unlimited mode</li>

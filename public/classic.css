@@ -475,7 +475,7 @@ td {
     justify-content: center;
     background-color: white;
     width:100%;
-    max-width: 600px;
+    max-width: 730px;
     border-radius: 50px;
 }
 .rule-title{
@@ -506,6 +506,19 @@ td {
     align-items: center;
 }
 
+.color-boxUnlimited > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.color-boxUnlimited {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .rule-container {
     display: flex;
     align-items: center;
@@ -514,7 +527,7 @@ td {
     border-radius: 50px;
     margin-top: 20px;
     width: 100%; /* Set width to 100% for responsiveness */
-    max-width: 600px; /* Set max width for larger screens */
+    max-width: 730px; /* Set max width for larger screens */
 }
 
 .circle {
@@ -538,6 +551,9 @@ td {
     background-color: red;
 }
 
+.gray-circle {
+    background-color: gray;
+}
 
 /* button to other game modes */
 

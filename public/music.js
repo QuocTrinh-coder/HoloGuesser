@@ -689,6 +689,21 @@ function addMemberToTable(member) {
     }
 }
 
+function revealCurrentAnswerInUnlimited(member) {
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+        <td class="guessed-pic"><img src="${member.img}" width="100px" height="100px"></td>
+    `;
+
+    guessTableBody.insertBefore(newRow, guessTableBody.firstChild);
+
+    const imgCell = newRow.querySelector('.guessed-pic');
+
+    // Apply class based on whether the guess was correct or not
+    imgCell.classList.add('revealed-answer');
+    imgCell.classList.add('fade-in');
+}
+
 
 
 // Function to create a confetti element
@@ -706,16 +721,16 @@ function showConfetti() {
 
     // List of emote images
     const emoteImages = [
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
     ];
 
     for (let i = 0; i < emoteImages.length; i++) {
@@ -891,6 +906,7 @@ function decrementAttempts() {
     } else {
         // Fail condition (when no attempts remain)
         levelAttemptsDiv.textContent = "You Failed";
+        revealCurrentAnswerInUnlimited(currentAnswer, skipAnimation = true);
         submitButton.style.pointerEvents = 'none';
         submitButton.style.opacity = '0.5';
 

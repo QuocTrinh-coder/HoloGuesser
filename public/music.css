@@ -296,51 +296,6 @@ td {
     column-gap: 10px;
 }
 
-#rule {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    width: 600px;
-    border-radius: 50px;
-}
-.rule-title{
-    background-color: #5edbed;
-    border-radius: 100px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.rule-book {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1em;
-}
-
-.color-box > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.color-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.rule-container {
-    display: flex;
-    align-items: center;
-    background-color: #5edbed;
-    padding: 10px;
-    border-radius: 50px;
-    margin-top: 20px;
-}
-
 /* button to other game modes */
 
 .other-modes {
@@ -871,29 +826,7 @@ table {
     .name-column {
         width: 100px; /* Reduce column width */
     }
-    #rule {
-        width: 100%; /* Make it take 90% of the screen width */
-        padding: 5px; /* Adjust padding for smaller screens */
-    }
 
-    .rule-title {
-        font-size: 14px; /* Reduce font size for smaller screens */
-        padding: 5px 15px; /* Adjust padding */
-    }
-
-    .rule-container {
-        width: 100%; /* Adjust width to fit within smaller screens */
-        padding: 5px; /* Adjust padding for smaller screens */
-    }
-
-    .circle {
-        width: 40px; /* Make circles smaller */
-        height: 40px;
-    }
-
-    .rule-book {
-        gap: 0.5em; /* Adjust the gap */
-    }
     /* Styles for .other-modes-title */
     .other-modes-title {
         font-size: 18px; /* Reduce font size for smaller screens */

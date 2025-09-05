@@ -353,6 +353,56 @@ function addMemberToTable(member, skipAnimation = false) {
     }
 }
 
+function revealCurrentAnswerInUnlimited(member, skipAnimation = false) {
+    const newRow = document.createElement('tr');
+
+    const heightComparison = compareHeight(member.height, currentAnswer.height);
+    const heightDisplay = `${member.fullHeight} ${heightComparison.arrow}`;
+    const birthdayClose = isBirthdayClose(member.birthday, currentAnswer.birthday);
+    const debutComparison = compareDebut(member.debut, currentAnswer.debut);
+
+    newRow.innerHTML = `
+        <td class="guessed-pic"><img src="${member.img}" width="60px" height="60px"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    `;
+
+    guessTableBody.insertBefore(newRow, guessTableBody.firstChild);
+
+    const cells = newRow.querySelectorAll('td');
+
+    if (skipAnimation) {
+        // Skip animations if specified
+        cells[1].innerHTML = `${member.debut} ${debutComparison.arrow}`;
+        cells[1].classList.add('revealed-answer');
+
+        // Apply class based on comparison    
+        cells[2].textContent = member.group;
+        cells[2].classList.add('revealed-answer');
+
+        cells[3].textContent = member.generation;
+        cells[3].classList.add('revealed-answer');
+
+        cells[4].textContent = member.branch;
+        cells[4].classList.add('revealed-answer');
+
+        cells[5].textContent = member.birthday;
+        cells[5].classList.add('revealed-answer');
+
+        cells[6].textContent = member.status;
+        cells[6].classList.add('revealed-answer');
+
+        cells[7].innerHTML = heightDisplay;
+        cells[7].classList.add('revealed-answer');
+    }
+}
+
+
 function parseHeight(heightString) {
     const cmPart = heightString.split(' ')[0];
     return parseInt(cmPart.replace('cm', ''), 10);
@@ -420,16 +470,17 @@ function showConfetti() {
     confettiContainer.innerHTML = '';
 
     const emoteImages = [
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
-        'botan.png', 'fubuki.png', 'kiara.png', 'suisei.png', 'watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+        'Emotes/botan.png', 'Emotes/fubuki.png', 'Emotes/kiara.png', 'Emotes/suisei.png', 'Emotes/watame.png',
+
     ];
 
     for (let i = 0; i < emoteImages.length; i++) {
@@ -663,6 +714,7 @@ function runLevelTimer() {
         if (timerSeconds <= 0) {
             clearInterval(timerInterval);
             levelTimerDiv.textContent = "You Failed";
+            revealCurrentAnswerInUnlimited(currentAnswer, skipAnimation = true);
             submitButton.style.pointerEvents = 'none';
             submitButton.style.opacity = '0.5';
             timerInterval = null;
@@ -725,12 +777,14 @@ function selectMode(mode) {
     const newMemberBtn = document.getElementById("newMemberBtn");
     const levelButtons = document.querySelector(".level-buttons");
     const levelTimer = document.getElementById("levelTimer");
+    const colorBoxUnlimited = document.querySelector(".color-boxUnlimited");
 
     if (mode === "unlimited") {
         newMemberBtn.style.display = "block";
         levelButtons.style.display = "flex";
         countdownElement.style.display = "none"; // hide daily countdown
         levelTimer.style.display = "block";    // show level timer
+        colorBoxUnlimited.style.display = "block";
         resetGuessedMembers();
         getNewUnlimitedMember();
         startLevelTimer(currentLevel);
@@ -739,6 +793,7 @@ function selectMode(mode) {
         levelButtons.style.display = "none";
         levelTimer.style.display = "none";     // hide level timer
         countdownElement.style.display = "block"; // show daily countdown
+        colorBoxUnlimited.style.display = "none";
         resetGuessedMembers();
         currentAnswer = randomMember;
         clearInterval(timerInterval);           // stop level timer

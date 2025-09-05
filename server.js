@@ -8,10 +8,10 @@ const port = 8080;
 
 app.set('trust proxy', 1); // Add this line to trust the first proxy
 
-let randomNumbers = [ 21, 13, 3, 44, 2 ];
+let randomNumbers = [ 60, 70, 48, 23, 1 ];
 let memberData = {}; // Variable to store the fetched data
-let pastAnswer = [ [ 8, 20, 4, 36, 0 ], [ 21, 13, 3, 44, 2 ]]; // Stores past sets of random numbers
-let generationCounter = 2; // Tracks the number of sets generated
+let pastAnswer = [ [ 8, 20, 4, 36, 0 ], [ 21, 13, 3, 44, 2 ], [ 60, 70, 48, 23, 1 ]]; // Stores past sets of random numbers
+let generationCounter = 3; // Tracks the number of sets generated
 
 
 
@@ -100,15 +100,16 @@ cron.schedule('0 23 * * *', () => {
     pastAnswer.push(newNumbers);
     generationCounter++;
 
-    // Reset pastAnswer and generationCounter if it reaches 7
-    if (generationCounter === 11) {
+    console.log('Random numbers updated:', randomNumbers);
+    console.log('Past answers:', pastAnswer);
+    console.log('Generation counter:', generationCounter);
+
+    // Reset pastAnswer and generationCounter if it reaches 11
+    if (generationCounter === 18) {
         pastAnswer = [];
         generationCounter = 0;
     }
 
-    console.log('Random numbers updated:', randomNumbers);
-    console.log('Past answers:', pastAnswer);
-    console.log('Generation counter:', generationCounter);
 }, {
     scheduled: true,
     timezone: "America/Los_Angeles"
