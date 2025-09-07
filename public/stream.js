@@ -56,7 +56,6 @@ fetch(baseUrl)
         randomMember = members[randomNumber]; // Access the random number from the data
         currentAnswer = randomMember; 
         selectMode(modeSelect.value); 
-        setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
         // Play the stream
@@ -93,6 +92,7 @@ function resetDailyMember() {
     const savedResetTime = getLocalStorage('resetTime');
     if (!savedResetTime || new Date(savedResetTime) < nowInPST) {
         // Select a random member and save to localStorage
+        currentAnswer = randomMember;
         setLocalStorage('resetTime', resetTimePST.toISOString());
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
@@ -118,6 +118,7 @@ function resetDailyMember() {
     } else {
         // Load data from localStorage
         randomMember = JSON.parse(getLocalStorage('randomMember'));
+        currentAnswer = randomMember;
         guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
         correctGuess = JSON.parse(getLocalStorage('correctGuess') === 'true');
         currentBlurLevel = parseInt(getLocalStorage('currentBlurLevel'), 10) || 0;

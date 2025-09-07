@@ -53,7 +53,6 @@ fetch(baseUrl)
         }));
         randomMember = members[randomNumber]; // Access the random number from the data
         currentAnswer = randomMember;
-        setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
         updateGuessList();
@@ -508,6 +507,7 @@ function resetDailyMember() {
 
     const savedResetTime = getLocalStorage('resetTime');
     if (!savedResetTime || new Date(savedResetTime) < nowInPST) {
+        currentAnswer = randomMember;
         setLocalStorage('resetTime', resetTimePST.toISOString());
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
@@ -519,6 +519,7 @@ function resetDailyMember() {
         startCountdown(); // Restart countdown
     } else {
         randomMember = JSON.parse(getLocalStorage('randomMember'));
+        currentAnswer = randomMember;
     }
 }
 

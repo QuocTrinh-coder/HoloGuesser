@@ -78,7 +78,6 @@ fetch(baseUrl)
         }));
         randomMember = members[randomNumber]; // Access the random number from the data
         currentAnswer = randomMember;
-        setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
         playRandomSongForMember(currentAnswer);
@@ -118,7 +117,7 @@ function resetDailyMember() {
 
     const savedResetTime = getLocalStorage('resetTime');
     if (!savedResetTime || new Date(savedResetTime) < nowInPST) {
-        selectRandomMember();
+        currentAnswer = randomMember;
         setLocalStorage('resetTime', resetTimePST.toISOString());
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
@@ -140,6 +139,7 @@ function resetDailyMember() {
         });
     } else {
         randomMember = JSON.parse(getLocalStorage('randomMember'));
+        currentAnswer = randomMember;
         guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
         correctGuess = JSON.parse(getLocalStorage('correctGuess') === 'true');
         wrongGuessCount = parseInt(getLocalStorage('wrongGuessCount'), 10) || 0; // Load wrong guess count from localStorage
@@ -395,9 +395,6 @@ document.addEventListener('click', (event) => {
     }
 });
 
-function selectRandomMember() {
-    return randomMember
-}
 
 
 function getRandomSong(memberData) {

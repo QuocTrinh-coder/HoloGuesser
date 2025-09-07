@@ -58,12 +58,11 @@ fetch(baseUrl)
             generation: data[name].Generation,
             fullHeight: data[name].Height,
             fanbase: data[name].Fanbase,
-            alternate_fanname: data[name].Alternate_Fanname,
+            group: data[name].Group,
         }));
         randomMember = members[randomNumber]; // Access the random number from the data
         currentAnswer = randomMember;
         selectMode(modeSelect.value); 
-        setLocalStorage('randomMember', JSON.stringify(randomMember));
         resetDailyMember();
         startCountdown();
         displayFanbaseName();
@@ -97,6 +96,7 @@ const loserConfettiContainer = document.getElementById('loserConfetti-container'
     
         const savedResetTime = getLocalStorage('resetTime');
         if (!savedResetTime || new Date(savedResetTime) < nowInPST) {
+            currentAnswer = randomMember;
             setLocalStorage('resetTime', resetTimePST.toISOString());
             setLocalStorage('randomMember', JSON.stringify(randomMember));
             setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
@@ -115,6 +115,7 @@ const loserConfettiContainer = document.getElementById('loserConfetti-container'
             });
         } else {
             randomMember = JSON.parse(getLocalStorage('randomMember'));
+            currentAnswer = randomMember;
             guessedMembers = JSON.parse(getLocalStorage('guessedMembers')) || [];
             correctGuess = JSON.parse(getLocalStorage('correctGuess') === 'true');
             wrongGuessCount = parseInt(getLocalStorage('wrongGuessCount'), 10) || 0;
@@ -208,7 +209,7 @@ function updateHintAvailability() {
     hint1Button.disabled = wrongGuessCount < 3;
     hint2Button.disabled = wrongGuessCount < 5;
 
-    hint1Button.textContent = wrongGuessCount >= 3 ? 'Show Alternate Fan Name' : `${3 - wrongGuessCount} more guesses until Hint 1`;
+    hint1Button.textContent = wrongGuessCount >= 3 ? 'Show Lore Race of Talent' : `${3 - wrongGuessCount} more guesses until Hint 1`;
     hint2Button.textContent = wrongGuessCount >= 5 ? 'Show Generation' : `${5 - wrongGuessCount} more guesses until Hint 2`;
 
 }
@@ -220,7 +221,7 @@ function updateHintAvailabilityUnlimited() {
     hint1Button.disabled = wrongGuessCountUnlimited < 3;
     hint2Button.disabled = wrongGuessCountUnlimited < 5;
 
-    hint1Button.textContent = wrongGuessCountUnlimited >= 3 ? 'Show Alternate Fan Name' : `${3 - wrongGuessCountUnlimited} more guesses until Hint 1`;
+    hint1Button.textContent = wrongGuessCountUnlimited >= 3 ? 'Show Lore Race of Talent' : `${3 - wrongGuessCountUnlimited} more guesses until Hint 1`;
     hint2Button.textContent = wrongGuessCountUnlimited >= 5 ? 'Show Generation' : `${5 - wrongGuessCountUnlimited} more guesses until Hint 2`;
     
 }
@@ -452,7 +453,7 @@ function toggleHint(hintNumber) {
 
 function updateHints() {
     if (randomMember) { // Ensure randomMember is defined
-        document.getElementById('hint1-content').textContent = `Alternate Fan name: ${currentAnswer.alternate_fanname}`;
+        document.getElementById('hint1-content').textContent = `Lore Race: ${currentAnswer.group}`;
         document.getElementById('hint2-content').textContent = `Generation: ${currentAnswer.generation}`;
     }
 }
