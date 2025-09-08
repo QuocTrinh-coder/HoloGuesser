@@ -104,15 +104,25 @@ const loserConfettiContainer = document.getElementById('loserConfetti-container'
             setLocalStorage('correctGuess', 'false'); // Reset correct guess state
             correctGuess = false;
             wrongGuessCount = 0; // Reset wrong guess count
+            setLocalStorage('wrongGuessCount', wrongGuessCount); // Reset correct guess state
             submitButton.style.pointerEvents = 'auto';
             submitButton.style.opacity = '1.0';
-            startCountdown();
     
             // Clear hint visibility states on daily reset
             ['1', '2'].forEach(hintNumber => {
                 removeLocalStorage(`hint${hintNumber}Visibility`);
                 document.getElementById(`hint${hintNumber}`).style.display = 'none';
             });
+            // clear table
+            const guessTableBody = document.querySelector('.table-body');
+            if (guessTableBody) {
+                guessTableBody.innerHTML = '';
+            }
+            const tableContainer = document.getElementById('table-container');
+            if (tableContainer) {
+                tableContainer.style.display = 'none';
+            }
+            startCountdown(); // Restart countdown
         } else {
             randomMember = JSON.parse(getLocalStorage('randomMember'));
             currentAnswer = randomMember;

@@ -102,7 +102,6 @@ function resetDailyMember() {
         correctGuess = false; // Reset correctGuess variable
         document.getElementById('submit-button').style.pointerEvents = 'auto'; // Enable the submit button
         document.getElementById('submit-button').style.opacity = '1.0'; // Reset button opacity
-        startCountdown(); // Restart countdown
 
         if (randomMember) {
             // Get the stream URL for the random member and save it to localStorage
@@ -115,6 +114,16 @@ function resetDailyMember() {
         videoElement.volume = 0;
         setLocalStorage('videoMuted', videoElement.muted); // Save mute state
         setLocalStorage('videoVolume', videoElement.volume); // Save volume level
+        // clear table
+        const guessTableBody = document.querySelector('.table-body');
+        if (guessTableBody) {
+            guessTableBody.innerHTML = '';
+        }
+        const tableContainer = document.getElementById('table-container');
+        if (tableContainer) {
+            tableContainer.style.display = 'none';
+        }
+        startCountdown(); // Restart countdown
     } else {
         // Load data from localStorage
         randomMember = JSON.parse(getLocalStorage('randomMember'));

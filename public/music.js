@@ -101,6 +101,13 @@ const tableContainer = document.getElementById('table-container');
 const confettiContainer = document.getElementById('confetti-container');
 const audioElement = document.querySelector('audio');
 const loserConfettiContainer = document.getElementById('loserConfetti-container'); 
+let maxPlayTime = 0;
+const playButton = document.getElementById('play-btn');
+const loadingBar = document.getElementById('loading-bar');
+const grayBar = document.getElementById('gray-bar');
+const volumeSlider = document.getElementById('volume-slider');
+const markerContainer = document.getElementById('marker-container');
+const MAX_PLAY_DURATION = 30; // Limit the play time to a maximum of 60 seconds
 
 function resetDailyMember() {
     const now = new Date();
@@ -118,15 +125,17 @@ function resetDailyMember() {
     const savedResetTime = getLocalStorage('resetTime');
     if (!savedResetTime || new Date(savedResetTime) < nowInPST) {
         currentAnswer = randomMember;
+        wrongGuessCount = 0; // Reset wrong guess count
+        guessedMembers = []; // Clear local guessedMembers array
+        correctGuess = false; // Reset correctGuess variable
         setLocalStorage('resetTime', resetTimePST.toISOString());
         setLocalStorage('randomMember', JSON.stringify(randomMember));
         setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
         setLocalStorage('correctGuess', 'false'); // Reset correct guess state
-        guessedMembers = []; // Clear local guessedMembers array
-        correctGuess = false; // Reset correctGuess variable
+        setLocalStorage('wrongGuessCount', wrongGuessCount); // Reset correct guess state
         document.getElementById('submit-button').style.pointerEvents = 'auto'; // Enable the submit button
         document.getElementById('submit-button').style.opacity = '1.0'; // Reset button opacity
-        startCountdown(); // Restart countdown
+        
 
         // Select and save a random song for the selected member
         const { songName, songURL } = getRandomSong(currentAnswer);
@@ -137,6 +146,16 @@ function resetDailyMember() {
             localStorage.removeItem(`hint${hintNumber}Visibility`);
             document.getElementById(`hint${hintNumber}`).style.display = 'none';
         });
+        // clear table
+        const guessTableBody = document.querySelector('.table-body');
+        if (guessTableBody) {
+            guessTableBody.innerHTML = '';
+        }
+        const tableContainer = document.getElementById('table-container');
+        if (tableContainer) {
+            tableContainer.style.display = 'none';
+        }
+        startCountdown(); // Restart countdown
     } else {
         randomMember = JSON.parse(getLocalStorage('randomMember'));
         currentAnswer = randomMember;
@@ -430,13 +449,6 @@ function playRandomSongForMember(memberData) {
     audioElement.src = songURL;
 }
 
-let maxPlayTime = 0;
-const playButton = document.getElementById('play-btn');
-const loadingBar = document.getElementById('loading-bar');
-const grayBar = document.getElementById('gray-bar');
-const volumeSlider = document.getElementById('volume-slider');
-const markerContainer = document.getElementById('marker-container');
-const MAX_PLAY_DURATION = 30; // Limit the play time to a maximum of 60 seconds
 
 function playFullAudio() {
     // Remove old listeners

@@ -516,6 +516,15 @@ function resetDailyMember() {
         correctGuess = false; // Reset correctGuess variable
         document.getElementById('submit-button').style.pointerEvents = 'auto'; // Enable the submit button
         document.getElementById('submit-button').style.opacity = '1.0'; // Reset button opacity
+        // clear table
+        const guessTableBody = document.querySelector('.table-body');
+        if (guessTableBody) {
+            guessTableBody.innerHTML = '';
+        }
+        const tableContainer = document.getElementById('table-container');
+        if (tableContainer) {
+            tableContainer.style.display = 'none';
+        }
         startCountdown(); // Restart countdown
     } else {
         randomMember = JSON.parse(getLocalStorage('randomMember'));
