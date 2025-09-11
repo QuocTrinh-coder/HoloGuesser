@@ -576,8 +576,7 @@ function startCountdown() {
             clearInterval(countdownInterval);
             resetDailyMember();
             startCountdown();
-            resetForTesting();
-            location.reload(); // Refresh the page when the countdown reaches zero
+            setTimeout(() => resetForTesting(), 3000); // wait 3s before reload
         } else {
             updateCountdownDisplay(timeRemaining);
         }

@@ -197,8 +197,7 @@ function startCountdown() {
             clearInterval(countdownInterval);
             resetDailyMember();
             startCountdown();
-            resetForTesting();
-            location.reload(); // Refresh the page when the countdown reaches zero
+            setTimeout(() => resetForTesting(), 3000); // wait 3s before reload
         } else {
             updateCountdownDisplay(timeRemaining);
         }
@@ -710,7 +709,7 @@ function getNewUnlimitedMember() {
             return res.json();
         })
         .then(random_number => {
-            unlimitedRandomNumber = random_number[0];
+            unlimitedRandomNumber = random_number[3];
             // Use already-fetched "members" array (from Daily fetch)
             unlimitedRandomMember = members[unlimitedRandomNumber];
             currentAnswer = members[unlimitedRandomNumber];

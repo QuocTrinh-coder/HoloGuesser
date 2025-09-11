@@ -229,9 +229,8 @@ function startCountdown() {
             clearInterval(countdownInterval);
             resetDailyMember();
             startCountdown();
-            resetForTesting();
             setLocalStorage('wrongGuessCount', 0); // Reset correct guess state
-            location.reload(); // Refresh the page when the countdown reaches zero
+            setTimeout(() => resetForTesting(), 3000); // wait 3s before reload
         } else {
             updateCountdownDisplay(timeRemaining);
         }
@@ -439,6 +438,39 @@ function playRandomSongForMember(memberData) {
     } else {
         // Select and save a random song for the member
         const { songName, songURL } = getRandomSong(memberData);
+        selectedSong = songName;
+        localStorage.setItem('selectedSong', selectedSong);
+    }
+
+    const songURL = `https://hololive-assets.sfo3.digitaloceanspaces.com/hololive-songs/${selectedSong}.mp3`;
+
+    // Set the source of the audio element
+    audioElement.src = songURL;
+}
+
+function getRandomSongUnlimited(memberData) {
+    // Split the Song_link into a list of song names
+    const songList = memberData.songLink.split(',').map(song => song.trim());
+
+    // Select a random song from the list
+    const selectedSong = songList[randomIndexUnlimited];
+
+    // Return the selected song name and the complete URL for the song
+    return {
+        songName: selectedSong,
+        songURL: `hololive-songs/${selectedSong}.mp3`
+    };
+}
+
+function playRandomSongForMemberUnlimited(memberData) {
+    let selectedSong;
+
+    // Check if a song has been selected for the day
+    if (localStorage.getItem('selectedSong')) {
+        selectedSong = localStorage.getItem('selectedSong');
+    } else {
+        // Select and save a random song for the member
+        const { songName, songURL } = getRandomSongUnlimited(memberData);
         selectedSong = songName;
         localStorage.setItem('selectedSong', selectedSong);
     }
@@ -1040,11 +1072,12 @@ function getNewUnlimitedMember() {
             return res.json();
         })
         .then(random_number => {
-            unlimitedRandomNumber = random_number[0];
+            unlimitedRandomNumber = random_number[1];
             // Use already-fetched "members" array (from Daily fetch)
             unlimitedRandomMember = members[unlimitedRandomNumber];
+            randomIndexUnlimited = random_number[4];
             currentAnswer = members[unlimitedRandomNumber];
-            playRandomSongForMember(currentAnswer);
+            playRandomSongForMemberUnlimited(currentAnswer);
             setupLimitedAudio();
             updateHints();
             updateHintAvailabilityUnlimited();
