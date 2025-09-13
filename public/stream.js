@@ -421,9 +421,6 @@ function resetBlurLevelUnlimited() {
     videoElement.style.filter = `blur(${currentBlurLevelUnlimited}px)`;
     videoElement.muted = false; // Unmute the video
     videoElement.volume = 0.5; // Set volume to 30%
-    setLocalStorage('currentBlurLevelUnlimited', currentBlurLevelUnlimited); // Reset correct guess state
-    setLocalStorage('videoMuted', videoElement.muted); // Save mute state
-    setLocalStorage('videoVolume', videoElement.volume); // Save volume level
 }
 
 
@@ -498,26 +495,26 @@ news_btn.onclick = function() {
 closeNews.onclick = function() {
     news.classList.remove('show');
 } 
-                function resetForTesting() {
-                    setLocalStorage('randomMember', JSON.stringify(randomMember));
-                    setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
-                    setLocalStorage('correctGuess', 'false'); // Reset correct guess state
-                    setLocalStorage('currentBlurLevel', 30); // Reset correct guess state
-                    guessedMembers = []; // Clear local guessedMembers array
-                    correctGuess = false; // Reset correctGuess variable
-                    submitButton.style.pointerEvents = 'auto'; // Enable the submit button
-                    submitButton.style.opacity = '1.0'; // Reset button opacity
-                    videoElement.muted = true; // Mute the video
-                    videoElement.volume = 0; // Set volume to 0
-                    setLocalStorage('videoMuted', videoElement.muted); // Save mute state
-                    setLocalStorage('videoVolume', videoElement.volume); // Save volume level
-                    location.reload(); // Reload the page to apply changes
+function resetForTesting() {
+    setLocalStorage('randomMember', JSON.stringify(randomMember));
+    setLocalStorage('guessedMembers', JSON.stringify([])); // Reset guessed members
+    setLocalStorage('correctGuess', 'false'); // Reset correct guess state
+    setLocalStorage('currentBlurLevel', 30); // Reset correct guess state
+    guessedMembers = []; // Clear local guessedMembers array
+    correctGuess = false; // Reset correctGuess variable
+    submitButton.style.pointerEvents = 'auto'; // Enable the submit button
+    submitButton.style.opacity = '1.0'; // Reset button opacity
+    videoElement.muted = true; // Mute the video
+    videoElement.volume = 0; // Set volume to 0
+    setLocalStorage('videoMuted', videoElement.muted); // Save mute state
+    setLocalStorage('videoVolume', videoElement.volume); // Save volume level
+    location.reload(); // Reload the page to apply changes
 
-                }
+    }
                 
-                document.querySelector('.refresh-image').addEventListener('click', () => {
-                    resetForTesting();
-                });
+document.querySelector('.refresh-image').addEventListener('click', () => {
+    resetForTesting();
+});
 // Disable right-click globally
 document.addEventListener('contextmenu', (event) => {
     event.preventDefault();
