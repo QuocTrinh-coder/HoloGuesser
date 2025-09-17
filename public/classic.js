@@ -310,17 +310,17 @@ function addMemberToTable(member, skipAnimation = false) {
             } else {
                 cells[2].classList.add('fade-in', 'incorrect');
             }
-        }, 800);
+        }, 600);
 
         setTimeout(() => {
             cells[3].textContent = member.generation;
             cells[3].classList.add('fade-in', member.generation === currentAnswer.generation ? 'correct' : 'incorrect');
-        }, 1400);
+        }, 1000);
 
         setTimeout(() => {
             cells[4].textContent = member.branch;
             cells[4].classList.add('fade-in', member.branch === currentAnswer.branch ? 'correct' : 'incorrect');
-        }, 2000);
+        }, 1400);
 
         setTimeout(() => {
             cells[5].textContent = member.birthday;
@@ -331,17 +331,17 @@ function addMemberToTable(member, skipAnimation = false) {
             } else {
                 cells[5].classList.add('fade-in', 'incorrect');
             }
-        }, 2600);
+        }, 1800);
 
         setTimeout(() => {
             cells[6].textContent = member.status;
             cells[6].classList.add('fade-in', member.status === currentAnswer.status ? 'correct' : 'incorrect');
-        }, 3200);
+        }, 2200);
 
         setTimeout(() => {
             cells[7].innerHTML = heightDisplay;
             cells[7].classList.add('fade-in', heightComparison.class);
-        }, 3600);
+        }, 2600);
     }
 
     if (!isFirstGuess) {
@@ -520,10 +520,6 @@ function resetDailyMember() {
         const guessTableBody = document.querySelector('.table-body');
         if (guessTableBody) {
             guessTableBody.innerHTML = '';
-        }
-        const tableContainer = document.getElementById('table-container');
-        if (tableContainer) {
-            tableContainer.style.display = 'none';
         }
         startCountdown(); // Restart countdown
     } else {

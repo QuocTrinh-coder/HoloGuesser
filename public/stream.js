@@ -119,10 +119,6 @@ function resetDailyMember() {
         if (guessTableBody) {
             guessTableBody.innerHTML = '';
         }
-        const tableContainer = document.getElementById('table-container');
-        if (tableContainer) {
-            tableContainer.style.display = 'none';
-        }
         startCountdown(); // Restart countdown
     } else {
         // Load data from localStorage
