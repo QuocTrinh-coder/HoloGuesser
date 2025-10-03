@@ -56,9 +56,9 @@ fetch(baseUrl)
             name: name,
             img: data[name].ImageURL,
             generation: data[name].Generation,
-            fullHeight: data[name].Height,
             fanbase: data[name].Fanbase,
             group: data[name].Group,
+            emoji: data[name].Emoji,
         }));
         randomMember = members[randomNumber]; // Access the random number from the data
         currentAnswer = randomMember;
@@ -718,5 +718,5 @@ function getNewUnlimitedMember() {
 }
 
 function displayFanbaseName() {
-    fanbaseNameSpan.textContent = currentAnswer.fanbase;
+    fanbaseNameSpan.textContent = currentAnswer.emoji;
 }

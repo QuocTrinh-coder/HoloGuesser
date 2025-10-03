@@ -10,6 +10,7 @@
         "Height": "160cm / 5ft 3in",
         "Song_link": "sora1,sora2,sora3,sora4,sora5",
         "Fanbase": "Sora-tomo",
+        "Emoji": "🐻💿",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "sora_stream.mp4"
     },
@@ -24,6 +25,7 @@
         "Height": "154cm / 5ft 1in",
         "Song_link": "roboco1,roboco2,roboco3,roboco4,roboco5",
         "Fanbase": "Robosa",
+        "Emoji": "🤖",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "roboco_stream.mp4"
     },
@@ -38,6 +40,7 @@
         "Height": "163cm / 5ft 4in",
         "Song_link": "azki1,azki2,azki3,azki4,azki5",
         "Fanbase": "Kaitakusha",
+        "Emoji": "⚒️",
         "Alternate_Fanname": "Pioneer",
         "Stream_link": "azki_stream.mp4"
     },
@@ -52,6 +55,7 @@
         "Height": "152cm / 4ft 12in",
         "Song_link": "miko1,miko2,miko3,miko4,miko5",
         "Fanbase": "35P",
+        "Emoji": "🌸",
         "Alternate_Fanname": "Miko-P",
         "Stream_link": "miko_stream.mp4"
     },
@@ -66,6 +70,7 @@
         "Height": "160cm / 5ft 3in",
         "Song_link": "suisei1,suisei2,suisei3,suisei4,suisei5",
         "Fanbase": "Hoshiyomi",
+        "Emoji": "☄️",
         "Alternate_Fanname": "Stargazers",
         "Stream_link": "suisei_stream.mp4"
     },
@@ -80,6 +85,7 @@
         "Height": "160cm / 5ft 3in",
         "Song_link": "fubuki1,fubuki2,fubuki3,fubuki4,fubuki5",
         "Fanbase": "Sukonbu ",
+        "Emoji": "🌽",
         "Alternate_Fanname": "Su-corn",
         "Stream_link": "fubuki_stream.mp4"
     },
@@ -94,6 +100,7 @@
         "Height": "152cm / 4ft 12in",
         "Song_link": "matsuri1, matsuri2, matsuri3,matsuri4, matsuri5",
         "Fanbase": "Matsurisu",
+        "Emoji": "🏮",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "matsuri_stream.mp4"
     },
@@ -108,6 +115,7 @@
         "Height": "162cm / 5ft 4in",
         "Song_link": "rosenthal1, rosenthal2, rosenthal3,rosenthal4, rosenthal5",
         "Fanbase": "Rose-tai",
+        "Emoji": "🍎",
         "Alternate_Fanname": "Squad Rose",
         "Stream_link": "rosenthal_stream.mp4"
     },
@@ -122,6 +130,7 @@
         "Height": "154cm / 5ft 1in",
         "Song_link": "haato1, haato2, haato3,haato4, haato5",
         "Fanbase": "Haaton",
+        "Emoji": "❤️‍🔥",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "haato_stream.mp4"
     },
@@ -136,6 +145,7 @@
         "Height": "154cm / 5ft 1in",
         "Song_link": "mel1, mel2, mel3,mel1, mel2",
         "Fanbase": "Kapu-min",
+        "Emoji": "🌟",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "mel_stream.mp4"
     },
@@ -150,6 +160,7 @@
         "Height": "148cm / 4ft 10in",
         "Song_link": "aqua1, aqua2, aqua3,aqua1, aqua2",
         "Fanbase": "Aqua Crew ",
+        "Emoji": "⚓",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "aqua_stream.mp4"
     },
@@ -164,6 +175,7 @@
         "Height": "145cm / 4ft 9in",
         "Song_link": "shion1, shion2, shion3,shion1, shion2",
         "Fanbase": "Shiokko",
+        "Emoji": "🌙",
         "Alternate_Fanname": "Shio-ldren",
         "Stream_link": "shion_stream.mp4"
     },
@@ -178,6 +190,7 @@
         "Height": "152cm / 4ft 12in",
         "Song_link": "ayame1, ayame2, ayame3,ayame4, ayame5",
         "Fanbase": "Nakiri-gumi ",
+        "Emoji": "😈",
         "Alternate_Fanname": "Nakiri Gang",
         "Stream_link": "ayame_stream.mp4"
     },
@@ -192,6 +205,7 @@
         "Height": "165cm / 5ft 5in",
         "Song_link": "choco1, choco2, choco3,choco4, choco5",
         "Fanbase": "Choco Mate ",
+        "Emoji": "💋",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "choco_stream.mp4"
     },
@@ -206,6 +220,7 @@
         "Height": "154cm / 5ft 1in",
         "Song_link": "subaru1, subaru2, subaru3,subaru1, subaru2",
         "Fanbase": "Suba-tomo",
+        "Emoji": "🚑",
         "Alternate_Fanname": "Subafriends",
         "Stream_link": "subaru_stream.mp4"
     },
@@ -220,6 +235,7 @@
         "Height": "165cm / 5ft 5in",
         "Song_link": "mio1, mio2, mio3,mio4, mio5",
         "Fanbase": "Mio-fam",
+        "Emoji": "🌲",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "mio_stream.mp4"
     },
@@ -234,6 +250,7 @@
         "Height": "152cm / 4ft 12in",
         "Song_link": "okayu1, okayu2, okayu3,okayu4, okayu5",
         "Fanbase": "Onigiryaa ",
+        "Emoji": "🍙",
         "Alternate_Fanname": "Onigiris",
         "Stream_link": "okayu_stream.mp4"
     },
@@ -248,6 +265,7 @@
         "Height": "156cm / 5ft 1in",
         "Song_link": "korone1, korone2, korone3,korone4, korone5",
         "Fanbase": "Koronesuki ",
+        "Emoji": "🥐",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "korone_stream.mp4"
     },
@@ -262,6 +280,7 @@
         "Height": "153cm / 5ft 0in",
         "Song_link": "pekora1, pekora2, pekora3,pekora1, pekora2",
         "Fanbase": "Nousagi domei",
+        "Emoji": "👯",
         "Alternate_Fanname": "The Rabbit Alliance",
         "Stream_link": "pekora_stream.mp4"
     },
@@ -276,6 +295,7 @@
         "Height": "158cm / 5ft 2in",
         "Song_link": "flare1, flare2, flare3,flare4, flare5",
         "Fanbase": "Elfriend ",
+        "Emoji": "🔥",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "flare_stream.mp4"
     },
@@ -290,6 +310,7 @@
         "Height": "158cm / 5ft 2in",
         "Song_link": "noel1, noel2, noel3,noel4, noel5",
         "Fanbase": "Knight's Order",
+        "Emoji": "⚔️",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "noel_stream.mp4"
     },
@@ -304,6 +325,7 @@
         "Height": "150cm / 4ft 11in",
         "Song_link": "marine1, marine2, marine3,marine4, marine5",
         "Fanbase": "Houshou no Ichimi",
+        "Emoji": "🏴‍☠️",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "marine_stream.mp4"
     },
@@ -318,6 +340,7 @@
         "Height": "149cm / 4ft 11in",
         "Song_link": "kanata1, kanata2, kanata3,kanata4, kanata5",
         "Fanbase": "Hei-min ",
+        "Emoji": "💫",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "kanata_stream.mp4"
     },
@@ -332,6 +355,7 @@
         "Height": "151cm / 4ft 11in",
         "Song_link": "watame1, watame2, watame3,watame4, watame5",
         "Fanbase": "Wata-mates ",
+        "Emoji": "🐏",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "watame_stream.mp4"
     },
@@ -346,6 +370,7 @@
         "Height": "150cm / 4ft 11in",
         "Song_link": "towa1, towa2, towa3,towa4, towa5",
         "Fanbase": "Kin of Tokoyami",
+        "Emoji": "👾",
         "Alternate_Fanname": "TowaFam",
         "Stream_link": "towa_stream.mp4"
     },
@@ -360,6 +385,7 @@
         "Height": "150cm / 4ft 11in",
         "Song_link": "luna1, luna2, luna3,luna4, luna5",
         "Fanbase": "Lu-knight ",
+        "Emoji": "🍬",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "luna_stream.mp4"
     },
@@ -374,6 +400,7 @@
         "Height": "158cm / 5ft 2in",
         "Song_link": "lamy1, lamy2, lamy3,lamy4, lamy5",
         "Fanbase": "Yukimin ",
+        "Emoji": "☃️",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "lamy_stream.mp4"
     },
@@ -388,6 +415,7 @@
         "Height": "159cm / 5ft 3in",
         "Song_link": "nene1, nene2, nene3,nene4, nene5",
         "Fanbase": "Nekkos",
+        "Emoji": "🍑🥟",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "nene_stream.mp4"
     },
@@ -402,6 +430,7 @@
         "Height": "166cm / 5ft 5in",
         "Song_link": "botan1, botan2, botan3,botan4, botan1",
         "Fanbase": "SSRB",
+        "Emoji": "♌",
         "Alternate_Fanname": "Shishiro Bodans",
         "Stream_link": "botan_stream.mp4"
     },
@@ -416,6 +445,7 @@
         "Height": "153cm / 5ft 0in",
         "Song_link": "polka1, polka2, polka3,polka4, polka5",
         "Fanbase": "Omaruza ",
+        "Emoji": "🎪",
         "Alternate_Fanname": "Omaru Troupe",
         "Stream_link": "polka_stream.mp4"
     },
@@ -430,6 +460,7 @@
         "Height": "139cm / 4ft 7in",
         "Song_link": "darknesss1, darknesss2, darknesss3,darknesss4, darknesss5",
         "Fanbase": "Plusmate ",
+        "Emoji": "🛸💜",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "darknesss_stream.mp4"
     },
@@ -444,6 +475,7 @@
         "Height": "161cm / 5ft 3in",
         "Song_link": "lui1, lui2, lui3,lui4, lui5",
         "Fanbase": "Lui-tomo ",
+        "Emoji": "🥀",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "lui_stream.mp4"
     },
@@ -458,6 +490,7 @@
         "Height": "153cm / 5ft 0in",
         "Song_link": "koyori1, koyori2, koyori3,koyori1, koyori2",
         "Fanbase": "Koyori's assistants ",
+        "Emoji": "🧪",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "koyori_stream.mp4"
     },
@@ -472,6 +505,7 @@
         "Height": "148cm / 4ft 10in",
         "Song_link": "chloe1, chloe2, chloe3,chloe4, chloe5",
         "Fanbase": "Shiikuin",
+        "Emoji": "🎣",
         "Alternate_Fanname": "Zookeepers",
         "Stream_link": "chloe_stream.mp4"
     },
@@ -486,6 +520,7 @@
         "Height": "156cm / 5ft 1in",
         "Song_link": "iroha1, iroha2, iroha3,iroha4, iroha5",
         "Fanbase": "Kazama-tai",
+        "Emoji": "🍃",
         "Alternate_Fanname": "Kazama Squad",
         "Stream_link": "iroha_stream.mp4"
     },
@@ -500,6 +535,7 @@
         "Height": "153cm / 5ft 0in",
         "Song_link": "risu1, risu2, risu3,risu4, risu1",
         "Fanbase": "Risuners",
+        "Emoji": "🐿️",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "risu_stream.mp4"
     },
@@ -514,6 +550,7 @@
         "Height": "165cm / 5ft 5in",
         "Song_link": "moona1, moona2, moona3,moona4, moona5",
         "Fanbase": "Moonafic",
+        "Emoji": "🔮",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "hoshinova_stream.mp4"
     },
@@ -528,6 +565,7 @@
         "Height": "150cm / 4ft 11in",
         "Song_link": "iofifteen1, iofifteen2, iofifteen3,iofifteen1, iofifteen2",
         "Fanbase": "IOFORIA",
+        "Emoji": "🎨",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "iofifteen_stream.mp4"
     },
@@ -542,6 +580,7 @@
         "Height": "162cm / 5ft 4in",
         "Song_link": "ollie1, ollie2, ollie3,ollie1, ollie2",
         "Fanbase": "Zomrade",
+        "Emoji": "🧟‍♀️",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "ollie_stream.mp4"
     },
@@ -556,6 +595,7 @@
         "Height": "147cm / 4ft 10in",
         "Song_link": "melfissa1, melfissa2, melfissa3,melfissa4,melfissa1",
         "Fanbase": "Melfriends",
+        "Emoji": "🍂",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "melfissa_stream.mp4"
     },
@@ -570,6 +610,7 @@
         "Height": "172cm / 5ft 8in",
         "Song_link": "reine1, reine2, reine3,reine4,reine1",
         "Fanbase": "Merakyats",
+        "Emoji": "🦚",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "reine_stream.mp4"
     },
@@ -584,6 +625,7 @@
         "Height": "155cm / 5ft 1in",
         "Song_link": "zeta1, zeta2, zeta3,zeta4, zeta5",
         "Fanbase": "Zecretary",
+        "Emoji": "📜",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "zeta_stream.mp4"
     },
@@ -598,6 +640,7 @@
         "Height": "173cm / 5ft 8in",
         "Song_link": "kaela1, kaela2, kaela3,kaela4, kaela5",
         "Fanbase": "Pemaloe",
+        "Emoji": "🔨",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "kovalskia_stream.mp4"
     },
@@ -612,6 +655,7 @@
         "Height": "150cm / 4ft 11in",
         "Song_link": "kobo1, kobo2, kobo3,kobo1, kobo2",
         "Fanbase": "Kobokerz",
+        "Emoji": "☔",
         "Alternate_Fanname": "Cebokerz",
         "Stream_link": "kanaeru_stream.mp4"
     },
@@ -626,6 +670,7 @@
         "Height": "171cm / 5ft 7in",
         "Song_link": "ao1, ao2, ao3,ao4, ao5",
         "Fanbase": "Dokusha",
+        "Emoji": "🖋️",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "ao_stream.mp4"
     },
@@ -640,6 +685,7 @@
         "Height": "153cm / 5ft 0in",
         "Song_link": "kanade1, kanade2, kanade3,kanade4, kanade5",
         "Fanbase": "Otonozei ",
+        "Emoji": "🎹✨",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "kanade_stream.mp4"
     },
@@ -654,6 +700,7 @@
         "Height": "162cm / 5ft 4in",
         "Song_link": "ririka1, ririka2, ririka3,ririka4, ririka5",
         "Fanbase": "Hishominarai ",
+        "Emoji": "🌃",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "ririka_stream.mp4"
     },
@@ -668,6 +715,7 @@
         "Height": "159cm / 5ft 3in",
         "Song_link": "raden1, raden2 , raden3,raden4 , raden5",
         "Fanbase": "Dendoshi ",
+        "Emoji": "🐚",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "raden_stream.mp4"
     },
@@ -682,6 +730,7 @@
         "Height": "155cm / 5ft 1in",
         "Song_link": "hajime1, hajime2, hajime3,hajime4, hajime5",
         "Fanbase": "Massu-gumi",
+        "Emoji": "🐧⚡️",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "hajime_stream.mp4"
     },
@@ -696,6 +745,7 @@
         "Height": "160cm / 5ft 3in",
         "Song_link": "riona1, riona2, riona3,riona4, riona1",
         "Fanbase": "Isaki Rengo",
+        "Emoji": "🎤👑",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "riona_stream.mp4"
     },
@@ -710,6 +760,7 @@
         "Height": "172cm / 5ft 8in",
         "Song_link": "niko1, niko2, niko3,niko4, niko1",
         "Fanbase": "Nikotan",
+        "Emoji": "☺️🐅",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "niko_stream.mp4"
     },
@@ -724,6 +775,7 @@
         "Height": "151cm / 4ft 11in",
         "Song_link": "su1, su2, su3,su4, su5",
         "Fanbase": "Suurisu",
+        "Emoji": "💬🔁💙",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "su_stream.mp4"
     },
@@ -738,6 +790,7 @@
         "Height": "168cm / 5ft 6in",
         "Song_link": "chihaya1, chihaya2, chihaya3,chihaya4, chihaya5",
         "Fanbase": "Nic",
+        "Emoji": "🎧🔧",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "chihaya_stream.mp4"
     },
@@ -752,6 +805,7 @@
         "Height": "161cm / 5ft 3in",
         "Song_link": "vivi1, vivi2, vivi3,vivi4, vivi5",
         "Fanbase": "Vivid",
+        "Emoji": "💅✨",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "vivi_stream.mp4"
     },
@@ -766,6 +820,7 @@
         "Height": "167cm / 5ft 6in",
         "Song_link": "calliope1, calliope2 ,calliope3,calliope4 ,calliope5",
         "Fanbase": "Dead Beats ",
+        "Emoji": "💀",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "calliope_stream.mp4"
     },
@@ -780,6 +835,7 @@
         "Height": "165cm / 5ft 5in",
         "Song_link": "kiara1, kiara2, kiara3,kiara4, kiara5",
         "Fanbase": "KFP",
+        "Emoji": "🐔",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "kiara_stream.mp4"
     },
@@ -794,6 +850,7 @@
         "Height": "157cm / 5ft 2in",
         "Song_link": "ina1,ina2,ina3,ina4,ina5",
         "Fanbase": "Takodachis",
+        "Emoji": "🐙",
         "Alternate_Fanname": "Tentacult",
         "Stream_link": "inanis_stream.mp4"
     },
@@ -808,6 +865,7 @@
         "Height": "141cm / 4ft 8in",
         "Song_link": "gura1, gura2, gura3,gura4, gura1",
         "Fanbase": "Chumbuds",
+        "Emoji": "🔱",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "gura_stream.mp4"
     },
@@ -822,6 +880,7 @@
         "Height": "150cm / 4ft 11in",
         "Song_link": "watson1, watson1, watson2,watson1, watson2",
         "Fanbase": "Teamates",
+        "Emoji": "🔎 🔍",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "amelia_stream.mp4"
     },
@@ -836,6 +895,7 @@
         "Height": "166cm / 5ft 5in",
         "Song_link": "irys1, irys2, irys3,irys4, irys5",
         "Fanbase": "Irystocrats",
+        "Emoji": "💎",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "irys_stream.mp4"
     },
@@ -850,6 +910,7 @@
         "Height": "164cm / 5ft 5in",
         "Song_link": "fauna1, fauna1, fauna2,fauna2,fauna2",
         "Fanbase": "Saplings",
+        "Emoji": "🌿",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "fauna_stream.mp4"
     },
@@ -864,6 +925,7 @@
         "Height": "168cm / 5ft 6in",
         "Song_link": "kronii1, kronii2, kronii3,kronii4, kronii5",
         "Fanbase": "Kronies",
+        "Emoji": "⌛",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "kronii_stream.mp4"
     },
@@ -878,6 +940,7 @@
         "Height": "156cm / 5ft 1in",
         "Song_link": "mumei1, mumei1, mumei2,mumei4, mumei5",
         "Fanbase": "Hoomans",
+        "Emoji": "🪶",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "mumei_stream.mp4"
     },
@@ -892,6 +955,7 @@
         "Height": "149cm / 4ft 11in",
         "Song_link": "baelz1, baelz2, baelz3,baelz4, baelz5",
         "Fanbase": "Baerats",
+        "Emoji": "🎲",
         "Alternate_Fanname": "Brats",
         "Stream_link": "baelz_stream.mp4"
     },
@@ -906,6 +970,7 @@
         "Height": "163cm / 5ft 4in",
         "Song_link": "shiori1,shiori2,shiori3,shiori1,shiori2",
         "Fanbase": "Novelites",
+        "Emoji": "👁️‍🗨️",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "novella_stream.mp4"
     },
@@ -920,6 +985,7 @@
         "Height": "140cm / 4ft 7in",
         "Song_link": "bijou1,bijou2,bijou3,bijou4,bijou5",
         "Fanbase": "Pebbles",
+        "Emoji": "🗿",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "bijou_stream.mp4"
     },
@@ -934,6 +1000,7 @@
         "Height": "175cm / 5ft 9in",
         "Song_link": "nerissa1,nerissa2,nerissa3,nerissa4,nerissa4",
         "Fanbase": "Jailbirds",
+        "Emoji": "🎼",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "ravencroft_stream.mp4"
     },
@@ -948,6 +1015,7 @@
         "Height": "155cm / 5ft 1in",
         "Song_link": "fuwamoco1, fuwamoco2, fuwamoco3,fuwamoco4,fuwamoco1",
         "Fanbase": "Ruffians",
+        "Emoji": "🐾",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "fuwamoco_stream.mp4"
     },
@@ -962,6 +1030,7 @@
         "Height": "171cm / 5ft 7in",
         "Song_link": "erb1, erb2, erb3,erb4,erb1",
         "Fanbase": "Rosarians",
+        "Emoji": "💄",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "bloodflame_stream.mp4"
     },
@@ -976,6 +1045,7 @@
         "Height": "153cm / 5ft 0in",
         "Song_link": "gigi1,gigi2,gigi3,gigi4,gigi5",
         "Fanbase": "Gremurins",
+        "Emoji": "👧",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "murin_stream.mp4"
     },
@@ -990,6 +1060,7 @@
         "Height": "162cm / 5ft 4in",
         "Song_link": "ceci1,ceci2,ceci3,ceci4,ceci1",
         "Fanbase": "Otomos",
+        "Emoji": "🍵",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "immergreen_stream.mp4"
     },
@@ -1004,6 +1075,7 @@
         "Height": "158cm / 5ft 2in",
         "Song_link": "raora1,raora2,raora3,raora1,raora2",
         "Fanbase": "Chattino",
+        "Emoji": "🐱",
         "Alternate_Fanname": "Chattini",
         "Stream_link": "panthera_stream.mp4"
     },
@@ -1018,6 +1090,7 @@
         "Height": "152cm / 5ft",
         "Song_link": "achan1,achan1,achan1,achan1,achan1",
         "Fanbase": "\"N/A\"",
+        "Emoji": "👓",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "chan_stream.mp4"
     },
@@ -1032,6 +1105,7 @@
         "Height": "148cm / 4ft 7in",
         "Song_link": "rushia1,rushia2,rushia3,rushia2,rushia3",
         "Fanbase": "Fandeddo",
+        "Emoji": "🦋",
         "Alternate_Fanname": "Fandead",
         "Stream_link": "rushia_stream.mp4"
     },
@@ -1046,6 +1120,7 @@
         "Height": "169cm / 5ft 7in",
         "Song_link": "sana1,sana1,sana1,sana1,sana1",
         "Fanbase": "Sanallites",
+        "Emoji": "🪐",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "sana_stream.mp4"
     },
@@ -1060,6 +1135,7 @@
         "Height": "180cm / 5ft 10.8in",
         "Song_link": "coco1,coco2,coco1,coco2,coco1",
         "Fanbase": "Tatsunoko",
+        "Emoji": "🐉",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "coco_stream.mp4"
     },
@@ -1074,6 +1150,7 @@
         "Height": "154cm / 5ft 1in",
         "Song_link": "nodoka1,nodoka1,nodoka1,nodoka1,nodoka1",
         "Fanbase": "\"N/A\"",
+        "Emoji": "📝",
         "Alternate_Fanname": "\"N/A\"",
         "Stream_link": "nodoka_stream.mp4"
     }
